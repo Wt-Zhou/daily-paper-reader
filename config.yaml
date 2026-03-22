@@ -25,3 +25,38 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: AD EI
+      description: 自动驾驶与具身智能中的世界模型、VLA及强化学习最新论文检索
+      enabled: true
+      keywords:
+        - keyword: World Models
+          keyword_cn: 世界模型
+          query: World models in autonomous driving and robotics
+        - keyword: VLA
+          keyword_cn: 视觉-语言-动作模型
+          query: Vision-Language-Action models for embodied AI
+        - keyword: Reinforcement Learning
+          keyword_cn: 强化学习
+          query: Reinforcement learning for autonomous vehicle control
+        - keyword: Embodied AI
+          keyword_cn: 具身智能
+          query: Embodied intelligence and robotic manipulation
+        - keyword: Autonomous Driving
+          keyword_cn: 自动驾驶
+          query: Deep learning architectures for autonomous driving
+        - keyword: Foundation Models
+          keyword_cn: 基础模型
+          query: Foundation models for robotics and decision making
+      intent_queries:
+        - query: Latest research on world models and VLA in embodied AI
+          query_cn: 具身智能中世界模型与VLA的最新研究
+          enabled: true
+          source: manual
+          note: ''
+        - query: State of the art Vision Language Action models for robotics
+          query_cn: 机器人领域最先进的视觉 语言 动作模型
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-03-22T04:37:35.549Z'
