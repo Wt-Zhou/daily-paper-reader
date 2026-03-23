@@ -1,45 +1,55 @@
 {
-  "generated_at": "2026-03-22T20:02:01.118814+00:00",
-  "updated_date": "20260322",
+  "generated_at": "2026-03-23T19:51:06.832430+00:00",
+  "updated_date": "20260323",
   "carryover_days": 9,
   "items": [
     {
-      "id": "2603.17714v1",
-      "title": "From Virtual Environments to Real-World Trials: Emerging Trends in Autonomous Driving",
-      "abstract": "Autonomous driving technologies have achieved significant advances in recent years, yet their real-world deployment remains constrained by data scarcity, safety requirements, and the need for generalization across diverse environments. In response, synthetic data and virtual environments have emerged as powerful enablers, offering scalable, controllable, and richly annotated scenarios for training and evaluation. This survey presents a comprehensive review of recent developments at the intersection of autonomous driving, simulation technologies, and synthetic datasets. We organize the landscape across three core dimensions: (i) the use of synthetic data for perception and planning, (ii) digital twin-based simulation for system validation, and (iii) domain adaptation strategies bridging synthetic and real-world data. We also highlight the role of vision-language models and simulation realism in enhancing scene understanding and generalization. A detailed taxonomy of datasets, tools, and simulation platforms is provided, alongside an analysis of trends in benchmark design. Finally, we discuss critical challenges and open research directions, including Sim2Real transfer, scalable safety validation, cooperative autonomy, and simulation-driven policy learning, that must be addressed to accelerate the path toward safe, generalizable, and globally deployable autonomous driving systems.",
+      "id": "2603.19709v1",
+      "title": "Morphology-Consistent Humanoid Interaction through Robot-Centric Video Synthesis",
+      "abstract": "Equipping humanoid robots with versatile interaction skills typically requires either extensive policy training or explicit human-to-robot motion retargeting. However, learning-based policies face prohibitive data collection costs. Meanwhile, retargeting relies on human-centric pose estimation (e.g., SMPL), introducing a morphology gap. Skeletal scale mismatches result in severe spatial misalignments when mapped to robots, compromising interaction success. In this work, we propose Dream2Act, a robot-centric framework enabling zero-shot interaction through generative video synthesis. Given a third-person image of the robot and target object, our framework leverages video generation models to envision the robot completing the task with morphology-consistent motion. We employ a high-fidelity pose extraction system to recover physically feasible, robot-native joint trajectories from these synthesized dreams, subsequently executed via a general-purpose whole-body controller. Operating strictly within the robot-native coordinate space, Dream2Act avoids retargeting errors and eliminates task-specific policy training. We evaluate Dream2Act on the Unitree G1 across four whole-body mobile interaction tasks: ball kicking, sofa sitting, bag punching, and box hugging. Dream2Act achieves a 37.5% overall success rate, compared to 0% for conventional retargeting. While retargeting fails to establish correct physical contacts due to the morphology gap (with errors compounded during locomotion), Dream2Act maintains robot-consistent spatial alignment, enabling reliable contact formation and substantially higher task completion.",
       "authors": [
-        "A. Humnabadkar",
-        "A. Sikdar",
-        "B. Cave",
-        "H. Zhang",
-        "N. Bessis",
-        "A. Behera"
+        "Weisheng Xu",
+        "Jian Li",
+        "Yi Gu",
+        "Bin Yang",
+        "Haodong Chen",
+        "Shuyi Lin",
+        "Mingqian Zhou",
+        "Jing Tan",
+        "Qiwei Wu",
+        "Xiangrui Jiang",
+        "Taowen Wang",
+        "Jiawen Wen",
+        "Qiwei Liang",
+        "Jiaxi Zhang",
+        "Renjing Xu"
       ],
-      "primary_category": "cs.AI",
+      "primary_category": "cs.RO",
       "categories": [
-        "cs.AI"
+        "cs.RO"
       ],
-      "published": "2026-03-18T13:32:26+00:00",
-      "link": "https://arxiv.org/pdf/2603.17714v1",
+      "published": "2026-03-20T07:27:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.19709v1",
       "tags": [
-        "keyword:AD EI"
+        "keyword:AD EI",
+        "query:AD EI"
       ],
       "llm_score": 8.0,
-      "llm_evidence_en": "Survey of autonomous driving architectures and simulation technologies",
-      "llm_evidence_cn": "自动驾驶架构与仿真技术的综述",
-      "llm_evidence": "自动驾驶架构与仿真技术的综述",
-      "canonical_evidence": "自动驾驶架构与仿真技术的综述",
-      "llm_tldr_en": "A comprehensive survey on synthetic data and virtual environments for autonomous driving perception and planning.",
-      "llm_tldr_cn": "关于自动驾驶感知与规划中合成数据和虚拟环境应用的全面综述。",
-      "llm_tldr": "关于自动驾驶感知与规划中合成数据和虚拟环境应用的全面综述。",
+      "llm_evidence_en": "Generative video synthesis for humanoid robot interaction",
+      "llm_evidence_cn": "人形机器人交互的生成式视频合成",
+      "llm_evidence": "人形机器人交互的生成式视频合成",
+      "canonical_evidence": "人形机器人交互的生成式视频合成",
+      "llm_tldr_en": "Uses video generation as a world-model-like approach for zero-shot humanoid robot task completion.",
+      "llm_tldr_cn": "利用视频生成作为类世界模型的方法，实现人形机器人的零样本任务完成。",
+      "llm_tldr": "利用视频生成作为类世界模型的方法，实现人形机器人的零样本任务完成。",
       "llm_tags": [
         "query:ad-ei"
       ],
       "matched_query_tag": "query:ad-ei",
-      "matched_query_text": "Deep learning architectures for autonomous driving",
-      "matched_requirement_id": "req-5",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
       "selection_source": "carryover_cache",
-      "paper_id": "2603.17714v1",
+      "paper_id": "2603.19709v1",
       "carry_days": 1
     }
   ]

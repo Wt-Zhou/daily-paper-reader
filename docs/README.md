@@ -6,97 +6,76 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-22
-- 运行时间：2026-03-22 20:05:48 UTC
+- 最新运行日期：2026-03-23
+- 运行时间：2026-03-23 19:54:25 UTC
 - 运行状态：成功
-- 本次总论文数：25
-- 精读区：14
+- 本次总论文数：18
+- 精读区：7
 - 速读区：11
 
 ### 今日简报（AI）
-今日精选 25 篇具身智能前沿成果，深度解析动态环境操控与 VLA 驾驶系统的安全架构。
-重点推荐动态场景下的泛化机器人操控技术，以及 SimLingo 提出的 VLA 驾驶系统安全论证新范式。
-建议优先研读两篇满分论文，掌握从单目 3D 感知到端云协同控制的最新技术演进。
-- 详情：[/202603/22/README](/202603/22/README)
+今日精选 18 篇前沿论文，深度解析自动驾驶世界模型与多模态感知的最新突破。
+重点关注 DynFlowDrive 与 X-World，它们通过流式动态建模与多视角可控生成，显著提升了端到端驾驶的规模化与安全性。
+建议优先研读世界模型在复杂场景模拟中的应用，把握自动驾驶从虚拟仿真走向现实落地的关键趋势。
+- 详情：[/202603/23/README](/202603/23/README)
 
 ### 精读区论文标签
-1. [Towards Generalizable Robotic Manipulation in Dynamic Environments](/202603/22/2603.15620v1-towards-generalizable-robotic-manipulation-in-dynamic-environments)  
+1. [DynFlowDrive: Flow-Based Dynamic World Modeling for Autonomous Driving](/202603/23/2603.19675v1-dynflowdrive-flow-based-dynamic-world-modeling-for-autonomous-driving)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：使用VLA模型进行通用动态操作的基准测试
-2. [Safety Case Patterns for VLA-based driving systems: Insights from SimLingo](/202603/22/2603.16013v1-safety-case-patterns-for-vla-based-driving-systems-insights-from-simlingo)  
+   evidence：基于流的自动驾驶动态世界建模
+2. [X-World: Controllable Ego-Centric Multi-Camera World Models for Scalable End-to-End Driving](/202603/23/2603.19979v1-x-world-controllable-ego-centric-multi-camera-world-models-for-scalable-end-to-end-driving)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：基于VLA的自动驾驶系统的安全案例模式
-3. [The Era of End-to-End Autonomy: Transitioning from Rule-Based Driving to Large Driving Models](/202603/22/2603.16050v1-the-era-of-end-to-end-autonomy-transitioning-from-rule-based-driving-to-large-driving-models)  
-   标签：评分：10.0/10、query:ad-ei
-   evidence：向大驾驶模型和端到端自主驾驶的转变
-4. [Your Vision-Language-Action Model Already Has Attention Heads For Path Deviation Detection](/202603/22/2603.13782v1-your-vision-language-action-model-already-has-attention-heads-for-path-deviation-detection)  
+   evidence：用于端到端驾驶的动作条件多摄像头生成式世界模型
+3. [FAR-Drive: Frame-AutoRegressive Video Generation in Closed-Loop Autonomous Driving](/202603/23/2603.14938v1-far-drive-frame-autoregressive-video-generation-in-closed-loop-autonomous-driving)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：在导航任务中检测VLA模型的路径偏差
-5. [OCRA: Object-Centric Learning with 3D and Tactile Priors for Human-to-Robot Action Transfer](/202603/22/2603.14401v1-ocra-object-centric-learning-with-3d-and-tactile-priors-for-human-to-robot-action-transfer)  
+   evidence：使用生成式视频模型的自动驾驶闭环模拟器
+4. [HapticVLA: Contact-Rich Manipulation via Vision-Language-Action Model without Inference-Time Tactile Sensing](/202603/23/2603.15257v1-hapticvla-contact-rich-manipulation-via-vision-language-action-model-without-inference-time-tactile-sensing)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：机器人操纵的以物体为中心的学习
-6. [RealVLG-R1: A Large-Scale Real-World Visual-Language Grounding Benchmark for Robotic Perception and Manipulation](/202603/22/2603.14880v1-realvlg-r1-a-large-scale-real-world-visual-language-grounding-benchmark-for-robotic-perception-and-manipulation)  
+   evidence：无需推理时触觉感知的HapticVLA触觉感知操纵模型
+5. [Towards the Vision-Sound-Language-Action Paradigm: The HEAR Framework for Sound-Centric Manipulation](/202603/23/2603.16086v1-towards-the-vision-sound-language-action-paradigm-the-hear-framework-for-sound-centric-manipulation)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：用于机器人感知与操作的视觉语言接地
-7. [MoE-ACT: Scaling Multi-Task Bimanual Manipulation with Sparse Language-Conditioned Mixture-of-Experts Transformers](/202603/22/2603.15265v1-moe-act-scaling-multi-task-bimanual-manipulation-with-sparse-language-conditioned-mixture-of-experts-transformers)  
+   evidence：机器人操作的视-听-言-动范式
+6. [EmergeNav: Structured Embodied Inference for Zero-Shot Vision-and-Language Navigation in Continuous Environments](/202603/23/2603.16947v1-emergenav-structured-embodied-inference-for-zero-shot-vision-and-language-navigation-in-continuous-environments)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：多任务双臂操作与具身智能
-8. [CorrectionPlanner: Self-Correction Planner with Reinforcement Learning in Autonomous Driving](/202603/22/2603.15771v1-correctionplanner-self-correction-planner-with-reinforcement-learning-in-autonomous-driving)  
+   evidence：视觉语言导航的结构化具身推理
+7. [MultihopSpatial: Multi-hop Compositional Spatial Reasoning Benchmark for Vision-Language Model](/202603/23/2603.18892v1-multihopspatial-multi-hop-compositional-spatial-reasoning-benchmark-for-vision-language-model)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：自动驾驶中结合强化学习的自回归规划器
-9. [From Digital Twins to World Models:Opportunities, Challenges, and Applications for Mobile Edge General Intelligence](/202603/22/2603.17420v1-from-digital-twins-to-world-modelsopportunities-challenges-and-applications-for-mobile-edge-general-intelligence)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：从数字孪生到世界模型的演进及其在边缘智能中的应用
-10. [Hierarchical Decision-Making under Uncertainty: A Hybrid MDP and Chance-Constrained MPC Approach](/202603/22/2603.17634v1-hierarchical-decision-making-under-uncertainty-a-hybrid-mdp-and-chance-constrained-mpc-approach)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：不确定性下自动驾驶的分层决策
-11. [AgentVLN: Towards Agentic Vision-and-Language Navigation](/202603/22/2603.17670v1-agentvln-towards-agentic-vision-and-language-navigation)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：采用VLM作为大脑范式的具身导航框架
-12. [GoalVLM: VLM-driven Object Goal Navigation for Multi-Agent System](/202603/22/2603.18210v1-goalvlm-vlm-driven-object-goal-navigation-for-multi-agent-system)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：VLM驱动的多智能体零样本目标导航
-13. [MemoAct: Atkinson-Shiffrin-Inspired Memory-Augmented Visuomotor Policy for Robotic Manipulation](/202603/22/2603.18494v1-memoact-atkinson-shiffrin-inspired-memory-augmented-visuomotor-policy-for-robotic-manipulation)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：用于机器人操作的记忆增强视觉运动策略
-14. [Sparse Autoencoders Reveal Interpretable and Steerable Features in VLA Models](/202603/22/2603.19183v1-sparse-autoencoders-reveal-interpretable-and-steerable-features-in-vla-models)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：机器人操纵中VLA模型的机械可解释性
+   evidence：物理环境中VLA代理的空间推理基准
 
 ### 速读区论文标签
-1. [SGR-OCC: Evolving Monocular Priors for Embodied 3D Occupancy Prediction via Soft-Gating Lifting and Semantic-Adaptive Geometric Refinement](/202603/22/2603.14076v1-sgr-occ-evolving-monocular-priors-for-embodied-3d-occupancy-prediction-via-soft-gating-lifting-and-semantic-adaptive-geometric-refinement)  
+1. [ReMAP-DP: Reprojected Multi-view Aligned PointMaps for Diffusion Policy](/202603/23/2603.14977v1-remap-dp-reprojected-multi-view-aligned-pointmaps-for-diffusion-policy)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：具身智能体的3D占据预测
-2. [Ego to World: Collaborative Spatial Reasoning in Embodied Systems via Reinforcement Learning](/202603/22/2603.14811v1-ego-to-world-collaborative-spatial-reasoning-in-embodied-systems-via-reinforcement-learning)  
+   evidence：基于扩散的机器人策略的3D空间感知
+2. [OmniVLN: Omnidirectional 3D Perception and Token-Efficient LLM Reasoning for Visual-Language Navigation across Air and Ground Platforms](/202603/23/2603.17351v1-omnivln-omnidirectional-3d-perception-and-token-efficient-llm-reasoning-for-visual-language-navigation-across-air-and-ground-platforms)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：用于具身多智能体系统和强化学习的视觉语言模型
-3. [ECHO: Edge-Cloud Humanoid Orchestration for Language-to-Motion Control](/202603/22/2603.16188v1-echo-edge-cloud-humanoid-orchestration-for-language-to-motion-control)  
+   evidence：具身智能体的视觉语言导航框架
+3. [From Virtual Environments to Real-World Trials: Emerging Trends in Autonomous Driving](/202603/23/2603.17714v1-from-virtual-environments-to-real-world-trials-emerging-trends-in-autonomous-driving)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：人形机器人的语言到动作控制
-4. [PhysQuantAgent: An Inference Pipeline of Mass Estimation for Vision-Language Models](/202603/22/2603.16958v1-physquantagent-an-inference-pipeline-of-mass-estimation-for-vision-language-models)  
+   evidence：自动驾驶架构与仿真技术的综述
+4. [Generative Control as Optimization: Time Unconditional Flow Matching for Adaptive and Robust Robotic Control](/202603/23/2603.17834v1-generative-control-as-optimization-time-unconditional-flow-matching-for-adaptive-and-robust-robotic-control)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：基于VLM的机器人感知与操作质量估计
-5. [Rewarding DINO: Predicting Dense Rewards with Vision Foundation Models](/202603/22/2603.16978v1-rewarding-dino-predicting-dense-rewards-with-vision-foundation-models)  
+   evidence：用于机器人模仿学习的生成式控制和流匹配
+5. [SG-CoT: An Ambiguity-Aware Robotic Planning Framework using Scene Graph Representations](/202603/23/2603.18271v1-sg-cot-an-ambiguity-aware-robotic-planning-framework-using-scene-graph-representations)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：使用视觉模型预测机器人操作的稠密奖励
-6. [Recurrent Reasoning with Vision-Language Models for Estimating Long-Horizon Embodied Task Progress](/202603/22/2603.17312v1-recurrent-reasoning-with-vision-language-models-for-estimating-long-horizon-embodied-task-progress)  
+   evidence：使用场景图表示的LLM机器人规划器
+6. [Evolving Embodied Intelligence: Graph Neural Network--Driven Co-Design of Morphology and Control in Soft Robotics](/202603/23/2603.19582v1-evolving-embodied-intelligence-graph-neural-network--driven-co-design-of-morphology-and-control-in-soft-robotics)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：用于长程具身任务进度评估的视觉语言模型
-7. [Interpreting Context-Aware Human Preferences for Multi-Objective Robot Navigation](/202603/22/2603.17510v1-interpreting-context-aware-human-preferences-for-multi-objective-robot-navigation)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：结合基础模型与强化学习进行机器人导航
-8. [Empathetic Motion Generation for Humanoid Educational Robots via Reasoning-Guided Vision--Language--Motion Diffusion Architecture](/202603/22/2603.18771v1-empathetic-motion-generation-for-humanoid-educational-robots-via-reasoning-guided-vision--language--motion-diffusion-architecture)  
+   evidence：软体机器人中的具身智能与控制
+7. [A Real-Time Neuro-Symbolic Ethical Governor for Safe Decision Control in Autonomous Robotic Manipulation](/202603/23/2603.14221v1-a-real-time-neuro-symbolic-ethical-governor-for-safe-decision-control-in-autonomous-robotic-manipulation)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：用于人形机器人行为的视觉-语言-动作架构
-9. [Meanings and Measurements: Multi-Agent Probabilistic Grounding for Vision-Language Navigation](/202603/22/2603.19166v1-meanings-and-measurements-multi-agent-probabilistic-grounding-for-vision-language-navigation)  
+   evidence：自主机器人操纵中的伦理决策控制
+8. [AsgardBench -- Evaluating Visually Grounded Interactive Planning Under Minimal Feedback](/202603/23/2603.15888v2-asgardbench----evaluating-visually-grounded-interactive-planning-under-minimal-feedback)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：机器人视觉语言导航中的概率接地
-10. [A Loss Landscape Visualization Framework for Interpreting Reinforcement Learning: An ADHDP Case Study](/202603/22/2603.14600v1-a-loss-landscape-visualization-framework-for-interpreting-reinforcement-learning-an-adhdp-case-study)  
+   evidence：具身智能中视觉落地交互式规划的基准测试
+9. [GHOST: Fast Category-agnostic Hand-Object Interaction Reconstruction from RGB Videos using Gaussian Splatting](/202603/23/2603.18912v1-ghost-fast-category-agnostic-hand-object-interaction-reconstruction-from-rgb-videos-using-gaussian-splatting)  
+   标签：评分：7.0/10、query:ad-ei
+   evidence：用于机器人和具身智能的手物交互重建
+10. [Embodied Science: Closing the Discovery Loop with Agentic Embodied AI](/202603/23/2603.19782v1-embodied-science-closing-the-discovery-loop-with-agentic-embodied-ai)  
+   标签：评分：7.0/10、query:ad-ei
+   evidence：用于科学发现和物理执行的具身智能
+11. [ViSA: Visited-State Augmentation for Generalized Goal-Space Contrastive Reinforcement Learning](/202603/23/2603.14887v1-visa-visited-state-augmentation-for-generalized-goal-space-contrastive-reinforcement-learning)  
    标签：评分：6.0/10、query:ad-ei
-   evidence：用于解释强化学习动态的可视化框架
-11. [Stochastic Resetting Accelerates Policy Convergence in Reinforcement Learning](/202603/22/2603.16842v1-stochastic-resetting-accelerates-policy-convergence-in-reinforcement-learning)  
-   标签：评分：6.0/10、query:ad-ei
-   evidence：强化学习中的随机重置机制及其在连续控制任务中的应用
+   evidence：用于目标空间任务的对比强化学习
 
 
 <div class="dpr-home-promo-card">
