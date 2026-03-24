@@ -1,0 +1,1109 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-24T20:12:28.166762+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 25,
+    "deep_cap": 6,
+    "deep_selected": 16,
+    "quick_candidates": 12,
+    "quick_skim_target": 11,
+    "quick_selected": 11
+  },
+  "deep_dive": [
+    {
+      "id": "2603.17240v2",
+      "title": "GigaWorld-Policy: An Efficient Action-Centered World--Action Model",
+      "abstract": "World-Action Models (WAM) initialized from pre-trained video generation backbones have demonstrated remarkable potential for robot policy learning. However, existing approaches face two critical bottlenecks that hinder performance and deployment. First, jointly reasoning over future visual dynamics and corresponding actions incurs substantial inference overhead. Second, joint modeling often entangles visual and motion representations, making motion prediction accuracy heavily dependent on the quality of future video forecasts. To address these issues, we introduce GigaWorld-Policy, an action-centered WAM that learns 2D pixel-action dynamics while enabling efficient action decoding, with optional video generation. Specifically, we formulate policy training into two coupled components: the model predicts future action sequences conditioned on the current observation, and simultaneously generates future videos conditioned on the predicted actions and the same observation. The policy is supervised by both action prediction and video generation, providing richer learning signals and encouraging physically plausible actions through visual-dynamics constraints. With a causal design that prevents future-video tokens from influencing action tokens, explicit future-video generation is optional at inference time, allowing faster action prediction during deployment. To support this paradigm, we curate a diverse, large-scale robot dataset to pre-train an action-centered video generation model, which is then adapted as the backbone for robot policy learning. Experimental results on real-world robotic platforms show that GigaWorld-Policy runs 9x faster than the leading WAM baseline, Motus, while improving task success rates by 7%. Moreover, compared with pi-0.5, GigaWorld-Policy improves performance by 95% on RoboTwin 2.0.",
+      "authors": [
+        "Angen Ye",
+        "Boyuan Wang",
+        "Chaojun Ni",
+        "Guan Huang",
+        "Guosheng Zhao",
+        "Hao Li",
+        "Hengtao Li",
+        "Jie Li",
+        "Jindi Lv",
+        "Jingyu Liu",
+        "Min Cao",
+        "Peng Li",
+        "Qiuping Deng",
+        "Wenjun Mei",
+        "Xiaofeng Wang",
+        "Xinze Chen",
+        "Xinyu Zhou",
+        "Yang Wang",
+        "Yifan Chang",
+        "Yifan Li",
+        "Yukun Zhou",
+        "Yun Ye",
+        "Zhichao Liu",
+        "Zheng Zhu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-18T00:52:02+00:00",
+      "link": "https://arxiv.org/pdf/2603.17240v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Action-centered world-action model for robot policy",
+      "llm_evidence_cn": "用于机器人策略学习的以动作为中心的世界-动作模型",
+      "llm_evidence": "用于机器人策略学习的以动作为中心的世界-动作模型",
+      "canonical_evidence": "用于机器人策略学习的以动作为中心的世界-动作模型",
+      "llm_tldr_en": "Introduces GigaWorld-Policy, an efficient world-action model that decouples visual and motion representations.",
+      "llm_tldr_cn": "引入 GigaWorld-Policy，一种高效的解耦视觉与运动表示的以动作为中心的世界-动作模型。",
+      "llm_tldr": "引入 GigaWorld-Policy，一种高效的解耦视觉与运动表示的以动作为中心的世界-动作模型。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Latest research on world models and VLA in embodied AI",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20607v1",
+      "title": "Towards Practical World Model-based Reinforcement Learning for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models show strong generalization for robotic control, but finetuning them with reinforcement learning (RL) is constrained by the high cost and safety risks of real-world interaction. Training VLA models in interactive world models avoids these issues but introduces several challenges, including pixel-level world modeling, multi-view consistency, and compounding errors under sparse rewards. Building on recent advances across large multimodal models and model-based RL, we propose VLA-MBPO, a practical framework to tackle these problems in VLA finetuning. Our approach has three key design choices: (i) adapting unified multimodal models (UMMs) for data-efficient world modeling; (ii) an interleaved view decoding mechanism to enforce multi-view consistency; and (iii) chunk-level branched rollout to mitigate error compounding. Theoretical analysis and experiments across simulation and real-world tasks demonstrate that VLA-MBPO significantly improves policy performance and sample efficiency, underscoring its robustness and scalability for real-world robotic deployment.",
+      "authors": [
+        "Zhilong Zhang",
+        "Haoxiang Ren",
+        "Yihao Sun",
+        "Yifei Sheng",
+        "Haonan Wang",
+        "Haoxin Lin",
+        "Zhichao Wu",
+        "Pierre-Luc Bacon",
+        "Yang Yu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "published": "2026-03-21T02:44:39+00:00",
+      "link": "https://arxiv.org/pdf/2603.20607v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "World model-based reinforcement learning for fine-tuning Vision-Language-Action models",
+      "llm_evidence_cn": "基于世界模型的强化学习用于微调视觉-语言-动作（VLA）模型",
+      "llm_evidence": "基于世界模型的强化学习用于微调视觉-语言-动作（VLA）模型",
+      "canonical_evidence": "基于世界模型的强化学习用于微调视觉-语言-动作（VLA）模型",
+      "llm_tldr_en": "Proposes VLA-MBPO, a framework using interactive world models to safely and efficiently fine-tune VLAs via RL.",
+      "llm_tldr_cn": "提出VLA-MBPO框架，利用交互式世界模型实现VLA模型的高效、安全强化学习微调。",
+      "llm_tldr": "提出VLA-MBPO框架，利用交互式世界模型实现VLA模型的高效、安全强化学习微调。",
+      "llm_tags": [
+        "query:ad-ei:composite"
+      ],
+      "matched_query_tag": "query:ad-ei:composite",
+      "matched_query_text": "Papers central to 自动驾驶与具身智能中的世界模型、VLA及强化学习最新论文检索, especially work that connects or combines: World models in autonomous driving and robotics; Vision-Language-Action models for embodied AI; Reinforcement learning for autonomous vehicle control; Embodied intelligence and robotic manipulation; Deep learning architectures for autonomous driving; Foundation models for robotics and decision making; Latest research on world models and VLA in embodied AI; State of the art Vision Language Action models for robotics.",
+      "matched_requirement_id": "req-composite-ad-ei",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21340v1",
+      "title": "ARYA: A Physics-Constrained Composable & Deterministic World Model Architecture",
+      "abstract": "This paper presents ARYA, a composable, physics-constrained, deterministic world model architecture built on five foundational principles: nano models, composability, causal reasoning, determinism, and architectural AI safety. We demonstrate that ARYA satisfies all canonical world model requirements, including state representation, dynamic prediction, causal and physical awareness, temporal consistency, generalization, learnability, and planning and control. Unlike monolithic foundation models, the ARYA foundation model implements these capabilities through a hierarchical system-of-system-of-systems of specialized nano models, orchestrated by AARA (ARYA Autonomous Research Agent), an always-on cognitive daemon that executes a continuous sense-decide-act-learn loop. The nano model architecture provides linear scaling, sparse activation, selective untraining, and sub-20-second training cycles, resolving the traditional tension between capability and computational efficiency. A central contribution is the Unfireable Safety Kernel: an architecturally immutable safety boundary that cannot be disabled or circumvented by any system component, including its own self-improvement engine. This is not a social or ethical alignment statement; it is a technical framework ensuring human control persists as autonomy increases. Safety is an architectural constraint governing every operation, not a policy layer applied after the fact. We present formal alignment between ARYA's architecture and canonical world model requirements, and report summarizing its state-of-the-art performance across 6 of 9 competitive benchmarks head-to-head with GPT-5.2, Opus 4.6, and V-JEPA-2. All with zero neural network parameters, across seven active industry domain nodes spanning aerospace, pharma manufacturing, oil and gas, smart cities, biotech, defense, and medical devices.",
+      "authors": [
+        "Seth Dobrin",
+        "Lukasz Chmiel"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.DC"
+      ],
+      "published": "2026-03-22T17:46:04+00:00",
+      "link": "https://arxiv.org/pdf/2603.21340v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "physics-constrained deterministic world model architecture",
+      "llm_evidence_cn": "物理约束的确定性世界模型架构",
+      "llm_evidence": "物理约束的确定性世界模型架构",
+      "canonical_evidence": "物理约束的确定性世界模型架构",
+      "llm_tldr_en": "Presents ARYA, a composable and physics-constrained world model for planning, control, and AI safety.",
+      "llm_tldr_cn": "介绍了ARYA，一种用于规划、控制和AI安全的组合式物理约束世界模型。",
+      "llm_tldr": "介绍了ARYA，一种用于规划、控制和AI安全的组合式物理约束世界模型。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "World models in autonomous driving and robotics",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22003v1",
+      "title": "VP-VLA: Visual Prompting as an Interface for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models typically map visual observations and linguistic instructions directly to robotic control signals. This \"black-box\" mapping forces a single forward pass to simultaneously handle instruction interpretation, spatial grounding, and low-level control, often leading to poor spatial precision and limited robustness in out-of-distribution scenarios. To address these limitations, we propose VP-VLA, a dual-system framework that decouples high-level reasoning and low-level execution via a structured visual prompting interface. Specifically, a \"System 2 Planner\" decomposes complex instructions into sub-tasks and identifies relevant target objects and goal locations. These spatial anchors are then overlaid directly onto visual observations as structured visual prompts, such as crosshairs and bounding boxes. Guided by these prompts and enhanced by a novel auxiliary visual grounding objective during training, a \"System 1 Controller\" reliably generates precise low-level execution motions. Experiments on the Robocasa-GR1-Tabletop benchmark and SimplerEnv simulation demonstrate that VP-VLA improves success rates by 5% and 8.3%, surpassing competitive baselines including QwenOFT and GR00T-N1.6.",
+      "authors": [
+        "Zixuan Wang",
+        "Yuxin Chen",
+        "Yuqi Liu",
+        "Jinhui Ye",
+        "Pengguang Chen",
+        "Changsheng Lu",
+        "Shu Liu",
+        "Jiaya Jia"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T14:08:58+00:00",
+      "link": "https://arxiv.org/pdf/2603.22003v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "visual prompting interface for Vision-Language-Action models",
+      "llm_evidence_cn": "视觉-语言-动作（VLA）模型的视觉提示接口",
+      "llm_evidence": "视觉-语言-动作（VLA）模型的视觉提示接口",
+      "canonical_evidence": "视觉-语言-动作（VLA）模型的视觉提示接口",
+      "llm_tldr_en": "Decouples high-level reasoning and low-level execution in VLA models via a visual prompting interface.",
+      "llm_tldr_cn": "通过视觉提示接口将VLA模型中的高层推理与底层执行解耦。",
+      "llm_tldr": "通过视觉提示接口将VLA模型中的高层推理与底层执行解耦。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Vision-Language-Action models for embodied AI",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22078v1",
+      "title": "Do World Action Models Generalize Better than VLAs? A Robustness Study",
+      "abstract": "Robot action planning in the real world is challenging as it requires not only understanding the current state of the environment but also predicting how it will evolve in response to actions. Vision-language-action (VLA), which repurpose large-scale vision-language models for robot action generation using action experts, have achieved notable success across a variety of robotic tasks. Nevertheless, their performance remains constrained by the scope of their training data, exhibiting limited generalization to unseen scenarios and vulnerability to diverse contextual perturbations. More recently, world models have been revisited as an alternative to VLAs. These models, referred to as world action models (WAMs), are built upon world models that are trained on large corpora of video data to predict future states. With minor adaptations, their latent representation can be decoded into robot actions. It has been suggested that their explicit dynamic prediction capacity, combined with spatiotemporal priors acquired from web-scale video pretraining, enables WAMs to generalize more effectively than VLAs. In this paper, we conduct a comparative study of prominent state-of-the-art VLA policies and recently released WAMs. We evaluate their performance on the LIBERO-Plus and RoboTwin 2.0-Plus benchmarks under various visual and language perturbations. Our results show that WAMs achieve strong robustness, with LingBot-VA reaching 74.2% success rate on RoboTwin 2.0-Plus and Cosmos-Policy achieving 82.2% on LIBERO-Plus. While VLAs such as $π_{0.5}$ can achieve comparable robustness on certain tasks, they typically require extensive training with diverse robotic datasets and varied learning objectives. Hybrid approaches that partially incorporate video-based dynamic learning exhibit intermediate robustness, highlighting the importance of how video priors are integrated.",
+      "authors": [
+        "Zhanguang Zhang",
+        "Zhiyuan Li",
+        "Behnam Rahmati",
+        "Rui Heng Yang",
+        "Yintao Ma",
+        "Amir Rasouli",
+        "Sajjad Pakdamansavoji",
+        "Yangzheng Wu",
+        "Lingfeng Zhang",
+        "Tongtong Cao",
+        "Feng Wen",
+        "Xingyue Quan",
+        "Yingxue Zhang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-23T15:13:15+00:00",
+      "link": "https://arxiv.org/pdf/2603.22078v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "robustness study of World Action Models versus VLAs",
+      "llm_evidence_cn": "世界动作模型与VLA的鲁棒性对比研究",
+      "llm_evidence": "世界动作模型与VLA的鲁棒性对比研究",
+      "canonical_evidence": "世界动作模型与VLA的鲁棒性对比研究",
+      "llm_tldr_en": "Evaluates the generalization and robustness of World Action Models compared to traditional VLA models.",
+      "llm_tldr_cn": "评估并对比了世界动作模型与传统VLA模型在泛化性和鲁棒性方面的表现。",
+      "llm_tldr": "评估并对比了世界动作模型与传统VLA模型在泛化性和鲁棒性方面的表现。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Latest research on world models and VLA in embodied AI",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22212v1",
+      "title": "Omni-WorldBench: Towards a Comprehensive Interaction-Centric Evaluation for World Models",
+      "abstract": "Video--based world models have emerged along two dominant paradigms: video generation and 3D reconstruction. However, existing evaluation benchmarks either focus narrowly on visual fidelity and text--video alignment for generative models, or rely on static 3D reconstruction metrics that fundamentally neglect temporal dynamics. We argue that the future of world modeling lies in 4D generation, which jointly models spatial structure and temporal evolution. In this paradigm, the core capability is interactive response: the ability to faithfully reflect how interaction actions drive state transitions across space and time. Yet no existing benchmark systematically evaluates this critical dimension. To address this gap, we propose Omni--WorldBench, a comprehensive benchmark specifically designed to evaluate the interactive response capabilities of world models in 4D settings. Omni--WorldBench comprises two key components: Omni--WorldSuite, a systematic prompt suite spanning diverse interaction levels and scene types; and Omni--Metrics, an agent-based evaluation framework that quantifies world modeling capabilities by measuring the causal impact of interaction actions on both final outcomes and intermediate state evolution trajectories. We conduct extensive evaluations of 18 representative world models across multiple paradigms. Our analysis reveals critical limitations of current world models in interactive response, providing actionable insights for future research. Omni-WorldBench will be publicly released to foster progress in interactive 4D world modeling.",
+      "authors": [
+        "Meiqi Wu",
+        "Zhixin Cai",
+        "Fufangchen Zhao",
+        "Xiaokun Feng",
+        "Rujing Dang",
+        "Bingze Song",
+        "Ruitian Tian",
+        "Jiashu Zhu",
+        "Jiachen Lei",
+        "Hao Dou",
+        "Jing Tang",
+        "Lei Sun",
+        "Jiahong Wu",
+        "Xiangxiang Chu",
+        "Zeming Liu",
+        "Kaiqi Huang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-23T17:10:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.22212v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "interaction-centric evaluation benchmark for video-based world models",
+      "llm_evidence_cn": "基于视频的世界模型的交互中心化评估基准",
+      "llm_evidence": "基于视频的世界模型的交互中心化评估基准",
+      "canonical_evidence": "基于视频的世界模型的交互中心化评估基准",
+      "llm_tldr_en": "Proposes Omni-WorldBench to evaluate how world models reflect interaction-driven state transitions.",
+      "llm_tldr_cn": "提出Omni-WorldBench，用于评估世界模型如何反映交互驱动的状态转换。",
+      "llm_tldr": "提出Omni-WorldBench，用于评估世界模型如何反映交互驱动的状态转换。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "World models in autonomous driving and robotics",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22280v1",
+      "title": "DualCoT-VLA: Visual-Linguistic Chain of Thought via Parallel Reasoning for Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models map visual observations and language instructions directly to robotic actions. While effective for simple tasks, standard VLA models often struggle with complex, multi-step tasks requiring logical planning, as well as precise manipulations demanding fine-grained spatial perception. Recent efforts have incorporated Chain-of-Thought (CoT) reasoning to endow VLA models with a ``thinking before acting'' capability. However, current CoT-based VLA models face two critical limitations: 1) an inability to simultaneously capture low-level visual details and high-level logical planning due to their reliance on isolated, single-modal CoT; 2) high inference latency with compounding errors caused by step-by-step autoregressive decoding. To address these limitations, we propose DualCoT-VLA, a visual-linguistic CoT method for VLA models with a parallel reasoning mechanism. To achieve comprehensive multi-modal reasoning, our method integrates a visual CoT for low-level spatial understanding and a linguistic CoT for high-level task planning. Furthermore, to overcome the latency bottleneck, we introduce a parallel CoT mechanism that incorporates two sets of learnable query tokens, shifting autoregressive reasoning to single-step forward reasoning. Extensive experiments demonstrate that our DualCoT-VLA achieves state-of-the-art performance on the LIBERO and RoboCasa GR1 benchmarks, as well as in real-world platforms.",
+      "authors": [
+        "Zhide Zhong",
+        "Junfeng Li",
+        "Junjie He",
+        "Haodong Yan",
+        "Xin Gong",
+        "Guanyi Zhao",
+        "Yingjie Cai",
+        "Jiantao Gao",
+        "Xu Yan",
+        "Bingbing Liu",
+        "Yingcong Chen",
+        "Liuqing Yang",
+        "Haoang Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-23T17:59:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.22280v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "visual-linguistic chain of thought for VLA models",
+      "llm_evidence_cn": "VLA模型的视觉语言思维链",
+      "llm_evidence": "VLA模型的视觉语言思维链",
+      "canonical_evidence": "VLA模型的视觉语言思维链",
+      "llm_tldr_en": "Enhances VLA models with parallel visual-linguistic reasoning to improve complex robotic manipulation tasks.",
+      "llm_tldr_cn": "通过并行视觉语言推理增强VLA模型，以改善复杂的机器人操作任务。",
+      "llm_tldr": "通过并行视觉语言推理增强VLA模型，以改善复杂的机器人操作任务。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15221v1",
+      "title": "ADV-0: Closed-Loop Min-Max Adversarial Training for Long-Tail Robustness in Autonomous Driving",
+      "abstract": "Deploying autonomous driving systems requires robustness against long-tail scenarios that are rare but safety-critical. While adversarial training offers a promising solution, existing methods typically decouple scenario generation from policy optimization and rely on heuristic surrogates. This leads to objective misalignment and fails to capture the shifting failure modes of evolving policies. This paper presents ADV-0, a closed-loop min-max optimization framework that treats the interaction between driving policy (defender) and adversarial agent (attacker) as a zero-sum Markov game. By aligning the attacker's utility directly with the defender's objective, we reveal the optimal adversary distribution. To make this tractable, we cast dynamic adversary evolution as iterative preference learning, efficiently approximating this optimum and offering an algorithm-agnostic solution to the game. Theoretically, ADV-0 converges to a Nash Equilibrium and maximizes a certified lower bound on real-world performance. Experiments indicate that it effectively exposes diverse safety-critical failures and greatly enhances the generalizability of both learned policies and motion planners against unseen long-tail risks.",
+      "authors": [
+        "Tong Nie",
+        "Yihong Tang",
+        "Junlin He",
+        "Yuewen Mei",
+        "Jie Sun",
+        "Lijun Sun",
+        "Wei Ma",
+        "Jian Sun"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-03-16T12:58:31+00:00",
+      "link": "https://arxiv.org/pdf/2603.15221v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Closed-loop min-max optimization for driving policy robustness",
+      "llm_evidence_cn": "用于驾驶策略鲁棒性的闭环最小最大优化",
+      "llm_evidence": "用于驾驶策略鲁棒性的闭环最小最大优化",
+      "canonical_evidence": "用于驾驶策略鲁棒性的闭环最小最大优化",
+      "llm_tldr_en": "ADV-0 uses a zero-sum Markov game framework to improve autonomous driving robustness against long-tail scenarios.",
+      "llm_tldr_cn": "ADV-0 通过零和马尔可夫博弈框架提升自动驾驶在长尾场景下的鲁棒性。",
+      "llm_tldr": "ADV-0 通过零和马尔可夫博弈框架提升自动驾驶在长尾场景下的鲁棒性。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15600v1",
+      "title": "From Passive Observer to Active Critic: Reinforcement Learning Elicits Process Reasoning for Robotic Manipulation",
+      "abstract": "Accurate process supervision remains a critical challenge for long-horizon robotic manipulation. A primary bottleneck is that current video MLLMs, trained primarily under a Supervised Fine-Tuning (SFT) paradigm, function as passive \"Observers\" that recognize ongoing events rather than evaluating the current state relative to the final task goal. In this paper, we introduce PRIMO R1 (Process Reasoning Induced Monitoring), a 7B framework that transforms video MLLMs into active \"Critics\". We leverage outcome-based Reinforcement Learning to incentivize explicit Chain-of-Thought generation for progress estimation. Furthermore, our architecture constructs a structured temporal input by explicitly anchoring the video sequence between initial and current state images. Supported by the proposed PRIMO Dataset and Benchmark, extensive experiments across diverse in-domain environments and out-of-domain real-world humanoid scenarios demonstrate that PRIMO R1 achieves state-of-the-art performance. Quantitatively, our 7B model achieves a 50% reduction in the mean absolute error of specialized reasoning baselines, demonstrating significant relative accuracy improvements over 72B-scale general MLLMs. Furthermore, PRIMO R1 exhibits strong zero-shot generalization on difficult failure detection tasks. We establish state-of-the-art performance on RoboFail benchmark with 67.0% accuracy, surpassing closed-source models like OpenAI o1 by 6.0%.",
+      "authors": [
+        "Yibin Liu",
+        "Yaxing Lyu",
+        "Daqi Gao",
+        "Zhixuan Liang",
+        "Weiliang Tang",
+        "Shilong Mu",
+        "Xiaokang Yang",
+        "Yao Mu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL",
+        "cs.CV"
+      ],
+      "published": "2026-03-16T17:53:28+00:00",
+      "link": "https://arxiv.org/pdf/2603.15600v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Reinforcement learning for process reasoning in robotic manipulation",
+      "llm_evidence_cn": "用于机器人操作过程推理的强化学习",
+      "llm_evidence": "用于机器人操作过程推理的强化学习",
+      "canonical_evidence": "用于机器人操作过程推理的强化学习",
+      "llm_tldr_en": "PRIMO R1 uses RL to turn video MLLMs into active critics for monitoring long-horizon robotic manipulation.",
+      "llm_tldr_cn": "PRIMO R1 利用强化学习将视频多模态大模型转变为主动评价者，用于监控长程机器人操作。",
+      "llm_tldr": "PRIMO R1 利用强化学习将视频多模态大模型转变为主动评价者，用于监控长程机器人操作。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.15789v1",
+      "title": "Emergent Dexterity via Diverse Resets and Large-Scale Reinforcement Learning",
+      "abstract": "Reinforcement learning in massively parallel physics simulations has driven major progress in sim-to-real robot learning. However, current approaches remain brittle and task-specific, relying on extensive per-task engineering to design rewards, curricula, and demonstrations. Even with this engineering, they often fail on long-horizon, contact-rich manipulation tasks and do not meaningfully scale with compute, as performance quickly saturates when training revisits the same narrow regions of state space. We introduce \\Method, a simple and scalable framework that enables on-policy reinforcement learning to robustly solve a broad class of dexterous manipulation tasks using a single reward function, fixed algorithm hyperparameters, no curricula, and no human demonstrations. Our key insight is that long-horizon exploration can be dramatically simplified by using simulator resets to systematically expose the RL algorithm to the diverse set of robot-object interactions which underlie dexterous manipulation. \\Method\\ programmatically generates such resets with minimal human input, converting additional compute directly into broader behavioral coverage and continued performance gains. We show that \\Method\\ gracefully scales to long-horizon dexterous manipulation tasks beyond the capabilities of existing approaches and is able to learn robust policies over significantly wider ranges of initial conditions than baselines. Finally, we distill \\Method \\ into visuomotor policies which display robust retrying behavior and substantially higher success rates than baselines when transferred to the real world zero-shot. Project webpage: https://omnireset.github.io",
+      "authors": [
+        "Patrick Yin",
+        "Tyler Westenbroek",
+        "Zhengyu Zhang",
+        "Joshua Tran",
+        "Ignacio Dagnino",
+        "Eeshani Shilamkar",
+        "Numfor Mbiziwo-Tiapo",
+        "Simran Bagaria",
+        "Xinlei Liu",
+        "Galen Mullins",
+        "Andrey Kolobov",
+        "Abhishek Gupta"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-16T18:14:36+00:00",
+      "link": "https://arxiv.org/pdf/2603.15789v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "reinforcement learning for dexterous manipulation tasks",
+      "llm_evidence_cn": "用于灵巧操作任务的强化学习",
+      "llm_evidence": "用于灵巧操作任务的强化学习",
+      "canonical_evidence": "用于灵巧操作任务的强化学习",
+      "llm_tldr_en": "Introduces a scalable RL framework for solving complex dexterous manipulation tasks without heavy engineering.",
+      "llm_tldr_cn": "引入了一个可扩展的强化学习框架，无需大量工程即可解决复杂的灵巧操作任务。",
+      "llm_tldr": "引入了一个可扩展的强化学习框架，无需大量工程即可解决复杂的灵巧操作任务。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.18178v1",
+      "title": "VLM-AutoDrive: Post-Training Vision-Language Models for Safety-Critical Autonomous Driving Events",
+      "abstract": "The rapid growth of ego-centric dashcam footage presents a major challenge for detecting safety-critical events such as collisions and near-collisions, scenarios that are brief, rare, and difficult for generic vision models to capture. While multimodal large language models (MLLMs) demonstrate strong general reasoning ability, they underperform in driving contexts due to domain and temporal misalignment.   We introduce VLM-AutoDrive, a modular post-training framework for adapting pretrained Vision-Language Models (VLMs) to high-fidelity anomaly detection. The framework integrates metadata-derived captions, LLM-generated descriptions, visual question answering (VQA) pairs, and chain-of-thought (CoT) reasoning supervision to enable domain-aligned and interpretable learning. Off-the-shelf VLMs such as NVIDIA's Cosmos-Reason1 7B (CR1) exhibit near-zero Collision recall in zero-shot settings; fine-tuning with VLM-AutoDrive improves Collision F1 from 0.00 to 0.69 and overall accuracy from 35.35% to 77.27%.   VLM-AutoDrive offers a scalable recipe for adapting general-purpose VLMs to safety-critical, temporally localized perception tasks. Evaluated on real-world Nexar dashcam videos, it achieves substantial gains in Collision and Near-Collision detection while producing interpretable reasoning traces, bridging the gap between perception, causality, and decision reasoning in autonomous driving.",
+      "authors": [
+        "Mohammad Qazim Bhat",
+        "Yufan Huang",
+        "Niket Agarwal",
+        "Hao Wang",
+        "Michael Woods",
+        "John Kenyon",
+        "Tsung-Yi Lin",
+        "Xiaodong Yang",
+        "Ming-Yu Liu",
+        "Kevin Xie"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-03-18T18:23:34+00:00",
+      "link": "https://arxiv.org/pdf/2603.18178v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Adapting VLMs for safety-critical autonomous driving events",
+      "llm_evidence_cn": "使VLM适应安全关键型自动驾驶事件",
+      "llm_evidence": "使VLM适应安全关键型自动驾驶事件",
+      "canonical_evidence": "使VLM适应安全关键型自动驾驶事件",
+      "llm_tldr_en": "VLM-AutoDrive adapts pretrained VLMs for high-fidelity anomaly detection in autonomous driving scenarios.",
+      "llm_tldr_cn": "VLM-AutoDrive使预训练的VLM适应自动驾驶场景中的高保真异常检测。",
+      "llm_tldr": "VLM-AutoDrive使预训练的VLM适应自动驾驶场景中的高保真异常检测。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20659v1",
+      "title": "StageCraft: Execution Aware Mitigation of Distractor and Obstruction Failures in VLA Models",
+      "abstract": "Large scale pre-training on text and image data along with diverse robot demonstrations has helped Vision Language Action models (VLAs) to generalize to novel tasks, objects and scenes. However, these models are still susceptible to failure in the presence of execution-time impediments such as distractors and physical obstructions in the robot's workspace. Existing policy improvement methods finetune base VLAs to improve generalization, yet they still struggle in unseen distractor settings. To address this problem, we investigate whether internet-scale pretraining of large vision-language models (VLMs) can be leveraged to reason about these impediments and mitigate policy failures. To this end, we propose StageCraft, a training-free approach to improve pretrained VLA policy performance by manipulating the environment's initial state using VLM-based in-context reasoning. StageCraft takes policy rollout videos and success labels as input and leverages VLM's reasoning ability to infer which objects in the initial state need to be manipulated to avoid anticipated execution failures. StageCraft is an extensible plug-and-play module that does not introduce additional constraints on the underlying policy, and only requires a few policy rollouts to work. We evaluate performance of state-of-the-art VLA models with StageCraft and show an absolute 40% performance improvement across three real world task domains involving diverse distractors and obstructions. Our simulation experiments in RLBench empirically show that StageCraft tailors its extent of intervention based on the strength of the underlying policy and improves its performance with more in-context samples. Videos of StageCraft in effect can be found at https://stagecraft-decorator.github.io/stagecraft/ .",
+      "authors": [
+        "Kartikay Milind Pangaonkar",
+        "Prabin Rath",
+        "Omkar Patil",
+        "Nakul Gopalan"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T05:30:15+00:00",
+      "link": "https://arxiv.org/pdf/2603.20659v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Mitigating failures in VLA models using internet-scale VLMs",
+      "llm_evidence_cn": "利用互联网规模的VLM减轻VLA模型的失效",
+      "llm_evidence": "利用互联网规模的VLM减轻VLA模型的失效",
+      "canonical_evidence": "利用互联网规模的VLM减轻VLA模型的失效",
+      "llm_tldr_en": "StageCraft leverages VLMs to reason about and mitigate VLA policy failures caused by obstructions.",
+      "llm_tldr_cn": "StageCraft利用VLM对障碍物导致的VLA策略失效进行推理和缓解。",
+      "llm_tldr": "StageCraft利用VLM对障碍物导致的VLA策略失效进行推理和缓解。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20668v1",
+      "title": "ROI-Driven Foveated Attention for Unified Egocentric Representations in Vision-Language-Action Systems",
+      "abstract": "The development of embodied AI systems is increasingly constrained by the availability and structure of physical interaction data. Despite recent advances in vision-language-action (VLA) models, current pipelines suffer from high data collection cost, limited cross-embodiment alignment, and poor transfer from internet-scale visual data to robot control.   We propose a region-of-interest (ROI) driven engineering workflow that introduces an egocentric, geometry-grounded data representation. By projecting end-effector poses via forward kinematics (FK) into a single external camera, we derive movement-aligned hand-centric ROIs without requiring wrist-mounted cameras or multi-view systems. Unlike directly downsampling the full frame, ROI is cropped from the original image before resizing, preserving high local information density for contact-critical regions while retaining global context.   We present a reproducible pipeline covering calibration, synchronization, ROI generation, deterministic boundary handling, and metadata governance. The resulting representation is embodiment-aligned and viewpoint-normalized, enabling data reuse across heterogeneous robots. We argue that egocentric ROI serves as a practical data abstraction for scalable collection and cross-embodiment learning, bridging internet-scale perception and robot-specific control.",
+      "authors": [
+        "Xinhai Sun",
+        "Xiang Shi",
+        "Menglin Zou",
+        "Wenlong Huang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T05:59:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.20668v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "ROI-driven representations for Vision-Language-Action systems",
+      "llm_evidence_cn": "视觉-语言-动作系统的ROI驱动表示",
+      "llm_evidence": "视觉-语言-动作系统的ROI驱动表示",
+      "canonical_evidence": "视觉-语言-动作系统的ROI驱动表示",
+      "llm_tldr_en": "This paper proposes an ROI-driven workflow to improve data efficiency and transfer in VLA models for embodied AI.",
+      "llm_tldr_cn": "本文提出了一种ROI驱动的工作流，以提高具身智能VLA模型的数据效率和迁移能力。",
+      "llm_tldr": "本文提出了一种ROI驱动的工作流，以提高具身智能VLA模型的数据效率和迁移能力。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Vision-Language-Action models for embodied AI",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20711v1",
+      "title": "RoboECC: Multi-Factor-Aware Edge-Cloud Collaborative Deployment for VLA Models",
+      "abstract": "Vision-Language-Action (VLA) models are mainstream in embodied intelligence but face high inference costs. Edge-Cloud Collaborative (ECC) deployment offers an effective fix by easing edge-device computing pressure to meet real-time needs. However, existing ECC frameworks are suboptimal for VLA models due to two challenges: (1) Diverse model structures hinder optimal ECC segmentation point identification; (2) Even if the optimal split point is determined, changes in network bandwidth can cause performance drift. To address these issues, we propose a novel ECC deployment framework for various VLA models, termed RoboECC. Specifically, we propose a model-hardware co-aware segmentation strategy to help find the optimal segmentation point for various VLA models. Moreover, we propose a network-aware deployment adjustment approach to adapt to the network fluctuations for maintaining optimal performance. Experiments demonstrate that RoboECC achieves a speedup of up to 3.28x with only 2.55x~2.62x overhead.",
+      "authors": [
+        "Zihao Zheng",
+        "Hangyu Cao",
+        "Jiayu Chen",
+        "Sicheng Tian",
+        "Chenyue Li",
+        "Maoliang Li",
+        "Xinhao Sun",
+        "Guojie Luo",
+        "Xiang Chen"
+      ],
+      "primary_category": "cs.DC",
+      "categories": [
+        "cs.DC",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "published": "2026-03-21T08:16:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.20711v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Edge-Cloud Collaborative deployment for VLA models in embodied intelligence",
+      "llm_evidence_cn": "具身智能中 VLA 模型的边云协同部署",
+      "llm_evidence": "具身智能中 VLA 模型的边云协同部署",
+      "canonical_evidence": "具身智能中 VLA 模型的边云协同部署",
+      "llm_tldr_en": "RoboECC optimizes the deployment of VLA models across edge and cloud devices to meet real-time robotic needs.",
+      "llm_tldr_cn": "RoboECC 优化了 VLA 模型在边缘和云端的部署，以满足机器人的实时性需求。",
+      "llm_tldr": "RoboECC 优化了 VLA 模型在边缘和云端的部署，以满足机器人的实时性需求。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21315v1",
+      "title": "FluidWorld: Reaction-Diffusion Dynamics as a Predictive Substrate for World Models",
+      "abstract": "World models learn to predict future states of an environment, enabling planning and mental simulation. Current approaches default to Transformer-based predictors operating in learned latent spaces. This comes at a cost: O(N^2) computation and no explicit spatial inductive bias. This paper asks a foundational question: is self-attention necessary for predictive world modeling, or can alternative computational substrates achieve comparable or superior results? I introduce FluidWorld, a proof-of-concept world model whose predictive dynamics are governed by partial differential equations (PDEs) of reaction-diffusion type. Instead of using a separate neural network predictor, the PDE integration itself produces the future state prediction. In a strictly parameter-matched three-way ablation on unconditional UCF-101 video prediction (64x64, ~800K parameters, identical encoder, decoder, losses, and data), FluidWorld is compared against both a Transformer baseline (self-attention) and a ConvLSTM baseline (convolutional recurrence). While all three models converge to comparable single-step prediction loss, FluidWorld achieves 2x lower reconstruction error, produces representations with 10-15% higher spatial structure preservation and 18-25% more effective dimensionality, and critically maintains coherent multi-step rollouts where both baselines degrade rapidly. All experiments were conducted on a single consumer-grade PC (Intel Core i5, NVIDIA RTX 4070 Ti), without any large-scale compute. These results establish that PDE-based dynamics, which natively provide O(N) spatial complexity, adaptive computation, and global spatial coherence through diffusion, are a viable and parameter-efficient alternative to both attention and convolutional recurrence for world modeling.",
+      "authors": [
+        "Fabien Polly"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-22T16:49:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.21315v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Predictive substrate for world models using reaction-diffusion dynamics",
+      "llm_evidence_cn": "使用反应扩散动力学的世界模型预测基质",
+      "llm_evidence": "使用反应扩散动力学的世界模型预测基质",
+      "canonical_evidence": "使用反应扩散动力学的世界模型预测基质",
+      "llm_tldr_en": "FluidWorld introduces a world model based on partial differential equations instead of standard Transformers.",
+      "llm_tldr_cn": "FluidWorld 提出了一种基于偏微分方程而非标准 Transformer 的世界模型。",
+      "llm_tldr": "FluidWorld 提出了一种基于偏微分方程而非标准 Transformer 的世界模型。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "World models in autonomous driving and robotics",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21341v1",
+      "title": "RoboAlign: Learning Test-Time Reasoning for Language-Action Alignment in Vision-Language-Action Models",
+      "abstract": "Improving embodied reasoning in multimodal-large-language models (MLLMs) is essential for building vision-language-action models (VLAs) on top of them to readily translate multimodal understanding into low-level actions. Accordingly, recent work has explored enhancing embodied reasoning in MLLMs through supervision of vision-question-answering type. However, these approaches have been reported to result in unstable VLA performance, often yielding only marginal or even negative gains. In this paper, we propose a more systematic MLLM training framework RoboAlign that reliably improves VLA performance. Our key idea is to sample action tokens via zero-shot natural language reasoning and refines this reasoning using reinforcement learning (RL) to improve action accuracy. As a result, RoboAlign bridges the modality gap between language and low-level actions in MLLMs, and facilitate knowledge transfer from MLLM to VLA. To validate the effectiveness of RoboAlign, we train VLAs by adding a diffusion-based action head on top of an MLLM backbone and evaluate them on major robotics benchmarks. Remarkably, by performing RL-based alignment after SFT using less than 1\\% of the data, RoboAlign achieves performance improvements of 17.5\\%, 18.9\\%, and 106.6\\% over SFT baselines on LIBERO, CALVIN, and real-world environments, respectively.",
+      "authors": [
+        "Dongyoung Kim",
+        "Sumin Park",
+        "Woomin Song",
+        "Seungku Kim",
+        "Taeyoung Kim",
+        "Huiwon Jang",
+        "Jinwoo Shin",
+        "Jaehyung Kim",
+        "Younggyo Seo"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-22T17:57:55+00:00",
+      "link": "https://arxiv.org/pdf/2603.21341v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Learning test-time reasoning for language-action alignment in VLAs",
+      "llm_evidence_cn": "在VLA模型中学习测试时推理以实现语言-动作对齐",
+      "llm_evidence": "在VLA模型中学习测试时推理以实现语言-动作对齐",
+      "canonical_evidence": "在VLA模型中学习测试时推理以实现语言-动作对齐",
+      "llm_tldr_en": "Introduces RoboAlign to improve VLA performance by refining action tokens through zero-shot natural language reasoning.",
+      "llm_tldr_cn": "提出RoboAlign框架，通过零样本自然语言推理优化动作标记，系统性提升VLA性能。",
+      "llm_tldr": "提出RoboAlign框架，通过零样本自然语言推理优化动作标记，系统性提升VLA性能。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.16065v2",
+      "title": "Large Reward Models: Generalizable Online Robot Reward Generation with Vision-Language Models",
+      "abstract": "Reinforcement Learning (RL) has shown great potential in refining robotic manipulation policies, yet its efficacy remains strongly bottlenecked by the difficulty of designing generalizable reward functions. In this paper, we propose a framework for online policy refinement by adapting foundation VLMs into online reward generators. We develop a robust, scalable reward model based on a state-of-the-art VLM, trained on a large-scale, multi-source dataset encompassing real-world robot trajectories, human-object interactions, and diverse simulated environments. Unlike prior approaches that evaluate entire trajectories post-hoc, our method leverages the VLM to formulate a multifaceted reward signal comprising process, completion, and temporal contrastive rewards based on current visual observations. Initializing with a base policy trained via Imitation Learning (IL), we employ these VLM rewards to guide the model to correct sub-optimal behaviors in a closed-loop manner. We evaluate our framework on challenging long-horizon manipulation benchmarks requiring sequential execution and precise control. Crucially, our reward model operates in a purely zero-shot manner within these test environments. Experimental results demonstrate that our method significantly improves the success rate of the initial IL policy within just 30 RL iterations, demonstrating remarkable sample efficiency. This empirical evidence highlights that VLM-generated signals can provide reliable feedback to resolve execution errors, effectively eliminating the need for manual reward engineering and facilitating efficient online refinement for robot learning.",
+      "authors": [
+        "Yanru Wu",
+        "Weiduo Yuan",
+        "Ang Qi",
+        "Vitor Guizilini",
+        "Jiageng Mao",
+        "Yue Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-17T02:22:16+00:00",
+      "link": "https://arxiv.org/pdf/2603.16065v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLM-based reward generation for robotic manipulation refinement",
+      "llm_evidence_cn": "基于VLM的机器人操作优化奖励生成",
+      "llm_evidence": "基于VLM的机器人操作优化奖励生成",
+      "canonical_evidence": "基于VLM的机器人操作优化奖励生成",
+      "llm_tldr_en": "Adapts foundation VLMs into online reward generators to refine robotic manipulation policies via RL.",
+      "llm_tldr_cn": "将基础VLM转化为在线奖励生成器，通过强化学习优化机器人操作策略。",
+      "llm_tldr": "将基础VLM转化为在线奖励生成器，通过强化学习优化机器人操作策略。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.20927v1",
+      "title": "Active Inference for Physical AI Agents -- An Engineering Perspective",
+      "abstract": "Physical AI agents, such as robots and other embodied systems operating under tight and fluctuating resource constraints, remain far less capable than biological agents in open-ended real-world environments. This paper argues that Active Inference (AIF), grounded in the Free Energy Principle, offers a principled foundation for closing that gap. We develop this argument from first principles, following a chain from probability theory through Bayesian machine learning and variational inference to active inference and reactive message passing. From the FEP perspective, systems that maintain their structural and functional integrity over time can, under suitable assumptions, be described as minimizing variational free energy (VFE), and AIF operationalizes this by unifying perception, learning, planning, and control within a single computational objective. We show that VFE minimization is naturally realized by reactive message passing on factor graphs, where inference emerges from local, parallel computations. This realization is well matched to the constraints of physical operation, including hard deadlines, asynchronous data, fluctuating power budgets, and changing environments. Because reactive message passing is event-driven, interruptible, and locally adaptable, performance degrades gracefully under reduced resources while model structure can adjust online. We further show that, under suitable coupling and coarse-graining conditions, coupled AIF agents can be described as higher-level AIF agents, yielding a homogeneous architecture based on the same message-passing primitive across scales. Our contribution is not empirical benchmarking, but a clear theoretical and architectural case for the engineering community.",
+      "authors": [
+        "Bert de Vries"
+      ],
+      "primary_category": "stat.ML",
+      "categories": [
+        "stat.ML",
+        "cs.LG"
+      ],
+      "published": "2026-03-21T20:06:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.20927v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Active inference for physical AI agents and robots",
+      "llm_evidence_cn": "物理AI智能体与机器人的主动推理",
+      "llm_evidence": "物理AI智能体与机器人的主动推理",
+      "canonical_evidence": "物理AI智能体与机器人的主动推理",
+      "llm_tldr_en": "Explores Active Inference as a principled foundation for physical AI agents to operate in real-world environments.",
+      "llm_tldr_cn": "探讨主动推理作为物理AI智能体在现实环境中运行的原则性基础。",
+      "llm_tldr": "探讨主动推理作为物理AI智能体在现实环境中运行的原则性基础。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.21988v1",
+      "title": "TREX: Trajectory Explanations for Multi-Objective Reinforcement Learning",
+      "abstract": "Reinforcement Learning (RL) has demonstrated its ability to solve complex decision-making problems in a variety of domains, by optimizing reward signals obtained through interaction with an environment. However, many real-world scenarios involve multiple, potentially conflicting objectives that cannot be easily represented by a single scalar reward. Multi-Objective Reinforcement Learning (MORL) addresses this limitation by enabling agents to optimize several objectives simultaneously, explicitly reasoning about trade-offs between them. However, the ``black box\" nature of the RL models makes the decision process behind chosen objective trade-offs unclear. Current Explainable Reinforcement Learning (XRL) methods are typically designed for single scalar rewards and do not account for explanations with respect to distinct objectives or user preferences. To address this gap, in this paper we propose TREX, a Trajectory based Explainability framework to explain Multi-objective Reinforcement Learning policies, based on trajectory attribution.   TREX generates trajectories directly from the learned expert policy, across different user preferences and clusters them into semantically meaningful temporal segments. We quantify the influence of these behavioural segments on the Pareto trade-off by training complementary policies that exclude specific clusters, measuring the resulting relative deviation on the observed rewards and actions compared to the original expert policy. Experiments on multi-objective MuJoCo environments - HalfCheetah, Ant and Swimmer, demonstrate the framework's ability to isolate and quantify the specific behavioural patterns.",
+      "authors": [
+        "Dilina Rajapakse",
+        "Juan C. Rosero",
+        "Ivana Dusparic"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "published": "2026-03-23T13:55:14+00:00",
+      "link": "https://arxiv.org/pdf/2603.21988v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Multi-objective reinforcement learning for decision making",
+      "llm_evidence_cn": "用于决策的多目标强化学习",
+      "llm_evidence": "用于决策的多目标强化学习",
+      "canonical_evidence": "用于决策的多目标强化学习",
+      "llm_tldr_en": "Develops trajectory explanations for multi-objective reinforcement learning to improve model transparency.",
+      "llm_tldr_cn": "为多目标强化学习开发轨迹解释方法，以提高模型决策的透明度。",
+      "llm_tldr": "为多目标强化学习开发轨迹解释方法，以提高模型决策的透明度。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.17459v1",
+      "title": "P$^{3}$Nav: End-to-End Perception, Prediction and Planning for Vision-and-Language Navigation",
+      "abstract": "In Vision-and-Language Navigation (VLN), an agent is required to plan a path to the target specified by the language instruction, using its visual observations. Consequently, prevailing VLN methods primarily focus on building powerful planners through visual-textual alignment. However, these approaches often bypass the imperative of comprehensive scene understanding prior to planning, leaving the agent with insufficient perception or prediction capabilities. Thus, we propose P$^{3}$Nav, a novel end-to-end framework integrating perception, prediction, and planning in a unified pipeline to strengthen the VLN agent's scene understanding and boost navigation success. Specifically, P$^{3}$Nav augments perception by extracting complementary cues from object-level and map-level perspectives. Subsequently, our P$^{3}$Nav predicts waypoints to model the agent's potential future states, endowing the agent with intrinsic awareness of candidate positions during navigation. Conditioned on these future waypoints, P$^{3}$Nav further forecasts semantic map cues, enabling proactive planning and reducing the strict reliance on purely historical context. Integrating these perceptual and predictive cues, a holistic planning module finally carries out the VLN tasks. Extensive experiments demonstrate that our P$^{3}$Nav achieves new state-of-the-art performance on the REVERIE, R2R-CE, and RxR-CE benchmarks.",
+      "authors": [
+        "Tianfu Li",
+        "Wenbo Chen",
+        "Haoxuan Xu",
+        "Xinhu Zheng",
+        "Haoang Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-18T08:04:53+00:00",
+      "link": "https://arxiv.org/pdf/2603.17459v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "end-to-end perception, prediction and planning for embodied navigation",
+      "llm_evidence_cn": "具身导航的端到端感知、预测和规划",
+      "llm_evidence": "具身导航的端到端感知、预测和规划",
+      "canonical_evidence": "具身导航的端到端感知、预测和规划",
+      "llm_tldr_en": "Integrates perception and prediction into a unified pipeline to boost vision-and-language navigation success.",
+      "llm_tldr_cn": "将感知和预测集成到统一流程中，以提升视觉语言导航的成功率。",
+      "llm_tldr": "将感知和预测集成到统一流程中，以提升视觉语言导航的成功率。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.21427v1",
+      "title": "Dynasto: Validity-Aware Dynamic-Static Parameter Optimization for Autonomous Driving Testing",
+      "abstract": "Extensive simulation-based testing is important for assuring the safety of autonomous driving systems (ADS). However, generating safety-critical traffic scenarios remains challenging because failures often arise from rare, complex interactions with surrounding vehicles. Existing automatic scenario-generation approaches frequently fail to distinguish genuine ADS faults from collisions caused by implausible or invalid adversarial behaviors, and they typically optimize either scenario initialization or agent behavior in isolation.   We propose Dynasto, a two-step testing approach that jointly optimizes initial scenario parameters and dynamic adversarial behaviors to uncover realistic safety-critical failures. First, we train an adversarial agent using reinforcement learning (RL) with temporal-logic-based validity criteria and a safe-distance model inspired by ISO 34502 to promote behaviorally plausible failures. Second, a genetic algorithm (GA) searches over initial conditions while replaying the adversary's failure-inducing behaviors to reveal additional failures that the RL agent alone does not uncover. Finally, a graph-based clustering pipeline groups failures into representative modes based on semantic event sequences.   Our evaluation experiments in HighwayEnv across two ADS controllers show that Dynasto finds 60%-70% more valid failures than an RL-only adversary under the same evaluation budget. With clustering, we obtain about 12 interpretable failure modes per system under test, revealing valid failures driven by weaknesses in ego-controller behavior. These results indicate that coordinated dynamic-static optimization with explicit validity constraints is effective for exposing safety-relevant failures in ADS testing.",
+      "authors": [
+        "Dmytro Humeniuk",
+        "Mohammad Hamdaqa",
+        "Houssem Ben Braiek",
+        "Amel Bennaceur",
+        "Foutse Khomh"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-03-22T22:35:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.21427v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Scenario generation for autonomous driving testing",
+      "llm_evidence_cn": "自动驾驶测试的场景生成",
+      "llm_evidence": "自动驾驶测试的场景生成",
+      "canonical_evidence": "自动驾驶测试的场景生成",
+      "llm_tldr_en": "Dynasto jointly optimizes scenario parameters and adversarial behaviors to uncover safety-critical failures in ADS.",
+      "llm_tldr_cn": "Dynasto 通过联合优化场景参数和对抗行为，揭示自动驾驶系统中的安全关键故障。",
+      "llm_tldr": "Dynasto 通过联合优化场景参数和对抗行为，揭示自动驾驶系统中的安全关键故障。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.18271v2",
+      "title": "SG-CoT: An Ambiguity-Aware Robotic Planning Framework using Scene Graph Representations",
+      "abstract": "Ambiguity poses a major challenge to large language models (LLMs) used as robotic planners. In this letter, we present Scene Graph-Chain-of-Thought (SG-CoT), a two-stage framework where LLMs iteratively query a scene graph representation of the environment to detect and clarify ambiguities. First, a structured scene graph representation of the environment is constructed from input observations, capturing objects, their attributes, and relationships with other objects. Second, the LLM is equipped with retrieval functions to query portions of the scene graph that are relevant to the provided instruction. This grounds the reasoning process of the LLM in the observation, increasing the reliability of robotic planners under ambiguous situations. SG-CoT also allows the LLM to identify the source of ambiguity and pose a relevant disambiguation question to the user or another robot. Extensive experimentation demonstrates that SG-CoT consistently outperforms prior methods, with a minimum of 10% improvement in question accuracy and a minimum success rate increase of 4% in single-agent and 15% in multi-agent environments, validating its effectiveness for more generalizable robot planning.",
+      "authors": [
+        "Akshat Rana",
+        "Peeyush Agarwal",
+        "K. P. S. Rana",
+        "Amarjit Malhotra"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-18T20:44:34+00:00",
+      "link": "https://arxiv.org/pdf/2603.18271v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Robotic planning using scene graphs and LLMs",
+      "llm_evidence_cn": "使用场景图和LLM的机器人规划",
+      "llm_evidence": "使用场景图和LLM的机器人规划",
+      "canonical_evidence": "使用场景图和LLM的机器人规划",
+      "llm_tldr_en": "SG-CoT uses scene graph representations to ground LLM reasoning for more reliable robotic planning.",
+      "llm_tldr_cn": "SG-CoT利用场景图表示来约束LLM推理，从而实现更可靠的机器人规划。",
+      "llm_tldr": "SG-CoT利用场景图表示来约束LLM推理，从而实现更可靠的机器人规划。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.18853v1",
+      "title": "Learn for Variation: Variationally Guided AAV Trajectory Learning in Differentiable Environments",
+      "abstract": "Autonomous aerial vehicles (AAVs) empower sixth-generation (6G) Internet-of-Things (IoT) networks through mobility-driven data collection. However, conventional reward-driven reinforcement learning for AAV trajectory planning suffers from severe credit assignment issues and training instability, because sparse scalar rewards fail to capture the long-term and nonlinear effects of sequential movements. To address these challenges, this paper proposes Learn for Variation (L4V), a gradient-informed trajectory learning framework that replaces high-variance scalar reward signals with dense and analytically grounded policy gradients. Particularly, the coupled evolution of AAV kinematics, distance-dependent channel gains, and per-user data-collection progress is first unrolled into an end-to-end differentiable computational graph. Backpropagation through time then serves as a discrete adjoint solver, which propagates exact sensitivities from the cumulative mission objective to every control action and policy parameter. These structured gradients are used to train a deterministic neural policy with temporal smoothness regularization and gradient clipping. Extensive simulations demonstrate that L4V consistently outperforms representative baselines, including a genetic algorithm, DQN, A2C, and DDPG, in mission completion time, average transmission rate, and training cost",
+      "authors": [
+        "Xiucheng Wang",
+        "Zhenye Chen",
+        "Nan Cheng"
+      ],
+      "primary_category": "eess.SY",
+      "categories": [
+        "eess.SY",
+        "cs.LG"
+      ],
+      "published": "2026-03-19T12:57:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.18853v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Reinforcement learning for autonomous aerial vehicle trajectory",
+      "llm_evidence_cn": "自动驾驶飞行器轨迹规划的强化学习",
+      "llm_evidence": "自动驾驶飞行器轨迹规划的强化学习",
+      "canonical_evidence": "自动驾驶飞行器轨迹规划的强化学习",
+      "llm_tldr_en": "Proposes a gradient-informed trajectory learning framework to solve credit assignment in AAV reinforcement learning.",
+      "llm_tldr_cn": "提出一种梯度信息引导的轨迹学习框架，解决无人机强化学习中的信用分配问题。",
+      "llm_tldr": "提出一种梯度信息引导的轨迹学习框架，解决无人机强化学习中的信用分配问题。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.19709v1",
+      "title": "Morphology-Consistent Humanoid Interaction through Robot-Centric Video Synthesis",
+      "abstract": "Equipping humanoid robots with versatile interaction skills typically requires either extensive policy training or explicit human-to-robot motion retargeting. However, learning-based policies face prohibitive data collection costs. Meanwhile, retargeting relies on human-centric pose estimation (e.g., SMPL), introducing a morphology gap. Skeletal scale mismatches result in severe spatial misalignments when mapped to robots, compromising interaction success. In this work, we propose Dream2Act, a robot-centric framework enabling zero-shot interaction through generative video synthesis. Given a third-person image of the robot and target object, our framework leverages video generation models to envision the robot completing the task with morphology-consistent motion. We employ a high-fidelity pose extraction system to recover physically feasible, robot-native joint trajectories from these synthesized dreams, subsequently executed via a general-purpose whole-body controller. Operating strictly within the robot-native coordinate space, Dream2Act avoids retargeting errors and eliminates task-specific policy training. We evaluate Dream2Act on the Unitree G1 across four whole-body mobile interaction tasks: ball kicking, sofa sitting, bag punching, and box hugging. Dream2Act achieves a 37.5% overall success rate, compared to 0% for conventional retargeting. While retargeting fails to establish correct physical contacts due to the morphology gap (with errors compounded during locomotion), Dream2Act maintains robot-consistent spatial alignment, enabling reliable contact formation and substantially higher task completion.",
+      "authors": [
+        "Weisheng Xu",
+        "Jian Li",
+        "Yi Gu",
+        "Bin Yang",
+        "Haodong Chen",
+        "Shuyi Lin",
+        "Mingqian Zhou",
+        "Jing Tan",
+        "Qiwei Wu",
+        "Xiangrui Jiang",
+        "Taowen Wang",
+        "Jiawen Wen",
+        "Qiwei Liang",
+        "Jiaxi Zhang",
+        "Renjing Xu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-20T07:27:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.19709v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Generative video synthesis for humanoid robot interaction",
+      "llm_evidence_cn": "人形机器人交互的生成式视频合成",
+      "llm_evidence": "人形机器人交互的生成式视频合成",
+      "canonical_evidence": "人形机器人交互的生成式视频合成",
+      "llm_tldr_en": "Uses video generation as a world-model-like approach for zero-shot humanoid robot task completion.",
+      "llm_tldr_cn": "利用视频生成作为类世界模型的方法，实现人形机器人的零样本任务完成。",
+      "llm_tldr": "利用视频生成作为类世界模型的方法，实现人形机器人的零样本任务完成。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "carryover_cache",
+      "paper_id": "2603.19709v1",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.20679v1",
+      "title": "Enhancing Vision-Based Policies with Omni-View and Cross-Modality Knowledge Distillation for Mobile Robots",
+      "abstract": "Vision-based policies are widely applied in robotics for tasks such as manipulation and locomotion. On lightweight mobile robots, however, they face a trilemma of limited scene transferability, restricted onboard computation resources, and sensor hardware cost. To address these issues, we propose a knowledge distillation approach that transfers knowledge from an information-rich, appearance invariant omniview depth policy to a lightweight monocular policy. The key idea is to train the student not only to mimic the expert actions but also to align with the latent embeddings of the omni view depth teacher. Experiments demonstrate that omni-view and depth inputs improve the scene transfer and navigation performance, and that the proposed distillation method enhances the performance of a singleview monocular policy, compared with policies solely imitating actions. Real world experiments further validate the effectiveness and practicality of our approach. Code will be released publicly.",
+      "authors": [
+        "Kai Li",
+        "Shiyu Zhao"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-21T06:38:30+00:00",
+      "link": "https://arxiv.org/pdf/2603.20679v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Vision-based policies for mobile robot navigation and manipulation",
+      "llm_evidence_cn": "移动机器人导航与操作的视觉策略",
+      "llm_evidence": "移动机器人导航与操作的视觉策略",
+      "canonical_evidence": "移动机器人导航与操作的视觉策略",
+      "llm_tldr_en": "This paper uses knowledge distillation to enhance lightweight vision policies for mobile robot navigation.",
+      "llm_tldr_cn": "本文通过知识蒸馏增强了用于移动机器人导航的轻量级视觉策略。",
+      "llm_tldr": "本文通过知识蒸馏增强了用于移动机器人导航的轻量级视觉策略。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.21061v1",
+      "title": "Single-Eye View: Monocular Real-time Perception Package for Autonomous Driving",
+      "abstract": "Amidst the rapid advancement of camera-based autonomous driving technology, effectiveness is often prioritized with limited attention to computational efficiency. To address this issue, this paper introduces LRHPerception, a real-time monocular perception package for autonomous driving that uses single-view camera video to interpret the surrounding environment. The proposed system combines the computational efficiency of end-to-end learning with the rich representational detail of local mapping methodologies. With significant improvements in object tracking and prediction, road segmentation, and depth estimation integrated into a unified framework, LRHPerception processes monocular image data into a five-channel tensor consisting of RGB, road segmentation, and pixel-level depth estimation, augmented with object detection and trajectory prediction. Experimental results demonstrate strong performance, achieving real-time processing at 29 FPS on a single GPU, representing a 555% speedup over the fastest mapping-based approach.",
+      "authors": [
+        "Haixi Zhang",
+        "Aiyinsi Zuo",
+        "Zirui Li",
+        "Chunshu Wu",
+        "Tong Geng",
+        "Zhiyao Duan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-22T05:04:40+00:00",
+      "link": "https://arxiv.org/pdf/2603.21061v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Real-time monocular perception for autonomous driving",
+      "llm_evidence_cn": "自动驾驶的实时单目感知",
+      "llm_evidence": "自动驾驶的实时单目感知",
+      "canonical_evidence": "自动驾驶的实时单目感知",
+      "llm_tldr_en": "LRHPerception is a computationally efficient monocular perception package for real-time autonomous driving tasks.",
+      "llm_tldr_cn": "LRHPerception是一个高效的单目感知包，用于实时自动驾驶任务。",
+      "llm_tldr": "LRHPerception是一个高效的单目感知包，用于实时自动驾驶任务。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.21269v1",
+      "title": "DyGeoVLN: Infusing Dynamic Geometry Foundation Model into Vision-Language Navigation",
+      "abstract": "Vision-language Navigation (VLN) requires an agent to understand visual observations and language instructions to navigate in unseen environments. Most existing approaches rely on static scene assumptions and struggle to generalize in dynamic, real-world scenarios. To address this challenge, we propose DyGeoVLN, a dynamic geometry-aware VLN framework. Our method infuses a dynamic geometry foundation model into the VLN framework through cross-branch feature fusion to enable explicit 3D spatial representation and visual-semantic reasoning. To efficiently compress historical token information in long-horizon, dynamic navigation, we further introduce a novel pose-free and adaptive-resolution token-pruning strategy. This strategy can remove spatio-temporal redundant tokens to reduce inference cost. Extensive experiments demonstrate that our approach achieves state-of-the-art performance on multiple benchmarks and exhibits strong robustness in real-world environments.",
+      "authors": [
+        "Xiangchen Liu",
+        "Hanghan Zheng",
+        "Jeil Jeong",
+        "Minsung Yoon",
+        "Lin Zhao",
+        "Zhide Zhong",
+        "Haoang Li",
+        "Sung-Eui Yoon"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T14:56:59+00:00",
+      "link": "https://arxiv.org/pdf/2603.21269v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Dynamic geometry foundation model for vision-language navigation",
+      "llm_evidence_cn": "用于视觉-语言导航的动态几何基础模型",
+      "llm_evidence": "用于视觉-语言导航的动态几何基础模型",
+      "canonical_evidence": "用于视觉-语言导航的动态几何基础模型",
+      "llm_tldr_en": "Integrates dynamic geometry into VLN to improve navigation performance in real-world, changing environments.",
+      "llm_tldr_cn": "将动态几何基础模型引入视觉语言导航，提升了智能体在动态现实环境中的感知与推理能力。",
+      "llm_tldr": "将动态几何基础模型引入视觉语言导航，提升了智能体在动态现实环境中的感知与推理能力。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    }
+  ]
+}
