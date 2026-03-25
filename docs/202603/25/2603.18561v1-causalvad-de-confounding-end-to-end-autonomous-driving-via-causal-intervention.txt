@@ -1,0 +1,892 @@
+Title: CausalVAD: De-confounding End-to-End Autonomous Driving via Causal Intervention
+
+URL Source: https://arxiv.org/pdf/2603.18561v1
+
+Published Time: Fri, 20 Mar 2026 00:45:38 GMT
+
+Number of Pages: 15
+
+Markdown Content:
+# CausalVAD: De-confounding End-to-End Autonomous Driving via Causal Intervention 
+
+## Jiacheng Tang 1* Zhiyuan Zhou 1* Zhuolin He 1 Jia Zhang 3 Kai Zhang 4 Jian Pu 1,2† 
+
+> 1
+
+## Fudan University 2 Embodiq Robotics Co., Ltd.  
+
+> 3
+
+## Beijing Institute of Technology 4 East China Normal University 
+
+{jiachengtang21, zhouzy25, zlhe22 }@m.fudan.edu.cn, zhangjia@bit.edu.cn, kzhang@cs.ecnu.edu.cn, jianpu@fudan.edu.cn 
+
+## Abstract 
+
+Planning-oriented end-to-end driving models show great promise, yet they fundamentally learn statistical correla-tions instead of true causal relationships. This vulner-ability leads to causal confusion, where models exploit dataset biases as shortcuts, critically harming their reliabil-ity and safety in complex scenarios. To address this, we in-troduce CausalVAD, a de-confounding training framework that leverages causal intervention. At its core, we design the sparse causal intervention scheme (SCIS), a lightweight, plug-and-play module to instantiate the backdoor adjust-ment theory in neural networks. SCIS constructs a dictio-nary of prototypes representing latent driving contexts. It then uses this dictionary to intervene on the model’s sparse vectorized queries. This step actively eliminates spurious associations induced by confounders, thereby eliminating spurious factors from the representations for downstream tasks. Extensive experiments on benchmarks like nuScenes show CausalVAD achieves state-of-the-art planning accu-racy and safety. Furthermore, our method demonstrates superior robustness against both data bias and noisy sce-narios configured to induce causal confusion. 
+
+## 1. Introduction 
+
+In recent years, planning-oriented end-to-end autonomous driving models have achieved remarkable progress [5, 13, 16, 27]. By jointly optimizing perception, prediction, and planning within a unified framework, these models attempt to directly map raw sensor data to final driving decisions. Seminal works like UniAD [13] and VAD [16] have en-hanced model interpretability by exposing structured inter-mediate representations of the scene (e.g., object trajecto-ries, map elements), partially opening up the black box.  
+
+> *These authors contributed equally to this work.
+> †Corresponding author. Sensor Data Trajectory
+> E2E Model
+
+Z
+
+S Y
+
+Z    
+
+> SY
+> Existing E2Es VLMs Ours
+> Correlativity Causality Hallucination
+
+Z
+
+S Y
+
+S Scene  
+
+> Representation
+
+Z Confounder Causal Arrow 
+
+> Path Blocking
+
+Y Predictions 
+
+Figure 1. The problem of spurious correlation. (Left) Standard end-to-end models learn the observational correlation P (Y |S),making them vulnerable to latent confounders Z (e.g., scene con-text) that create a spurious backdoor path ( S ← Z → Y ). (Mid-dle) VLM-based approaches suffer from the same confounding and introduce hallucinations. (Right) Our CausalVAD performs a causal intervention P (Y |do (S)) via backdoor adjustment, sev-ering the spurious link to learn the true causal effect for robust and trustworthy decision-making. 
+
+Nevertheless, a more profound challenge emerges: how to ensure the explanations provided by the model are both logically valid and faithful to its internal decision-making mechanism [1, 18, 32]? Current efforts to improve the decision interpretability of these models primarily follow two paths. The first path, refining the multi-task learning paradigm, essentially learns the statistical correlation among modules rather than the un-derlying causal relationships, as depicted in Figure 1 (left). This renders models prone to exploiting spurious correla-tions in the dataset, a phenomenon known as shortcut learn-ing [11, 21]. For instance, in an imitation learning setup, a model might discover that the ego-vehicle’s own past kine-matic states (e.g., velocity, acceleration) are highly pre-dictive of the expert’s future decisions. This reliance on 
+
+> arXiv:2603.18561v1 [cs.CV] 19 Mar 2026
+
+its own history, a form of spurious self-correlation, per-forms exceptionally well in open-loop evaluations [21]. In real-world closed-loop deployment, however, any minor de-viation from the expert’s trajectory gets rapidly amplified through this historical dependency, leading to catastrophic performance degradation [6, 21]. This phenomenon is a classic manifestation of causal confusion [9, 24, 28]. The model mistakenly identifies a correlated variable, its own past state, as the cause for its next maneuver. In reality, the true driver for its behavior should be a reaction to the surrounding environment. The other mainstream approach involves integrating large vision-language models (VLMs) to endow models with higher-level reasoning [29, 34, 36]. VLMs can leverage their vast world knowledge to gen-erate natural language explanations for driving decisions. Their inherent problems, such as hallucination [18, 23] and pseudo-faithfulness [32], severely limit their applica-tion in the safety-critical domain of autonomous driving. As shown in Figure 1 (middle), VLM-generated explana-tions may sound plausible but can be entirely disconnected from the model’s actual decision-making process [32], in-troducing new and unpredictable risks to system reliability. For the pursuit of trustworthy autonomous driving, we contend that layering an unreliable explanation module onto a flawed correlation-based learning framework may not be a viable path. Instead, we advocate for a funda-mental reshaping of the model’s learning objective: shift-ing from fitting correlations to inferring causation. We posit that a modular, multi-task architecture is the foun-dation for reliable interpretability, but only if the connec-tions between its modules are causal. To this end, we pro-pose a novel training paradigm that aims to learn the true causal effect from scene representation to planning, i.e., 
+
+P (planning |do (scene )) [25], rather than the conventional conditional probability P (planning |scene ), as illustrated in Figure 1 (right). Specifically, we first formulate a struc-tural causal model (SCM) for end-to-end autonomous driv-ing and identify the backdoor path introduced by latent con-founders (e.g., scene context) that leads to spurious correla-tions. Guided by the principle of backdoor adjustment from causal inference [25], we design a sparse causal interven-tion scheme (SCIS). SCIS operationalizes the do-operator within the neural network by leveraging a pre-computed confounder dictionary to represent latent driving contexts and performing a parameterized causal intervention on the efficient vectorized scene queries of the VAD model. This process severs the formation of spurious associations, com-pelling the planning module to make decisions based on the true causal effects of the scene representation. We instanti-ate SCIS on the VAD architecture, proposing CausalVAD. We conduct extensive experiments on multiple bench-marks, including nuScenes [3], NAVSIM [8], and Bench2Drive [15]. The results demonstrate that Causal-VAD not only surpasses state-of-the-art methods on stan-dard evaluation metrics, but crucially exhibits significantly enhanced robustness in noisy scenarios designed to induce causal confusion. Our contributions are as follows: • We introduce a formal causal analysis of modern planning-oriented end-to-end autonomous driving mod-els and propose a practical de-confounding framework. • We propose SCIS, a plug-and-play design that parame-terizes backdoor adjustment. We reveal and leverage the intrinsic synergy between VAD’s sparse vectorized repre-sentation and our causal intervention mechanism. • Our CausalVAD significantly improves planning safety and robustness across multiple datasets, offering a new pathway toward more trustworthy autonomous driving. 
+
+## 2. Related work 
+
+Planning-oriented end-to-end autonomous driving. 
+
+Recent advances in end-to-end autonomous driving have largely focused on architectural innovations for enhanced scene representation. Early works, such as LBC [4], utilized implicit Bird’s-Eye-View (BEV) representations. The paradigm then evolved to incorporate explicit and interpretable intermediate representations [19, 35]. One line of work employs rasterized BEV feature maps as a unified scene representation, exemplified by UniAD [13] and ST-P3 [12]. To further improve efficiency and preci-sion, another line of work has shifted towards vectorized representations, which directly model scene elements like lanes and obstacles on sparse, learnable queries [20]. VAD [16] and SparseDrive [27] are prominent examples of this approach. While these works have achieved great success at the network architecture level, they commonly adopt standard supervised learning objectives, which constrains their ability to learn causal relationships between modules. Our work is orthogonal to these architectural explorations. We focus on introducing a new paradigm aimed at fundamentally enhancing the model’s causal reasoning capabilities. 
+
+Causal confounding in driving models. Causal confu-sion is a recognized challenge in data-driven driving mod-els [9, 24], with shortcut learning being a typical manifesta-tion [11]. One line of work mitigates this issue using heuris-tic methods. For instance, studies have employed state dropout [6] or diverse data augmentation techniques [21] to force the model to reduce its reliance on spurious corre-lations. A more principled line of work attempts to apply causal theory. Some studies leverage counterfactual reason-ing [30] or causal discovery algorithms [26] for offline anal-ysis of driving behavior or for decision-making in simplified scenarios. However, seamlessly and efficiently integrating rigorous causal intervention theory into the online training Multi-view  
+
+> Images
+> BEV
+> Encoder
+> BEV Feature
+
+O
+
+M
+
+> Mapping
+> Decoder
+> Detection
+> Decoder
+
+M
+
+O
+
+Ym
+
+Yo
+
+A
+
+> PDM
+> IDM
+> IDM
+> IDM
+> PDM
+> Agent-Map
+> Interaction
+> Agent-Object
+> Interaction
+> Motion
+> Decoder
+
+A IDM K 
+
+> V
+> Q
+> Planning Decoder
+
+E 
+
+> Ego-Map
+> Interaction
+> Ego-Agent
+> Interaction
+> Q
+> KV
+
+E 
+
+> K
+> V
+> Q
+> K
+> V
+> Q
+> Perception De-confounding Module
+
+S L    
+
+> FFN
+> Weighted
+> Integration
+> FFN
+> ZZZ
+> KV
+> Interaction De-confounding Module
+
+S S  
+
+> Cross
+> Attention
+> Gating
+> Unit
+> De-confounding
+> Q
+> ZZZ
+
+B BEV  
+
+> Query
+
+O Object  
+
+> Query
+
+A Agent 
+
+> Query
+
+M Map  
+
+> Query
+
+E Ego  
+
+> Query
+
+S Scene  
+
+> Representation
+
+Z Confounder Confounder 
+
+> Dictionary
+
+L Logits Add Hadamard 
+
+> Product
+
+Figure 2. The overall architecture of CausalVAD. Our method performs precise, multi-stage causal interventions at critical information hubs within the VAD pipeline. (1) Perception stage (bottom left): The perception de-confounding module (PDM) operates on the classification logits ( Yo, Y m). A dual-branch structure adjusts the direct classification score L against a bias score derived from the confounder dictio-naries ( {Z o}, {Z m}), outputting de-confounded logits. (2) Prediction and planning stages (bottom right): The interaction de-confounding module (IDM) removes spurious factors from queries before fusion in downstream tasks. IDM utilizes cross-attention to estimate the spurious component predictable from the context. This component is scaled by a gating unit and subtracted from the original query to block spurious associations. 
+
+of large-scale end-to-end models remains a significant chal-lenge. Our work aims to fill this gap by proposing the scal-able, plug-and-play, online de-confounding training scheme grounded in the theory of backdoor adjustment [24]. 
+
+VLM-based driving models. Large Vision-Language Models (VLMs) are being actively explored in autonomous driving for their powerful commonsense reasoning and in-teractive capabilities. Current applications can be broadly categorized into two types. The first category uses VLMs as a high-level decision brain for parsing complex scenes, pre-dicting intentions, and making macroscopic plans [17, 29]. The second category leverages VLMs to provide natural language explanations for the model’s decisions, aiming to enhance system transparency [10, 14]. Despite their promise, a core challenge for these methods is the lack of guaranteed faithfulness [32]. The VLM’s reasoning pro-cess may be disconnected from the underlying generation of the driving policy. This poses a significant risk in safety-critical applications. CausalVAD takes a different path. In-stead of relying on external knowledge sources, we enforce the causal validity and internal consistency of the model’s decision logic through causal intervention. 
+
+## 3. Method 
+
+As illustrated in Figure 2, we propose CausalVAD, a de-confounding framework for mitigating spurious correla-tions in planning-oriented autonomous driving models. To address this, we design a novel SCIS by instantiating causal inference theory [25]. We detail its theoretical foundations, M B O
+
+A
+
+E
+
+I
+
+YoYm
+
+(a) Causal graph Zm
+
+M Ym
+
+Zo
+
+O Yo (b) Perception Zo
+
+M A
+
+Zm
+
+O A (c) Prediction Zm
+
+A E
+
+Za
+
+M E (d) Planning 
+
+Figure 3. The structural causal model (SCM) of VAD. The sub-figure (a) illustrates the causal flow between key representations. The sub-figures (b)-(d) on the right highlights several key con-founders Z that introduce backdoor paths. 
+
+describe the construction of a multi-modal confounder dic-tionary, and present its two key causal intervention modules. 
+
+3.1. Causal graph and problem formulation 
+
+To precisely locate and resolve issues arising from spuri-ous correlations, we begin by formalizing VAD’s modu-lar pipeline as a structural causal model (SCM), depicted in Figure 3. In this causal graph, nodes represent key in-termediate representations, and directed edges denote the causal direction of information flow. Specifically, I repre-sents multi-view image inputs, B is the unified BEV feature map, O, M, A, E are the sparse queries for Objects, Map, Agents, and the Ego-vehicle, respectively, and Yo, Ym are the classification outputs for the perception tasks. By applying the d-separation criterion [25] to this graph, we identify three primary sources of causal confounding. Co-occurrence bias in perception. In the path O → Yo, the model aims to classify objects based on their query features. However, training data is replete with co-occurrence bias. For instance, pedestrians and strollers of-ten appear together. This co-occurrence acts as a latent con-founder Zo (e.g., stroller is present in the scene ), opening a spurious path O ← Z o → Y o. This causes the model to erroneously use the stroller context as a shortcut when clas-sifying pedestrian , rather than relying on the pedestrian’s intrinsic visual features. Similarly, for the map task path 
+
+M → Y m, analogous co-occurrence biases (e.g., traffic light and crosswalk ) introduce a confounder Zm, opening a backdoor path M ← Z m → Y m and degrading map ele-ment classification. 
+
+BEV features as a common cause. In the motion pre-diction task, the generation of the Agent query A depends on both the Object query O and the Map query M. Since both O and M are generated from BEV features B, B acts as a common cause. This opens two symmetric backdoor paths: for O → A , the path O ← B → M → A exists, and for M → A , the path M ← B → O → A exists. This confounding makes it difficult to disentangle whether an agent’s motion (from A) is a reaction to dynamic objects (from O) or to the static map (from M), as both represen-tations are spuriously correlated by their common origin B.
+
+Input correlation in planning. In the planning task, the Ego query E bases its decision on the dynamic Agents 
+
+A and the static Map M. These two inputs, however, are highly correlated, as they share a deep common cause B and 
+
+M is a cause of A. This correlation confounds the planner, making it difficult to learn the pure causal contribution of the A → E and M → E paths independently. For instance, if agents braking (from A) occurs predominantly at inter-sections (from M) in the training data, the model may learn a spurious shortcut intersection → decelerate . This could cause the ego-vehicle to slow down unnecessarily at empty intersections or, conversely, react sluggishly to a braking agent in a non-intersection setting. The above analysis reveals that causal confounding in the VAD framework is not a single failure point but a cas-cading systemic issue. Within VAD’s information flow, per-ception, prediction, and planning are sequential stages. The classification bias in perception, representation confound-ing in prediction, and input correlation confounding in plan-ning are thus distinct problems at different informational hubs. Therefore, a rigorous de-confounding solution must be multi-stage, applying precise, targeted causal interven-tions at each critical node. 
+
+3.2. De-confounding via causal intervention 
+
+Despite their different manifestations, all confounding is-sues identified above stem from a common structure in the causal graph: a backdoor path S ← Z → Y introduced Z                 
+
+> SY
+> �(�|�)�(�|do(�))
+> Z
+> SY
+> Do-operator
+> Figure 4. The backdoor adjustment [25] principle. A confounder
+> Zopens a spurious backdoor path S←Z→Y. Applying the do-operator, i.e., P(Y|do (S)) , severs this path, isolating the pure causal effect S→Y.
+
+by a confounder Z, which contaminates the target causal path S → Y (Figure 4). Conventional supervised learn-ing optimizes the observational probability P (Y |S), which conflates the true causal effect with spurious associations. Our key insight is that these backdoor paths can be ac-tively severed by operationalizing Pearl’s backdoor adjust-ment principle [25]. To this end, the learning objective should shift to estimating the post-intervention distribution 
+
+P (Y |do (S)) , which can be computed by: 
+
+P (Y |do (S = s)) = X
+
+> z
+
+P (Y |S = s, Z = z)P (Z = z).
+
+(1) The primary challenge in applying this formula is that the confounder Z is latent and high-dimensional. We therefore propose SCIS, a general framework designed to tackle this challenge by operationalizing the backdoor adjustment the-ory. The core idea of SCIS is to model the latent confounder using a learnable proxy and to perform a parameterized in-tervention on the information flow within the neural net-work accordingly. 
+
+3.3. Instantiation of SCIS 
+
+We instantiate the SCIS framework into two key compo-nents: a multi-modal confounder dictionary and a set of pa-rameterized causal intervention modules. 
+
+3.3.1. Multi-modal confounder dictionary construction 
+
+To model the latent confounder Z, we employ a proxy, a set of prototypes extracted from the data that are representative of different contexts. We construct this dictionary via a two-step offline process. 
+
+Feature extraction. We use a pre-trained VAD model to perform a single forward pass over the entire training set, collecting the sparse representations, i.e., the embeddings of Object queries O, Map queries M, and Agent queries A.
+
+Prototype clustering. We apply the clustering algorithm to the collected embeddings for each of the three query types separately. The centroid of each cluster is treated as a prototype for that class of information. All these proto-types collectively form our multi-modal confounder dictio-nary {Z} = {{Z o}, {Z m}, {Z a}} .3.3.2. Parameterized causal intervention modules 
+
+Based on the dictionary, we design two types of plug-and-play modules to address the different confounding problems identified. Detailed architectures of these modules are pro-vided in the supplementary material. 
+
+Perception de-confounding module (PDM). The PDM targets the co-occurrence bias in perception within the clas-sification paths O → Y o and M → Y m. Its core mecha-nism is to adjust a query’s classification logits by condi-tioning on its domain-specific prototype dictionary, thereby nullifying spurious contextual shortcuts. For object classi-fication, the PDM takes a query o ∈ O and its dictionary 
+
+{Z o} to produce de-confounded logits: 
+
+logits ′ 
+
+> o
+
+= PDM (o, {Z o}). (2) This intervention is applied symmetrically to the map clas-sification path M → Y m (using Zm), forcing the classifiers to focus on intrinsic query features. 
+
+Interaction de-confounding module (IDM). The IDM resolves the more complex interaction confounding issues: 
+
+BEV features as a common cause and input correlation in planning . It is a unified intervention architecture, instan-tiated multiple times for surgical interventions. Its princi-ple is to refine an input query against a specific confounder proxy as dictated by our causal analysis. We apply this module in a stage-wise de-confounding manner. To de-confound the prediction stage, we filter the inputs O and M to break their spurious correlation: 
+
+O′ = IDM (O, {Z m}), M′ = IDM (M, {Z o}). (3) Subsequently, to de-confound the planning stage, we decou-ple its highly correlated inputs A and M:
+
+A′ = IDM (A, {Z m}), M′′ = IDM (M, {Z a}). (4) This stage-wise de-confounding ensures that downstream modules learn from de-confounded representations. 
+
+3.4. Training pipeline 
+
+The training pipeline for CausalVAD consists of two stages. The first is the offline construction of the confounder dic-tionary {Z} . This involves a single forward pass of a pre-trained VAD model over the training set to collect query embeddings, followed by K-means++ clustering to obtain the prototypes. This stage is fully unsupervised and per-formed only once. Afterwards, we insert the PDM and IDM modules, equipped with the dictionary {Z} , into the VAD base architecture and train the entire CausalVAD network end-to-end from scratch. Training from scratch ensures the model learns de-confounded causal relationships from the outset, rather than correcting pre-existing spurious correla-tions. During training, the total loss function Ltotal remains identical to that of the original VAD. The full training pro-cedure is detailed in Algorithm S.1 in the supplementary. 
+
+## 4. Experiments 
+
+In this section, we conduct a comprehensive set of experi-ments to systematically evaluate our proposed CausalVAD. We aim to validate CausalVAD’s performance on standard planning benchmarks and to deeply probe its advantages in learning robust causal relationships, particularly its gener-alization ability in the face of data bias and novel environ-ments. Furthermore, we dissect the effectiveness of our core design, SCIS, through extensive ablation studies. 
+
+4.1. Experimental setup 
+
+4.1.1. Datasets and metrics 
+
+Our primary evaluation is conducted on the nuScenes [3] dataset, a large-scale benchmark widely used for vision-based autonomous driving research. Its inherent imbal-anced distribution of scenarios (e.g., 75% are straight-driving scenes) provides an ideal testbed for validating the effectiveness of our causal inference approach. We follow the official training/validation split and report on two key open-loop planning metrics: the average L2 displacement error (L2) to measure trajectory accuracy, and the collision rate (CR) to assess planning safety. To further probe the model’s generalization capabili-ties, our evaluation is extended to two additional bench-marks: (1) NAVSIM [8], a non-reactive simulation testbed, where we use its official PDM score (PDMS), and (2) Bench2Drive [15], a closed-loop simulator, for which we adopt the official driving score (DS) and success rate (SR). Unless otherwise specified, all reported results are on the nuScenes validation set. Inference speed (FPS) is measured on a single NVIDIA RTX 3090 GPU. 
+
+4.1.2. Implementation details 
+
+Our CausalVAD is implemented using PyTorch and the MMDetection3D [7] framework. The model configuration strictly follows VAD, predicting a 3-second trajectory from 2 seconds of history within a 60 m × 30 m perception range. Our proposed SCIS is applied at critical information hubs within the perception, prediction, and planning stages of VAD to address the confounding issues that were identified. The sizes of the confounder dictionaries, i.e., the number of prototype contexts (ko, k m, k a), are set to (10 , 3, 6) . We use the AdamW optimizer with an initial learning rate of 
+
+2 × 10 −4, a weight decay of 0.01 , and a CosineAnnealing scheduler. The model is trained for 60 epochs on 8 NVIDIA RTX 3090 GPUs with a batch size of 4 per GPU. 
+
+4.2. Main results 
+
+4.2.1. Open-loop planning performance 
+
+We compare CausalVAD against a suite of state-of-the-art end-to-end and VLM-based autonomous driving meth-ods on the nuScenes validation set. As shown in Table 1, Table 1. Open-loop planning performance on nuScenes.                                                                                                       
+
+> Method L2 (m) ↓Collision ( %)↓FPS
+> 1s 2s 3s Avg. 1s 2s 3s Avg. UniAD 0.45 0.70 1.04 0.73 0.62 0.58 0.63 0.61 1.8 VAD-tiny §0.44 0.72 1.06 0.74 0.31 0.48 0.52 0.44 5.6 VAD §0.34 0.59 0.92 0.62 0.21 0.34 0.58 0.38 3.1 PPAD 0.31 0.56 0.87 0.58 0.08 0.12 0.38 0.19 2.6 SparseDrive 0.30 0.58 0.95 0.61 0.01 0.05 0.23 0.10 6.1 MomAD 0.43 0.88 1.62 0.98 0.06 0.16 0.68 0.30 7.8 BridgeAD 0.28 0.55 0.92 0.58 0.00 0.04 0.20 0.08 3.9 VeteranAD 0.33 0.59 0.94 0.62 0.03 0.12 0.34 0.16 4.3 FusionAD ---1.03 0.25 0.13 0.25 0.21 -OmniDrive 0.40 0.80 1.32 0.84 0.04 0.46 2.32 0.94 -Senna 0.37 0.54 0.86 0.59 0.09 0.12 0.33 0.18 -ORION 0.17 0.31 0.55 0.34 0.05 0.25 0.80 0.37 -Ours 0.27 0.52 0.82 0.54 0.02 0.09 0.22 0.11 5.4
+> Note: §denotes re-implement result. Table 2. Scene generalization ability on nuScenes.
+> Method Nav. L2 (m) ↓Collision ( %)↓
+> 1s 2s 3s Avg. 1s 2s 3s Avg. VAD-tiny ST 0.45 0.73 1.07 0.75 0.35 0.53 0.57 0.48 LR 0.64 1.08 1.49 1.07 0.12 0.21 0.53 0.29 Ours ST 0.28 0.53 0.83 0.55 0.03 0.09 0.21 0.11
+> LR 0.40 0.62 1.05 0.69 0.01 0.14 0.41 0.19
+> Note: Navigation ‘ST’ denotes go straight, while ‘LR’ denotes turn left/right.
+
+CausalVAD achieves the lowest average L2 error (0.54m) among all methods, demonstrating superior trajectory plan-ning accuracy. Compared to our baseline VAD-tiny, Causal-VAD reduces the L2 error by 27 % and the collision rate by a staggering 75 % with almost no additional computa-tional cost. This significant performance gain, especially the dramatic improvement in safety, strongly indicates that by introducing causal intervention, the model learns to bet-ter understand scene dynamics and make more reliable de-cisions. Even when compared to more powerful models like BridgeAD, our method shows a clear advantage in planning accuracy while maintaining a highly competitive collision rate. Detailed evaluation results for other tasks (e.g., per-ception and prediction) are provided in the supplementary. 
+
+4.2.2. Analysis of causal robustness 
+
+To validate our central claim that CausalVAD gains en-hanced robustness by learning causal relationships, we de-signed the following three sets of experiments. 
+
+Robustness to scenario distribution bias. A significant data imbalance exists in the nuScenes dataset between over-represented simple straight-driving (ST) scenarios and un-derrepresented complex turning maneuvers (LR). This im-balance can lead models to learn the spurious correlation that driving straight is the default behavior . In Table 2,                                                                                        
+
+> Table 3. Reliance on ego status on nuScenes.
+> Method Velo. L2 (m) ↓Collision ( %)↓
+> Noise 1s 2s 3s Avg. 1s 2s 3s Avg. VAD-tiny -0.44 0.72 1.06 0.74 0.31 0.48 0.52 0.44
+> ×0.05.16 7.01 8.66 6.94 1.07 5.13 5.86 4.02
+> ×0.52.79 3.78 4.82 3.80 0.47 1.06 1.45 0.99
+> ×1.52.91 4.03 5.31 4.08 0.54 1.98 2.48 1.67
+> 100 m/s 12.6918.6223.63 18.31 10.7211.9412.19 11.62 Ours -0.27 0.52 0.82 0.54 0.02 0.09 0.22 0.11
+> ×0.03.18 5.16 6.07 4.80 0.11 0.87 2.63 1.20
+> ×0.51.83 3.01 3.67 2.84 0.06 0.15 0.65 0.29
+> ×1.52.02 3.41 4.34 3.26 0.14 0.54 1.97 0.88
+> 100 m/s 3.59 6.24 8.19 6.01 2.53 5.30 7.74 5.19
+> Note: We assign different levels of perturbation to the ego-velocity. Table 4. Planning performance on NAVSIM and Bench2Drive.
+> Method NAVSIM Bench2Drive
+> PDMS ↑DS ↑SR(%) ↑
+> UniAD 83.4 45.81 16.36 VAD-tiny §80.5 42.73 14.18 VAD §81.2 44.35 16.91 PARA-Drive 84.0 --DiffusionDrive 88.1 --MomAD -45.35 17.44 DriveMoE -74.22 48.64 AutoVLA 80.54 --Ours 87.2 49.83 19.42
+> Note: §denotes re-implement result.
+
+we compare the performance of VAD-tiny and CausalVAD across these two scenario types. The results clearly show that while both models perform reasonably well in data-rich straight scenarios, VAD-tiny’s performance degrades severely in data-sparse turning scenarios, with its L2 er-ror deteriorating from 0.75m to 1.07m. In stark contrast, CausalVAD demonstrates exceptional stability, with its L2 error in turning scenarios (0.69m) being even better than VAD-tiny’s performance in straight scenarios. These find-ings strongly indicated that our causal intervention mech-anism successfully guides the model to learn the universal causal laws of driving from scene interactions, beyond the dataset’s superficial statistics. 
+
+Robustness to ego-status shortcut. We test the model’s reliance on the ego-status shortcut by injecting varying lev-els of noise into the input ego-velocity. As shown in Table 3, the baseline VAD-tiny is highly sensitive to ego-velocity. Its planning error skyrockets when velocity information is removed ( ×0.0) or heavily perturbed, indicating a strong reliance on this shortcut. In comparison, CausalVAD ex-hibits far greater robustness to the same perturbations. For instance, when velocity is zeroed out, CausalVAD’s L2 er-ror increase (from 0.54m to 4.80m) is substantially smaller Table 5. Ablation study of SCIS components. 
+
+ID PDM IDM L2 (m) ↓ Collision ( %) ↓ FPS 
+
+1s 2s 3s Avg. 1s 2s 3s Avg. 1 0.44 0.72 1.06 0.74 0.31 0.48 0.52 0.44 5.6 2 ✓ 0.35 0.61 0.93 0.63 0.15 0.28 0.35 0.26 5.6 3 ✓ 0.31 0.55 0.86 0.57 0.11 0.18 0.29 0.19 5.4 4 ✓ ✓ 0.27 0.52 0.82 0.54 0.02 0.09 0.22 0.11 5.4 Table 6. Selection of the hyperparameters (ko, k m, k a).
+
+Hyperparam. L2 (m) ↓ Collision ( %) ↓
+
+ko km ka 1s 2s 3s Avg. 1s 2s 3s Avg. 5 2 3 0.30 0.56 0.88 0.58 0.05 0.13 0.27 0.15 
+
+10 3 6 0.27 0.52 0.82 0.54 0.02 0.09 0.22 0.11 
+
+20 5 10 0.28 0.54 0.85 0.56 0.04 0.11 0.24 0.13 Table 7. Comparison of different clustering algorithms. 
+
+Clustering algo. L2 (m) ↓ Collision ( %) ↓
+
+1s 2s 3s Avg. 1s 2s 3s Avg. K-means 0.26 0.51 0.83 0.53 0.04 0.10 0.24 0.12 K-medoids 0.27 0.53 0.82 0.54 0.03 0.11 0.21 0.12 K-means++ 0.27 0.52 0.82 0.54 0.02 0.09 0.22 0.11 
+
+than that of VAD-tiny (from 0.74m to 6.94m). This suggests that our de-confounding training successfully mitigates the model’s dependence on spurious self-correlations, encour-aging it to base decisions more on the external environment. 
+
+Generalization to novel environments. We further de-ploy our model in two simulation environments stylisti-cally different from nuScenes to evaluate its generaliza-tion on out-of-distribution data. As shown in Table 4, in the non-reactive NAVSIM benchmark, CausalVAD sig-nificantly outperforms its baselines, VAD and VAD-tiny, and achieves comparable performance to more advanced methods like DiffusionDrive [22]. In the more challenging closed-loop Bench2Drive simulator, CausalVAD’s driving score (DS) and success rate (SR) also surpass most tradi-tional end-to-end models. While there is still a gap com-pared to models specifically optimized for closed-loop per-formance like DriveMoE [38], our results clearly corrobo-rate that by learning more fundamental causal relationships, the model acquires stronger generalization, enabling it to ef-fectively transfer its driving knowledge to unseen scenarios. 
+
+4.3. Ablation studies 
+
+4.3.1. Component contribution 
+
+We first verify the effectiveness of the two core intervention modules in SCIS. As shown in Table 5, the baseline model (ID-1) performs the worst. Adding either the PDM (ID-2) or the IDM (ID-3) alone brings significant improvements, with the PDM being particularly effective at reducing col-lisions and the IDM contributing more to planning accu-VAD-tiny Ours        
+
+> Navigation Command
+> Turn Right
+> Turn Left
+> Straight
+> 0
+> -20
+> -40
+> -60
+> 20
+> 40
+> 60
+> 80
+> 0
+> -25
+> -50
+> -75
+> 25
+> 50
+> 75
+> 100
+> 0-50 -100 50 100 0-25 -50 -75 25 50 75 100
+
+Figure 5. T-SNE visualization of the final ego-query embeddings from the nuScenes validation set. (Left) The baseline VAD-tiny’s representation space is entangled. (Right) Our CausalVAD suc-cessfully disentangles different navigation intents (straight, left, right) into clearly separable clusters, demonstrating its ability to mitigate dataset bias. 
+
+racy. Combining both (ID-4) yields the best overall perfor-mance, demonstrating the necessity and complementarity of our multi-stage intervention design. 
+
+4.3.2. Design of the confounder dictionary 
+
+Our SCIS relies on a pre-computed confounder dictionary to represent scene contexts. We investigate the impact of the dictionary size (i.e., the number of prototypes k) on perfor-mance. As detailed in Table 6, we perform a grid search over the number of prototypes (ko, k m, k a). The results show that when the number of prototypes is too small, the model cannot adequately capture the diverse driving con-texts, leading to suboptimal performance. Conversely, an excessive number of prototypes may introduce redundancy and slightly degrade performance. Our insight is that select-ing an appropriate k value for the dataset helps the model to model scene contexts at a suitable granularity for effec-tive de-confounding. Our chosen configuration of (10 , 3, 6) 
+
+achieves the best trade-off between accuracy and safety. Furthermore, as shown in Table 7, the model’s perfor-mance is not sensitive to the choice of clustering algorithm (e.g., K-means, K-medoids, K-means++) used to initialize the dictionary. This observation is consistent with recent findings in debiasing work in other domains [37], indicat-ing the robustness and ease of use of our method. 
+
+4.4. Qualitative analysis 
+
+Interpretability and de-confounding visualization. To intuitively illustrate the advantages of CausalVAD, we present a challenging cut-in scenario in Figure 6. The base-line VAD-tiny exhibits causal confusion, with its attention excessively focused on the ego-history rather than the haz-ardous agent, leading to a planning failure. In contrast, CausalVAD correctly focuses on the cutting-in vehicle and makes a safe deceleration. Notably, a VLA model, despite acting safely, provides a hallucinatory explanation for its plan that is irrelevant to the scene, highlighting the faithful logic of CausalVAD. Furthermore, as visualized by t-SNE CAM_FRONT_LEFT CAM_FRONT CAM_FRONT_RIGHT                       
+
+> CAM_BACK_LEFT CAM_BACK CAM_BACK_RIGHT
+> CAM_FRONT_LEFT CAM_FRONT CAM_FRONT_RIGHT
+> CAM_BACK_LEFT CAM_BACK CAM_BACK_RIGHT
+> CAM_FRONT_LEFT CAM_FRONT CAM_FRONT_RIGHT
+> CAM_BACK_LEFT CAM_BACK CAM_BACK_RIGHT
+> CAM_FRONT_LEFT CAM_FRONT CAM_FRONT_RIGHT
+> CAM_BACK_LEFT CAM_BACK CAM_BACK_RIGHT
+> CAM_FRONT_LEFT CAM_FRONT CAM_FRONT_RIGHT
+> CAM_BACK_LEFT CAM_BACK CAM_BACK_RIGHT
+> BEV
+> BEV
+> BEV
+> BEV
+> VAD-tiny VAD SparseDrive Senna Ours
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> BEV
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> Attention on Agents Attention on Map
+> Attention on Agents Attention on Map
+> Attention on Agents Attention on Map
+> Attention on Agents Attention on Map
+
+Q: You are driving, your current speed is 7 m/s , and the navigation command is ' tur n left ', your 
+
+driving decision for the next three seconds is to deceler ate and go str aight . Based on the 
+
+provided image of the driving environment, explain the most likely reason for this decision in one 
+
+or two concise sentence. 
+
+A: The decision to decelerate and go straight is a proactive safety measure. The vehicle's 
+
+advanced LIDAR sensors have detected a p otential low-clear ance issue with the over pass 
+
+str uctur e ahead for this vehicle's height class . Therefore, the system is slowing down to 
+
+confirm the clearance before re-evaluating the navigation's left-turn instruction at a safer, more 
+
+appropriate location. Figure 6. Qualitative analysis of CausalVAD’s interpretability and decision logic in a challenging cut-in scenario. In this scene, baseline models like VAD-tiny exhibit causal confusion: their attention maps show an excessive focus on the ego-vehicle’s past trajectory rather than the hazardous agent. This leads to a failure to decelerate in time, resulting in a potential collision. In stark contrast, our CausalVAD correctly focuses its attention on the cutting-in vehicle and executes a smooth, safe deceleration. Furthermore, the VLA model (Senna) provides a hallucinatory explanation, incorrectly attributing its maneuver to a non-existent low-clearance issue with the overpass, thus highlighting the faithful and reliable internal logic of our method. 
+
+in Figure 5, CausalVAD learns de-confounded scene rep-resentations that are clearly separable by navigation intent, effectively mitigating the dataset’s strong go-straight bias. 
+
+## 5. Conclusion 
+
+In this work, we present CausalVAD, a framework that ad-dresses systemic causal confounding in end-to-end driv-ing models. Unlike prior end-to-end models susceptible to learning spurious correlations instead of true causal mecha-nisms, CausalVAD introduces SCIS that parameterizes the backdoor adjustment theory into plug-and-play modules. We demonstrate that by performing targeted, multi-stage in-terventions at critical nodes within the model, CausalVAD achieves state-of-the-art performance and exhibits remark-able robustness in noisy and biased scenarios designed to induce causal confusion. A key future direction is to extend our causal framework from the sequential paradigm of VAD to parallel or iterative interaction architectures. Ultimately, we advocate for embracing causal reasoning as a core de-sign principle, rather than a post-hoc analysis tool, to build genuinely trustworthy autonomous systems. 
+
+## Acknowledgments 
+
+This work was supported in part by the State Key Labora-tory of Autonomous Intelligent Unmanned Systems. The opening project number is ZZKF2025-2-1. References 
+
+[1] Shahin Atakishiyev, Mohammad Salameh, and Randy Goebel. Safety implications of explainable artificial intelli-gence in end-to-end autonomous driving. IEEE Trans. Intell. Transp. Syst. , 2025. 1 [2] Mayank Bansal, Alex Krizhevsky, and Abhijit Ogale. Chauf-feurnet: Learning to drive by imitating the best and synthe-sizing the worst. arXiv preprint arXiv:1812.03079 , 2018. 2 [3] Holger Caesar, Varun Bankiti, Alex H Lang, Sourabh Vora, Venice Erin Liong, Qiang Xu, Anush Krishnan, Yu Pan, Gi-ancarlo Baldan, and Oscar Beijbom. nuscenes: A multi-modal dataset for autonomous driving. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 11621–11631, 2020. 2, 5 [4] Dian Chen, Brady Zhou, Vladlen Koltun, and Philipp Kr¨ ahenb¨ uhl. Learning by cheating. In Conf. Robot. Learn. ,pages 66–75. PMLR, 2020. 2 [5] Zhili Chen, Maosheng Ye, Shuangjie Xu, Tongyi Cao, and Qifeng Chen. Ppad: Iterative interactions of prediction and planning for end-to-end autonomous driving. In Eur. Conf. Comput. Vis. , pages 239–256. Springer, 2024. 1 [6] Jie Cheng, Yingbing Chen, Xiaodong Mei, Bowen Yang, Bo Li, and Ming Liu. Rethinking imitation-based planners for autonomous driving. In 2024 IEEE Int. Conf. Robot. Autom. ,pages 14123–14130. IEEE, 2024. 2 [7] MMDetection3D Contributors. MMDetection3D: Open-MMLab next-generation platform for general 3D object detection. https://github.com/open- mmlab/ mmdetection3d , 2020. 5 [8] Daniel Dauner, Marcel Hallgarten, Tianyu Li, Xinshuo Weng, Zhiyu Huang, Zetong Yang, Hongyang Li, Igor Gilitschenski, Boris Ivanovic, Marco Pavone, et al. Navsim: Data-driven non-reactive autonomous vehicle simulation and benchmarking. Adv. Neural Inform. Process. Syst. , 37: 28706–28719, 2024. 2, 5 [9] Pim De Haan, Dinesh Jayaraman, and Sergey Levine. Causal confusion in imitation learning. Adv. Neural Inform. Process. Syst. , 32, 2019. 2 [10] Haoyu Fu, Diankun Zhang, Zongchuang Zhao, Jianfeng Cui, Dingkang Liang, Chong Zhang, Dingyuan Zhang, Hongwei Xie, Bing Wang, and Xiang Bai. Orion: A holistic end-to-end autonomous driving framework by vision-language in-structed action generation. In Proc. IEEE/CVF Int. Conf. Comput. Vis. , pages 24823–24834, 2025. 3 [11] Robert Geirhos, J¨ orn-Henrik Jacobsen, Claudio Michaelis, Richard Zemel, Wieland Brendel, Matthias Bethge, and Fe-lix A Wichmann. Shortcut learning in deep neural networks. 
+
+Nature Mach. Intell. , 2(11):665–673, 2020. 1, 2 [12] Shengchao Hu, Li Chen, Penghao Wu, Hongyang Li, Junchi Yan, and Dacheng Tao. St-p3: End-to-end vision-based au-tonomous driving via spatial-temporal feature learning. In 
+
+Eur. Conf. Comput. Vis. , pages 533–549. Springer, 2022. 2 [13] Yihan Hu, Jiazhi Yang, Li Chen, Keyu Li, Chonghao Sima, Xizhou Zhu, Siqi Chai, Senyao Du, Tianwei Lin, Wenhai Wang, et al. Planning-oriented autonomous driving. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 17853– 17862, 2023. 1, 2 [14] Jyh-Jing Hwang, Runsheng Xu, Hubert Lin, Wei-Chih Hung, Jingwei Ji, Kristy Choi, Di Huang, Tong He, Paul Covington, Benjamin Sapp, et al. Emma: End-to-end multimodal model for autonomous driving. arXiv preprint arXiv:2410.23262 ,2024. 3 [15] Xiaosong Jia, Zhenjie Yang, Qifeng Li, Zhiyuan Zhang, and Junchi Yan. Bench2drive: Towards multi-ability benchmark-ing of closed-loop end-to-end autonomous driving. Adv. Neural Inform. Process. Syst. , 37:819–844, 2024. 2, 5 [16] Bo Jiang, Shaoyu Chen, Qing Xu, Bencheng Liao, Jiajie Chen, Helong Zhou, Qian Zhang, Wenyu Liu, Chang Huang, and Xinggang Wang. Vad: Vectorized scene representation for efficient autonomous driving. In Proc. IEEE/CVF Int. Conf. Comput. Vis. , pages 8340–8350, 2023. 1, 2 [17] Bo Jiang, Shaoyu Chen, Bencheng Liao, Xingyu Zhang, Wei Yin, Qian Zhang, Chang Huang, Wenyu Liu, and Xing-gang Wang. Senna: Bridging large vision-language mod-els and end-to-end autonomous driving. arXiv preprint arXiv:2410.22313 , 2024. 3 [18] Sicong Jiang, Zilin Huang, Kangan Qian, Ziang Luo, Tianze Zhu, Yang Zhong, Yihong Tang, Menglin Kong, Yunlong Wang, Siwen Jiao, et al. A survey on vision-language-action models for autonomous driving. In Proc. IEEE/CVF Int. Conf. Comput. Vis. , pages 4524–4536, 2025. 1, 2 [19] Guanghao Li, Kerui Ren, Linning Xu, Zhewen Zheng, Changjian Jiang, Xin Gao, Bo Dai, Jian Pu, Mulin Yu, and Jiangmiao Pang. Artdeco: Toward high-fidelity on-the-fly reconstruction with hierarchical gaussian structure and feed-forward guidance. In Int. Conf. Learn. Represent. 2[20] Guanghao Li, Yu Cao, Qi Chen, Xin Gao, Yifan Yang, and Jian Pu. Papl-slam: Principal axis-anchored monocular point-line slam. IEEE Robot. Autom. Letters , 2025. 2 [21] Zhiqi Li, Zhiding Yu, Shiyi Lan, Jiahan Li, Jan Kautz, Tong Lu, and Jose M Alvarez. Is ego status all you need for open-loop end-to-end autonomous driving? In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 14864– 14873, 2024. 1, 2 [22] Bencheng Liao, Shaoyu Chen, Haoran Yin, Bo Jiang, Cheng Wang, Sixu Yan, Xinbang Zhang, Xiangyu Li, Ying Zhang, Qian Zhang, et al. Diffusiondrive: Truncated diffusion model for end-to-end autonomous driving. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 12037–12047, 2025. 7 [23] Hanchao Liu, Wenyuan Xue, Yifei Chen, Dapeng Chen, Xiu-tian Zhao, Ke Wang, Liping Hou, Rongjun Li, and Wei Peng. A survey on hallucination in large vision-language models. 
+
+arXiv preprint arXiv:2402.00253 , 2024. 2 [24] Urs Muller, Jan Ben, Eric Cosatto, Beat Flepp, and Yann Cun. Off-road obstacle avoidance through end-to-end learn-ing. Adv. Neural Inform. Process. Syst. , 18, 2005. 2, 3 [25] Judea Pearl. Causality . Cambridge university press, 2009. 2, 3, 4, 1 [26] Mozhgan Pourkeshavarz, Junrui Zhang, and Amir Rasouli. Cadet: a causal disentanglement approach for robust trajec-tory prediction in autonomous driving. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 14874–14884, 2024. 2, 4 [27] Wenchao Sun, Xuewu Lin, Yining Shi, Chuang Zhang, Hao-ran Wu, and Sifa Zheng. Sparsedrive: End-to-end au-tonomous driving via sparse scene representation. In 2025 IEEE Int. Conf. Robot. Autom. , pages 8795–8801. IEEE, 2025. 1, 2, 5 [28] Jiacheng Tang, Mingyue Feng, Jiachao Liu, Yaonong Wang, and Jian Pu. Decoupling scene perception and ego sta-tus: A multi-context fusion approach for enhanced gener-alization in end-to-end autonomous driving. arXiv preprint arXiv:2511.13079 , 2025. 2 [29] Xiaoyu Tian, Junru Gu, Bailin Li, Yicheng Liu, Yang Wang, Zhiyong Zhao, Kun Zhan, Peng Jia, Xianpeng Lang, and Hang Zhao. Drivevlm: The convergence of autonomous driving and large vision-language models. arXiv preprint arXiv:2402.12289 , 2024. 2, 3 [30] Shihao Wang, Zhiding Yu, Xiaohui Jiang, Shiyi Lan, Min Shi, Nadine Chang, Jan Kautz, Ying Li, and Jose M Al-varez. Omnidrive: A holistic vision-language dataset for autonomous driving with counterfactual reasoning. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 22442– 22452, 2025. 2 [31] Tan Wang, Jianqiang Huang, Hanwang Zhang, and Qianru Sun. Visual commonsense r-cnn. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 10760–10770, 2020. 1 [32] Shaoyuan Xie, Lingdong Kong, Yuhao Dong, Chonghao Sima, Wenwei Zhang, Qi Alfred Chen, Ziwei Liu, and Liang Pan. Are vlms ready for autonomous driving? an empirical study from the reliability, data and metric perspectives. In 
+
+Proc. IEEE/CVF Int. Conf. Comput. Vis. , pages 6585–6597, 2025. 1, 2, 3 [33] Kelvin Xu, Jimmy Ba, Ryan Kiros, Kyunghyun Cho, Aaron Courville, Ruslan Salakhudinov, Rich Zemel, and Yoshua Bengio. Show, attend and tell: Neural image caption genera-tion with visual attention. In Int. Conf. Mach. Learn. , pages 2048–2057. PMLR, 2015. 1 [34] Zhenhua Xu, Yan Bai, Yujia Zhang, Zhuoling Li, Fei Xia, Kwan-Yee K Wong, Jianqiang Wang, and Hengshuang Zhao. Drivegpt4-v2: Harnessing large language model capabili-ties for enhanced closed-loop autonomous driving. In Proc. IEEE/CVF Conf. Comput. Vis. Pattern Recog. , pages 17261– 17270, 2025. 2 [35] Yuxiang Yan, Boda Liu, Jianfei Ai, Qinbu Li, Ru Wan, and Jian Pu. PointSSC: A cooperative vehicle-infrastructure point cloud benchmark for semantic scene completion. In 
+
+IEEE Int. Conf. Robot. Autom. , pages 17027–17034. IEEE, 2024. 2 [36] Yuxiang Yan, Zhiyuan Zhou, Xin Gao, Guanghao Li, Shenglin Li, Jiaqi Chen, Qunyan Pu, and Jian Pu. Learning spatial-aware manipulation ordering. In Adv. Neural Inform. Process. Syst. , 2025. 2 [37] Dingkang Yang, Kun Yang, Haopeng Kuang, Zhaoyu Chen, Yuzheng Wang, and Lihua Zhang. Towards context-aware emotion recognition debiasing from a causal demystification perspective via de-confounded training. IEEE Trans. Pattern Anal. Mach. Intell. , 46(12):10663–10680, 2024. 7 [38] Zhenjie Yang, Yilin Chai, Xiaosong Jia, Qifeng Li, Yuqian Shao, Xuekai Zhu, Haisheng Su, and Junchi Yan. Drivemoe: Mixture-of-experts for vision-language-action model in end-to-end autonomous driving. arXiv preprint arXiv:2505.16278 , 2025. 7 CausalVAD: De-confounding End-to-End Autonomous Driving via Causal Intervention 
+
+# Supplementary Material 
+
+This document serves as a substantial extension to the main manuscript, providing a theoretical grounding for the proposed sparse causal intervention scheme (SCIS) and de-tailing its implementation, efficiency, and empirical val-idation. We structure this material to ensure theoretical depth and reproducibility. Section A presents a derivation linking Pearl’s backdoor adjustment to our neural subtrac-tion mechanism and theoretically distinguishes our method from heuristic baselines. Section B details the tensor-level formulations of the perception de-confounding mod-ule (PDM) and interaction de-confounding module (IDM). 
+
+Section C elaborates on the optimization strategy, specifi-cally addressing the rationale behind the offline dictionary construction. Finally, Section D provides comprehensive empirical evidence, including baseline reproduction details, counterfactual perturbation studies, zero-shot cross-domain and cross-paradigm generalization, hyperparameter sensi-tivity, upstream task performance, computational complex-ity analysis, physical validity stress tests, and qualitative in-terpretability. 
+
+## A. Theoretical grounding of SCIS 
+
+The core theoretical challenge addressed in this work is the translation of causal intervention, formally defined in the probability space, into differentiable operations within a deep neural network. 
+
+A.1. From probabilistic adjustment to feature space 
+
+Consider a standard structural causal model (SCM) where the input variable S, the target prediction Y , and the la-tent confounder Z form a classic confounding structure: 
+
+S ← Z → Y . Standard empirical risk minimization fits the observational distribution P (Y |S), capturing spurious correlations induced by Z. To learn the true causal ef-fect, we attempt to estimate the interventional distribution 
+
+P (Y |do (S)) . According to the backdoor adjustment for-mula [25], this is given by: 
+
+P (Y |do (S)) = X
+
+> z∈Z
+
+P (Y |S, z )P (z) (5) Directly computing this integral is intractable in high-dimensional continuous latent spaces. Therefore, our for-mulation should be interpreted as a tractable approxima-tion of backdoor adjustment , rather than a rigorous math-ematical proof of causal identifiability. This approximation provides a pragmatic operationalization of causal theory for large-scale end-to-end autonomous driving models. To pro-ceed, we introduce two critical assumptions rooted in the analysis of deep representations. 
+
+Assumption 1: the additive bias hypothesis. We posit that in the high-dimensional feature space (or logit space) of a trained neural network, the representation of a confounded sample can be decomposed into a causal component and a spurious component. Formally, let ϕ(S, z ) denote the fea-ture representation (or logits) given input S and context z.We assume: 
+
+ϕ(S, z ) ≈ ϕcausal (S) + λ · ϕspur (z) (6) where ϕcausal (S) represents the intrinsic features of the ob-ject, and ϕspur (z) represents the features induced by the environmental context. 
+
+Assumption 2: NWGM approximation. Following the normalized weighted geometric mean (NWGM) the-ory [31, 33], the expectation of a variable inside a softmax activation can be approximated by the softmax of the ex-pectation. This allows us to move the summation operation from Equation (5) into the logit space. Combining these assumptions, the interventional predic-tion can be approximated as: 
+
+P (Y |do (S)) ≈ Softmax (ϕcausal (S) + Ez [ϕspur (z)]) 
+
+(7) However, a standard model trained on biased data learns to output the entangled representation ϕobs ≈ ϕcausal (S) + 
+
+Ez [ϕspur (z)] . Consequently, to recover the true causal component ϕcausal (S), we perform a subtractive operation: 
+
+ϕcausal (S) ≈ ϕobs − Ez [ϕspur (z)]  (8) This derivation provides the theoretical legitimacy for our design: we estimate the expectation of the confounder bias 
+
+Ez [ϕspur (z)] using a dictionary and subtract it from the net-work’s representations. 
+
+A.2. Intervention at different SCM nodes 
+
+Our framework applies this subtractive intervention at two distinct loci: the output logits (PDM) and the latent input features (IDM). These are theoretically consistent within the SCM framework. The perception de-confounding module (PDM) operates on the output variable Y (specifically, its logits). Since the mapping from the final layer features to logits is linear, sub-tracting the bias in the logit space is mathematically equiv-alent to re-weighting the class posterior probabilities to re-move the prior P (Y |Z).The interaction de-confounding module (IDM) operates on the input variable S of the interaction blocks. By in-tervening on the query tensor Q before interaction (i.e., 
+
+Qnew ← Q − Bias), we effectively perform a latent vari-able intervention. This blocks the flow of information from 
+
+Z to the downstream interaction module, ensuring that the subsequent modeling relies solely on causal features. 
+
+A.3. Theoretical superiority over heuristic baselines 
+
+A pertinent question is whether simple regularization tech-niques could achieve similar robustness. We argue that heuristics like dropout [21] or data augmentation [2] are fundamentally insufficient compared to SCIS. Dropout, even when targeted at specific states (e.g., dropout on ego status) [21], acts as an indiscriminate reg-ularization. It randomly suppresses features with equal probability, potentially discarding valid causal information (e.g., valid velocity cues) along with spurious ones. In con-trast, SCIS performs a surgical intervention: it only sub-tracts components that semantically align with the discov-ered confounder prototypes in the dictionary, thereby pre-serving valid causal dynamics. Similarly, while data aug-mentation [2] attempts to intervene on the input pixel space (e.g., changing weather), it is limited by the realism and diversity of the simulator. SCIS can be viewed as a feature-level causal augmentation that operates directly on the latent manifold, offering a more dense and effective coverage of the confounder space than pixel-level manipulation. 
+
+## B. Formal implementation details 
+
+We hereby present the precise mathematical formulation of the proposed modules using unified tensor notation. 
+
+B.1. Perception de-confounding module (PDM) 
+
+The PDM targets classification tasks where the final logits are susceptible to co-occurrence bias. Let Q ∈ RB×N ×D
+
+denote a batch of query features (e.g., map queries), and 
+
+Lobs ∈ RB×N ×C denote the observational logits produced by the classifier head. We utilize a pre-computed con-founder dictionary Z ∈ RK×D .To estimate the bias specific to each query, we first com-pute the affinity matrix A ∈ RB×N ×K via dot-product at-tention: 
+
+A = Softmax 
+
+ QZ ⊤
+
+√D
+
+
+
+(9) This attention mechanism retrieves the distribution of con-text prototypes relevant to the current query. We then project these prototypes into the logit space using a learn-able projection matrix Bproto ∈ RK×C . The estimated logit bias is: 
+
+Lbias = AB proto  (10) Finally, we perform the causal intervention via adaptive subtraction: 
+
+Lf inal = Lobs − λ ⊗ Lbias  (11) Crucially, λ ∈ RC is defined as a learnable parameter vec-tor (broadcastable across batch and queries). This design choice is significant: it allows the network to automatically learn the magnitude of bias associated with each specific class. For instance, pedestrians might suffer from heavier contextual bias than cars , and a learnable vector λ can cap-ture this heterogeneity. 
+
+B.2. Interaction de-confounding module (IDM) 
+
+The IDM is designed to remove spurious components from intermediate feature tensors before they participate in cross-attention mechanisms (e.g., Ego query attending to Agent features). Let Sin ∈ RB×N ×D be the input tensor sus-pected of confounding. We treat the estimation of the spurious component as a reconstruction problem using multi-head cross-attention (MHCA). The input Sin serves as the Query, while the con-founder dictionary Z serves as both Key and Value: 
+
+Cspur = MHCA (Q = Sin , K = Z, V = Z) (12) Note that we do not treat the BEV representation itself as a confounder. Instead, we target the entangled statistical pri-ors within BEV interactions (e.g., map topology dominat-ing agent prediction due to inertia bias). By refining these features, the IDM removes this task-irrelevant correlation while preserving physical mediator signals (as subsequently visualized in Figure 7). Furthermore, to prevent over-deconfounding , we employ a gating mechanism. A non-linear perceptron computes a gating tensor G ∈ RB×N ×D based on the concatenation of the original and spurious features: 
+
+G = σ (MLP (Concat (Sin , Cspur )))  (13) This learnable gating unit dynamically adjusts the inter-vention intensity, preserving essential causal signals while pruning spurious ones. The refined feature tensor Sclean is obtained by subtracting the gated spurious signal: 
+
+Sclean = Sin − G ⊗ Cspur  (14) This refined tensor Sclean is then used as the clean input for subsequent transformer layers, effectively severing the latent backdoor path. 
+
+## C. Training strategy and optimization 
+
+To ensure the stability of the causal intervention, we adopt a two-stage training paradigm. We summarize the complete pipeline in Algorithm 1. Algorithm 1 CausalVAD training pipeline 
+
+Require: dataset D, pre-trained VAD model Φpre 
+
+Ensure: CausalVAD model parameters θ
+
+// Stage 1: dictionary construction (offline)  
+
+> 1:
+
+Initialize empty storage buffers So, Sm, Sa. 
+
+> 2:
+
+for each batch (X, Ygt ) in D do  
+
+> 3:
+
+Extract latent queries using frozen Φpre : 
+
+> 4:
+
+Qo, Q m, Q a ← Φpre (X) 
+
+> 5:
+
+Append queries to buffers: So ← Qo, Sm ←
+
+Qm, Sa ← Qa 
+
+> 6:
+
+end for  
+
+> 7:
+
+Perform clustering to obtain prototypes:  
+
+> 8:
+
+Zo ← K-Means++ (So, K = ko) 
+
+> 9:
+
+Zm ← K-Means++ (Sm, K = km) 
+
+> 10:
+
+Za ← K-Means++ (Sa, K = ka)
+
+// Stage 2: causal intervention training (online)  
+
+> 11:
+
+Initialize θ for CausalVAD. Load Z = {Z o, Zm, Za}
+
+as constants.  
+
+> 12:
+
+while not converged do  
+
+> 13:
+
+Sample batch (X, Ygt ) from D. 
+
+> 14:
+
+Extract BEV features B. 
+
+> 15:
+
+Initialize queries Qo, Q m, Q a, Q e.
+
+// Step 2.1: perception stage (PDM on logits)  
+
+> 16:
+
+Qo ← DetectionDecoder (Qo, B) 
+
+> 17:
+
+Qm ← MappingDecoder (Qm, B) 
+
+> 18:
+
+L′ 
+
+> o
+
+← PDM (Qo, Zo) ▷ De-confound object det.  
+
+> 19:
+
+L′ 
+
+> m
+
+← PDM (Qm, Zm) ▷ De-confound map seg. 
+
+// Step 2.2: prediction stage (IDM on features)  
+
+> 20:
+
+Q′ 
+
+> o
+
+← IDM (Qo, Zm) ▷ De-confound object using map context  
+
+> 21:
+
+Q′ 
+
+> m
+
+← IDM (Qm, Zo) ▷ De-confound map using obj. context  
+
+> 22:
+
+Qa ← MotionDecoder (Qa, Q ′
+
+> o
+
+, Q ′
+
+> m
+
+)
+
+// Step 2.3: planning stage (IDM on features)  
+
+> 23:
+
+Q′ 
+
+> a
+
+← IDM (Qa, Zm) ▷ De-confound agent using map context  
+
+> 24:
+
+Q′′  
+
+> m
+
+← IDM (Qm, Za) ▷ De-confound map using agent context  
+
+> 25:
+
+Qe ← PlanningDecoder (Qe, Q ′
+
+> a
+
+, Q ′′ 
+
+> m
+
+)
+
+// Step 2.4: optimization  
+
+> 26:
+
+Predict trajectories Ypred from Qe. 
+
+> 27:
+
+L ← AggregateLoss (Ldet , Lmap , Lmot , Lplan ) 
+
+> 28:
+
+Update θ ← θ − η∇θ L 
+
+> 29:
+
+end while 
+
+A critical design choice in our framework is the use of an offline, frozen confounder dictionary during the second stage of training. We argue that updating the dictionary on-line with the model parameters would lead to a representa-tion collapse or adaptation risk. This deliberate design is grounded in the concept of semantic anchoring . Although feature representations evolve continuously during end-to-                                  
+
+> Table 8. Performance on perception and motion prediction tasks.
+> Method Detection Mapping Motion
+> NDS ↑mAP ↑mAP ↑minADE ↓minFDE ↓MR ↓
+> VAD-tiny 40.73 27.37 48.62 0.87 1.20 0.15 Ours 42.42 30.46 50.97 0.72 0.96 0.10 Table 9. Computational analysis on one NVIDIA RTX 3090 GPU.
+> Method Params (M) Latency (ms) FPS
+> VAD-tiny 119.3 179 5.6 Ours 124.0 185 5.4
+
+end training, their semantic topology is anchored by shared supervision, allowing the frozen dictionary Z to capture the intrinsic directions of spurious correlations within the dataset manifold. By treating Z as a negative anchor , we impose an or-thogonalization constraint . Specifically, if the dictionary Z
+
+were learnable during the de-confounding phase, the opti-mizer could minimize the loss by simply pushing the dic-tionary prototypes towards zero or aligning them with the causal features, thereby trivializing the subtractive penalty. Freezing the dictionary forces the gradients to explicitly drive the newly generated queries S to diverge from the spu-rious subspace, effectively severing the spurious links and achieving genuine de-confounding. 
+
+## D. Extended experimental analysis 
+
+D.1. Hyperparameter rationale 
+
+In the main manuscript, we reported the optimal dictionary sizes (ko, k m, k a) as (10 , 3, 6) . This selection is not ar-bitrary but is guided by domain knowledge regarding the semantic granularity of the nuScenes dataset. Specifically, the nuScenes detection task involves 10 object categories; thus, setting ko = 10 allows the dictionary to capture at least one dominant confounding context prototype per ob-ject class. Similarly, the map segmentation task involves 3 primary classes (lane divider, pedestrian crossing, road boundary), justifying km = 3 . For agent motion, the multi-modal prediction typically outputs 6 trajectory modes, sug-gesting that the latent intent space can be well-represented by ka = 6 prototypes. This semantic alignment explains why this specific configuration outperforms others in our ablation studies, as it matches the intrinsic dimensionality of the task-specific confounding factors. 
+
+D.2. Impact on upstream tasks 
+
+A primary concern with subtractive intervention is whether it degrades the fundamental perception capabilities. We re-port the performance on upstream tasks in Table 8. The results indicate that CausalVAD maintains or slightly im-Table 10. Interaction-specific perturbation for counterfactual test. The noise denotes the magnitude of uniform perturbations applied to context features.                                                                                                                               
+
+> Method Context Ego-Agent Int. Ego-Map Int. Noise Avg. L2 (m) ↓Avg. CR (%) ↓Avg. L2 (m) ↓Avg. CR (%) ↓
+> VAD-tiny -0.74 0.44 0.74 0.44
+> ×0.50.79 0.65 0.79 0.44
+> ×0.70.84 1.77 1.08 0.49
+> ×0.90.98 1.87 2.35 2.37 Ours -0.54 0.11 0.54 0.11
+> ×0.50.55 0.14 0.55 0.10
+> ×0.70.57 0.20 0.67 0.12
+> ×0.90.63 0.38 0.86 0.49 Table 11. Zero-shot generalization across distinct driving simula-tors under varying degrees of ego-velocity perturbations.
+> Method Velo. NAVSIM Bench2Drive Noise PDMS ↑DS ↑SR (%) ↑
+> VAD-tiny -80.5 42.73 14.18
+> ×0.047.1 12.09 2.27
+> ×0.576.8 39.21 9.09
+> ×1.565.3 20.95 4.54
+> 100 m/s 15.9 2.91 0.00 Ours -87.2 49.83 19.42
+> ×0.058.1 18.05 4.54
+> ×0.583.4 45.14 15.91
+> ×1.574.3 28.10 9.09
+> 100 m/s 25.7 6.49 0.00 Table 12. Generalization across different end-to-end learning paradigms (e.g., parallel and iterative architectures).
+> Method L2 (m) ↓Collision (%) ↓
+> 1s 2s 3s Avg. 1s 2s 3s Avg. SparseDrive 0.28 0.55 0.90 0.58 0.00 0.06 0.18 0.08 + Ours SCIS 0.24 0.51 0.84 0.53 0.00 0.04 0.14 0.06
+> SparseDrive-I 0.31 0.59 0.95 0.62 0.02 0.08 0.21 0.10 + Ours SCIS 0.27 0.53 0.86 0.55 0.01 0.04 0.16 0.07
+
+proves object detection (e.g., mAP) and motion prediction (e.g., minADE) compared to the VAD baseline. This con-firms that our method selectively removes harmful noise (e.g., context-induced hallucinations) without discarding necessary semantic information. 
+
+D.3. Computational efficiency analysis 
+
+We prioritize the efficiency of our design to ensure it re-mains practical for autonomous driving. As shown in Ta-ble 9, the integration of SCIS introduces a negligible in-crease in parameters (+4.7M) and inference latency (+6ms) compared to the VAD-tiny baseline. This efficiency stems from our design choice to operate on sparse, vectorized queries rather than dense feature maps, verifying that our SCIS is a lightweight and plug-and-play solution. 
+
+D.4. Baseline reproduction and analysis 
+
+To ensure a fair evaluation, we strictly follow the offi-cial VAD-tiny configuration, utilizing a ResNet-50 back-bone without ego-status inputs. Our reproduced L2 error of 0.74 m aligns with the official repository results. No-tably, some literature references an L2 error of 0.41 m for VAD; however, this metric corresponds to the much heav-ier VAD-Base model equipped with ego-status. Thus, our comparison remains rigorously fair, and the performance improvements are genuine. Regarding the collision rate, CausalVAD achieves a substantial 75% reduction compared to VAD-tiny. While methods like BridgeAD report an ex-ceptionally low collision rate ( 0.08% ), this is primarily at-tributed to its specialized collision optimization design and a heavier ResNet-101 backbone. Our framework effectively unlocks state-of-the-art safety within lightweight architec-tural constraints. 
+
+D.5. Validation of causal effects via counterfactual perturbation 
+
+To validate the causal effects beyond representation visual-izations, we conduct interventional perturbation studies that serve as counterfactual tests. Similar to prior causal discov-ery benchmarks [26], we inject uniform noise of varying intensities into the Agent or Map queries to artificially am-plify the spurious paths (e.g., M → B → O → A → E and 
+
+A → O → B → M → E ). As shown in Table 10, while the performance of VAD-tiny degrades rapidly under heavy context noise, CausalVAD maintains superior stability. This rigorous intervention quantitatively proves the effective sev-erance of spurious links within the interaction mechanisms. 
+
+D.6. Generalization across domains and paradigms 
+
+We further demonstrate the robust generalization capabil-ities of our method across diverse dimensions. First, we evaluate zero-shot domain generalization. As detailed in Ta-ble 11, our model, trained exclusively on nuScenes, main-tains commendable performance when directly deployed VAD-tiny Ours 
+
+> Lane-change maneuver
+> CAM_FRONT
+> CAM_FRONT
+> Attention on Agents BEV
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> 3.0s
+> 0.0s
+> Time (seconds)
+> Inertia
+> bias
+> Refined
+> interaction
+
+Figure 7. Qualitative visualization of IDM in a cut-in scenario. (Top) The baseline model suffers from inertia bias , where the ego-query erroneously attends to the straight lane topology (spurious map context) rather than the intruding bus. (Bottom) By eliminat-ing spurious factors from the agent features via IDM, our model disentangles the agent’s motion from the map prior. This forces the attention mechanism to shift focus from the background lane to the actual cutting-in hazard, enabling safer interaction. 
+
+to the NAVSIM (non-reactive) and Bench2Drive (closed-loop) environments without any fine-tuning. This zero-shot robustness, especially under extreme ego-velocity pertur-bations, verifies that the model relies on universal causal mechanisms rather than dataset-specific statistics. Second, considering that SCIS is a modular and architecture-agnostic design, we extend it to the SparseDrive framework [27] under the parallel paradigm, as well as its iterative variant (SparseDrive-I). As reported in Table 12, integrating SCIS yields consistent performance gains across varying architectures. This confirms the broad applicability and profound potential of our causal intervention framework beyond the sequential VAD setting. 
+
+D.7. Rationale for extreme perturbation tests 
+
+In Table 3 of the main paper, we subjected the model to extreme perturbations, such as zeroing out the ego-velocity or setting it to 100 m/s. While these conditions are rare in nominal driving, they serve as a critical stress test for physical consistency. A valid causal model should exhibit increased uncertainty or planning errors when the input velocity contradicts the positional updates (a violation of physics), rather than blindly following the inertia shortcut. The robustness of CausalVAD under these conditions con-firms that the model has learned to verify the ego-motion against the visual context, rather than relying solely on his-torical state statistics. 
+
+D.8. Qualitative visualization of de-confounding 
+
+To intuitively elucidate the operational mechanism of our proposed IDM, we analyze a representative scenario from the nuScenes validation set. This case study demonstrates how SCIS effectively identifies and severs spurious connec-tions in complex driving environments. 
+
+IDM case study: mitigating inertia bias in cut-in sce-narios. We examine a critical cut-in scenario where an agent vehicle in the adjacent lane initiates a lane change in front of the ego-vehicle. In the nuScenes dataset, ve-hicles traversing straight lane topologies overwhelmingly maintain a straight trajectory. This statistical regularity cre-ates a strong spurious correlation between the Map context (straight lanes) and Agent motion (going straight), often re-ferred to as inertia bias. In the baseline model, the Agent feature, which serves as the Key/Value for the Ego-Agent interaction, is heavily contaminated by this map prior, caus-ing the planner to overlook lateral motion cues and pre-dict a straight path, resulting in a collision risk. The IDM addresses this by refining the Agent feature prior to inter-action. Specifically, the module identifies that the current Agent feature exhibits high affinity with the straight-lane 
+
+prototype in the Map dictionary Zm. By gating and sub-tracting this lane-keeping component, the IDM effectively removes the background inertia bias. The residual, de-confounded feature vector consequently highlights subtle lateral velocity signals. As a result, the planner correctly attends to this refined representation, recognizes the cut-in intention, and generates a safe deceleration trajectory.

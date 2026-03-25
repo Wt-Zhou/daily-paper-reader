@@ -1,54 +1,6 @@
 {
-  "generated_at": "2026-03-24T20:12:28.168388+00:00",
-  "updated_date": "20260324",
+  "generated_at": "2026-03-25T19:36:31.178336+00:00",
+  "updated_date": "20260325",
   "carryover_days": 9,
-  "items": [
-    {
-      "id": "2603.22169v1",
-      "title": "Closed-Loop Verbal Reinforcement Learning for Task-Level Robotic Planning",
-      "abstract": "We propose a new Verbal Reinforcement Learning (VRL) framework for interpretable task-level planning in mobile robotic systems operating under execution uncertainty. The framework follows a closed-loop architecture that enables iterative policy improvement through interaction with the physical environment. In our framework, executable Behavior Trees are repeatedly refined by a Large Language Model actor using structured natural-language feedback produced by a Vision-Language Model critic that observes the physical robot and execution traces. Unlike conventional reinforcement learning, policy updates in VRL occur directly at the symbolic planning level, without gradient-based optimization. This enables transparent reasoning, explicit causal feedback, and human-interpretable policy evolution. We validate the proposed framework on a real mobile robot performing a multi-stage manipulation and navigation task under execution uncertainty. Experimental results show that the framework supports explainable policy improvements, closed-loop adaptation to execution failures, and reliable deployment on physical robotic systems.",
-      "authors": [
-        "Dmitrii Plotnikov",
-        "Iaroslav Kolomiets",
-        "Dmitrii Maliukov",
-        "Dmitrij Kosenkov",
-        "Daniia Zinniatullina",
-        "Artem Trandofilov",
-        "Georgii Gazaryan",
-        "Kirill Bogatikov",
-        "Timofei Kozlov",
-        "Igor Duchinskii",
-        "Mikhail Konenkov",
-        "Miguel Altamirano Cabrera",
-        "Dzmitry Tsetserukou"
-      ],
-      "primary_category": "cs.RO",
-      "categories": [
-        "cs.RO"
-      ],
-      "published": "2026-03-23T16:28:36+00:00",
-      "link": "https://arxiv.org/pdf/2603.22169v1",
-      "tags": [
-        "keyword:AD EI",
-        "query:AD EI"
-      ],
-      "llm_score": 8.0,
-      "llm_evidence_en": "verbal reinforcement learning for task-level robotic planning",
-      "llm_evidence_cn": "用于任务级机器人规划的口头强化学习",
-      "llm_evidence": "用于任务级机器人规划的口头强化学习",
-      "canonical_evidence": "用于任务级机器人规划的口头强化学习",
-      "llm_tldr_en": "Introduces a closed-loop verbal RL framework for interpretable robotic planning using LLMs and VLMs.",
-      "llm_tldr_cn": "引入了一种闭环口头强化学习框架，利用大模型实现可解释的机器人任务规划。",
-      "llm_tldr": "引入了一种闭环口头强化学习框架，利用大模型实现可解释的机器人任务规划。",
-      "llm_tags": [
-        "query:ad-ei"
-      ],
-      "matched_query_tag": "query:ad-ei",
-      "matched_query_text": "Embodied intelligence and robotic manipulation",
-      "matched_requirement_id": "req-4",
-      "selection_source": "carryover_cache",
-      "paper_id": "2603.22169v1",
-      "carry_days": 1
-    }
-  ]
+  "items": []
 }
