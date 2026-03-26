@@ -6,94 +6,85 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-25
-- 运行时间：2026-03-25 19:39:52 UTC
+- 最新运行日期：2026-03-26
+- 运行时间：2026-03-26 20:19:56 UTC
 - 运行状态：成功
-- 本次总论文数：24
-- 精读区：15
+- 本次总论文数：21
+- 精读区：12
 - 速读区：9
 
 ### 今日简报（AI）
-今日深度研读 24 篇前沿论文，聚焦视频世界模型与机器人动作对齐及多智能体安全控制。
-重点关注 EVA 框架利用逆动力学奖励实现指令精准对齐，以及局部注意力机制在强化学习安全控制中的突破。
-建议关注具身智能在极端通信环境下的鲁棒性表现，以及多模态大模型在空间导航能力的演进。
-- 详情：[/202603/25/README](/202603/25/README)
+今日深度解析21篇AI前沿成果，重点突破3D驾驶场景重构与物理对齐的机器人世界模型。
+满分论文DriveTok与ABot-PhysWorld分别定义了驾驶场景Token化新标准及具备物理常识的交互底座。
+推荐优先研读这两项满分工作，掌握具身智能在复杂环境感知与物理仿真领域的最新演进。
+- 详情：[/202603/26/README](/202603/26/README)
 
 ### 精读区论文标签
-1. [EVA: Aligning Video World Models with Executable Robot Actions via Inverse Dynamics Rewards](/202603/25/2603.17808v2-eva-aligning-video-world-models-with-executable-robot-actions-via-inverse-dynamics-rewards)  
+1. [DriveTok: 3D Driving Scene Tokenization for Unified Multi-View Reconstruction and Understanding](/202603/26/2603.19219v1-drivetok-3d-driving-scene-tokenization-for-unified-multi-view-reconstruction-and-understanding)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：将视频世界模型与机器人动作对齐
-2. [Partial Attention in Deep Reinforcement Learning for Safe Multi-Agent Control](/202603/25/2603.21810v1-partial-attention-in-deep-reinforcement-learning-for-safe-multi-agent-control)  
+   evidence：用于世界模型的3D驾驶场景标记化
+2. [ABot-PhysWorld: Interactive World Foundation Model for Robotic Manipulation with Physics Alignment](/202603/26/2603.23376v1-abot-physworld-interactive-world-foundation-model-for-robotic-manipulation-with-physics-alignment)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：深度强化学习用于高速公路汇入场景的自动驾驶车辆控制
-3. [UniDex: A Robot Foundation Suite for Universal Dexterous Hand Control from Egocentric Human Videos](/202603/25/2603.22264v1-unidex-a-robot-foundation-suite-for-universal-dexterous-hand-control-from-egocentric-human-videos)  
+   evidence：具有物理对齐功能的机器人操作交互式世界基础模型
+3. [SOMA: Strategic Orchestration and Memory-Augmented System for Vision-Language-Action Model Robustness via In-Context Adaptation](/202603/26/2603.24060v1-soma-strategic-orchestration-and-memory-augmented-system-for-vision-language-action-model-robustness-via-in-context-adaptation)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：用于灵巧手控制的统一视觉-语言-动作（VLA）策略
-4. [SG-VLA: Learning Spatially-Grounded Vision-Language-Action Models for Mobile Manipulation](/202603/25/2603.22760v1-sg-vla-learning-spatially-grounded-vision-language-action-models-for-mobile-manipulation)  
+   evidence：用于VLA模型鲁棒性与自适应的记忆增强系统
+4. [3D-Mix for VLA: A Plug-and-Play Module for Integrating VGGT-based 3D Information into Vision-Language-Action Models](/202603/26/2603.24393v1-3d-mix-for-vla-a-plug-and-play-module-for-integrating-vggt-based-3d-information-into-vision-language-action-models)  
    标签：评分：10.0/10、query:ad-ei
-   evidence：用于复杂环境中移动操作的空间落地 VLA 模型
-5. [PanguMotion: Continuous Driving Motion Forecasting with Pangu Transformers](/202603/25/2603.16196v1-pangumotion-continuous-driving-motion-forecasting-with-pangu-transformers)  
+   evidence：将3D信息集成到VLA模型中
+5. [TAG: Target-Agnostic Guidance for Stable Object-Centric Inference in Vision-Language-Action Models](/202603/26/2603.24584v1-tag-target-agnostic-guidance-for-stable-object-centric-inference-in-vision-language-action-models)  
+   标签：评分：10.0/10、query:ad-ei
+   evidence：机器人操作中VLA策略的推理时引导机制
+6. [GHOST: Ground-projected Hypotheses from Observed Structure-from-Motion Trajectories](/202603/26/2603.20583v1-ghost-ground-projected-hypotheses-from-observed-structure-from-motion-trajectories)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：将盘古大模型Transformer块集成到自动驾驶运动预测架构中
-6. [CausalVAD: De-confounding End-to-End Autonomous Driving via Causal Intervention](/202603/25/2603.18561v1-causalvad-de-confounding-end-to-end-autonomous-driving-via-causal-intervention)  
+   evidence：城市环境下自动驾驶车辆轨迹的自监督分割方法
+7. [GHOST: Ground-projected Hypotheses from Observed Structure-from-Motion Trajectories](/202603/26/2603.20583v2-ghost-ground-projected-hypotheses-from-observed-structure-from-motion-trajectories)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：端到端自动驾驶的去混杂训练框架
-7. [KLDrive: Fine-Grained 3D Scene Reasoning for Autonomous Driving based on Knowledge Graph](/202603/25/2603.21029v1-kldrive-fine-grained-3d-scene-reasoning-for-autonomous-driving-based-on-knowledge-graph)  
+   evidence：为自动驾驶分割可行的车辆轨迹
+8. [Cortical Policy: A Dual-Stream View Transformer for Robotic Manipulation](/202603/26/2603.21051v1-cortical-policy-a-dual-stream-view-transformer-for-robotic-manipulation)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：知识图谱增强的大语言模型用于自动驾驶推理
-8. [Closed-Loop Verbal Reinforcement Learning for Task-Level Robotic Planning](/202603/25/2603.22169v1-closed-loop-verbal-reinforcement-learning-for-task-level-robotic-planning)  
+   evidence：利用3D基础模型的机器人操作双流视图Transformer
+9. [Model Predictive Control with Differentiable World Models for Offline Reinforcement Learning](/202603/26/2603.22430v1-model-predictive-control-with-differentiable-world-models-for-offline-reinforcement-learning)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：利用LLM和VLM进行任务级机器人规划的语言强化学习
-9. [CaP-X: A Framework for Benchmarking and Improving Coding Agents for Robot Manipulation](/202603/25/2603.22435v1-cap-x-a-framework-for-benchmarking-and-improving-coding-agents-for-robot-manipulation)  
+   evidence：用于离线强化学习的可微世界模型
+10. [Grounding Sim-to-Real Generalization in Dexterous Manipulation: An Empirical Study with Vision-Language-Action Models](/202603/26/2603.22876v1-grounding-sim-to-real-generalization-in-dexterous-manipulation-an-empirical-study-with-vision-language-action-models)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：评估代码即策略作为机器人操纵中VLA方法补充的效果
-10. [VLGOR: Visual-Language Knowledge Guided Offline Reinforcement Learning for Generalizable Agents](/202603/25/2603.22892v1-vlgor-visual-language-knowledge-guided-offline-reinforcement-learning-for-generalizable-agents)  
+   evidence：操纵任务中VLA模型的虚实迁移泛化
+11. [ELITE: Experiential Learning and Intent-Aware Transfer for Self-improving Embodied Agents](/202603/26/2603.24018v1-elite-experiential-learning-and-intent-aware-transfer-for-self-improving-embodied-agents)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：集成视觉语言知识为离线强化学习生成想象回放
-11. [Agile-VLA: Few-Shot Industrial Pose Rectification via Implicit Affordance Anchoring](/202603/25/2603.22899v1-agile-vla-few-shot-industrial-pose-rectification-via-implicit-affordance-anchoring)  
+   evidence：具身智能体的经验学习与自我改进
+12. [Knowledge-Guided Manipulation Using Multi-Task Reinforcement Learning](/202603/26/2603.24083v1-knowledge-guided-manipulation-using-multi-task-reinforcement-learning)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：用于边缘设备工业操作和姿态纠正的 VLA 模型
-12. [VLA-IAP: Training-Free Visual Token Pruning via Interaction Alignment for Vision-Language-Action Models](/202603/25/2603.22991v1-vla-iap-training-free-visual-token-pruning-via-interaction-alignment-for-vision-language-action-models)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：VLA模型的视觉令牌剪枝
-13. [Describe-Then-Act: Proactive Agent Steering via Distilled Language-Action World Models](/202603/25/2603.23149v1-describe-then-act-proactive-agent-steering-via-distilled-language-action-world-models)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：用于主动智能体引导的蒸馏语言-动作世界模型
-14. [Gaze-Regularized Vision-Language-Action Models for Robotic Manipulation](/202603/25/2603.23202v1-gaze-regularized-vision-language-action-models-for-robotic-manipulation)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：用于机器人操作的注视正则化VLA模型
-15. [VTAM: Video-Tactile-Action Models for Complex Physical Interaction Beyond VLAs](/202603/25/2603.23481v1-vtam-video-tactile-action-models-for-complex-physical-interaction-beyond-vlas)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：超越VLA的多模态世界模型框架，整合了触觉感知
+   evidence：基于场景图的机器人操作多任务强化学习
 
 ### 速读区论文标签
-1. [AgentComm-Bench: Stress-Testing Cooperative Embodied AI Under Latency, Packet Loss, and Bandwidth Collapse](/202603/25/2603.20285v1-agentcomm-bench-stress-testing-cooperative-embodied-ai-under-latency-packet-loss-and-bandwidth-collapse)  
+1. [Part-Aware Open-Vocabulary 3D Affordance Grounding via Prototypical Semantic and Geometric Alignment](/202603/26/2603.17647v1-part-aware-open-vocabulary-3d-affordance-grounding-via-prototypical-semantic-and-geometric-alignment)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：通信受限下协作式具身智能与自动驾驶车辆的基准测试
-2. [Mind over Space: Can Multimodal Large Language Models Mentally Navigate?](/202603/25/2603.21577v1-mind-over-space-can-multimodal-large-language-models-mentally-navigate)  
+   evidence：具身智能中的3D功能性区域定位
+2. [MERGE: Guided Vision-Language Models for Multi-Actor Event Reasoning and Grounding in Human-Robot Interaction](/202603/26/2603.18988v1-merge-guided-vision-language-models-for-multi-actor-event-reasoning-and-grounding-in-human-robot-interaction)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：评估具身智能体中多模态大模型的心理导航与空间推理能力
-3. [Human-Inspired Pavlovian and Instrumental Learning for Autonomous Agent Navigation](/202603/25/2603.22170v1-human-inspired-pavlovian-and-instrumental-learning-for-autonomous-agent-navigation)  
+   evidence：VLM引导的人机交互情境接地
+3. [PRM-as-a-Judge: A Dense Evaluation Paradigm for Fine-Grained Robotic Auditing](/202603/26/2603.21669v1-prm-as-a-judge-a-dense-evaluation-paradigm-for-fine-grained-robotic-auditing)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：不确定环境下自主智能体导航的混合强化学习架构
-4. [CATNAV: Cached Vision-Language Traversability for Efficient Zero-Shot Robot Navigation](/202603/25/2603.22800v1-catnav-cached-vision-language-traversability-for-efficient-zero-shot-robot-navigation)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：利用多模态大模型进行零样本机器人导航与可通行性评估
-5. [TRAP: Hijacking VLA CoT-Reasoning via Adversarial Patches](/202603/25/2603.23117v1-trap-hijacking-vla-cot-reasoning-via-adversarial-patches)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：针对机器人操作中VLA思维链推理的对抗攻击
-6. [ReSteer: Quantifying and Refining the Steerability of Multitask Robot Policies](/202603/25/2603.17300v1-resteer-quantifying-and-refining-the-steerability-of-multitask-robot-policies)  
+   evidence：机器人策略审计的稠密评估范式
+4. [Multi-Robot Learning-Informed Task Planning Under Uncertainty](/202603/26/2603.20544v1-multi-robot-learning-informed-task-planning-under-uncertainty)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：提升多任务机器人策略的任务可引导性
-7. [What Do World Models Learn in RL? Probing Latent Representations in Learned Environment Simulators](/202603/25/2603.21546v1-what-do-world-models-learn-in-rl-probing-latent-representations-in-learned-environment-simulators)  
+   evidence：不确定性下的多机器人任务规划与决策
+5. [PAM: A Pose-Appearance-Motion Engine for Sim-to-Real HOI Video Generation](/202603/26/2603.22193v1-pam-a-pose-appearance-motion-engine-for-sim-to-real-hoi-video-generation)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：探究强化学习中学习到的世界模型的潜表征
-8. [Benchmarking Reinforcement Learning via Stochastic Converse Optimality: Generating Systems with Known Optimal Policies](/202603/25/2603.17631v1-benchmarking-reinforcement-learning-via-stochastic-converse-optimality-generating-systems-with-known-optimal-policies)  
+   evidence：具身智能中的手物交互合成
+6. [A Multimodal Framework for Human-Multi-Agent Interaction](/202603/26/2603.23271v1-a-multimodal-framework-for-human-multi-agent-interaction)  
+   标签：评分：7.0/10、query:ad-ei
+   evidence：具身人形机器人的LLM驱动规划
+7. [SIMART: Decomposing Monolithic Meshes into Sim-ready Articulated Assets via MLLM](/202603/26/2603.23386v1-simart-decomposing-monolithic-meshes-into-sim-ready-articulated-assets-via-mllm)  
+   标签：评分：7.0/10、query:ad-ei
+   evidence：用于生成具身智能仿真可用关节资产的MLLM
+8. [BXRL: Behavior-Explainable Reinforcement Learning](/202603/26/2603.23738v1-bxrl-behavior-explainable-reinforcement-learning)  
    标签：评分：6.0/10、query:ad-ei
-   evidence：通过随机逆最优性进行强化学习基准测试
-9. [NymeriaPlus: Enriching Nymeria Dataset with Additional Annotations and Data](/202603/25/2603.18496v1-nymeriaplus-enriching-nymeria-dataset-with-additional-annotations-and-data)  
+   evidence：针对行为模式的可解释强化学习
+9. [Efficient Controller Learning from Human Preferences and Numerical Data Via Multi-Modal Surrogate Models](/202603/26/2603.24138v1-efficient-controller-learning-from-human-preferences-and-numerical-data-via-multi-modal-surrogate-models)  
    标签：评分：6.0/10、query:ad-ei
-   evidence：用于具身智能的大规模人类活动与物体交互数据集
+   evidence：基于人类偏好和数值数据的控制器学习
 
 
 <div class="dpr-home-promo-card">

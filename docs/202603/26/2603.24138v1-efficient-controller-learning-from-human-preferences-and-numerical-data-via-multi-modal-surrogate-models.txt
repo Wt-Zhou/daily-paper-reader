@@ -1,0 +1,538 @@
+Title: Efficient Controller Learning from Human Preferences and Numerical Data Via Multi-Modal Surrogate Models
+
+URL Source: https://arxiv.org/pdf/2603.24138v1
+
+Published Time: Thu, 26 Mar 2026 00:53:13 GMT
+
+Number of Pages: 8
+
+Markdown Content:
+# Efficient Controller Learning from Human Preferences and Numerical Data via Multi-Modal Surrogate Models 
+
+Lukas Theiner 1, Maik Pfefferkorn 1, Yongpeng Zhao 1,2, Sebastian Hirt 1 and Rolf Findeisen 1
+
+Abstract — Tuning control policies manually to meet high-level objectives is often time-consuming. Bayesian optimization provides a data-efficient framework for automating this process using numerical evaluations of an objective function. However, many systems — particularly those involving humans —require optimization based on subjective criteria. Preferential Bayesian optimization addresses this by learning from pairwise comparisons instead of quantitative measurements, but relying solely on preference data can be inefficient. We propose a multi-fidelity, multi-modal Bayesian optimization framework that integrates low-fidelity numerical data with high-fidelity human preferences. Our approach employs Gaussian process surrogate models with both hierarchical, autoregressive and non-hierarchical, coregionalization-based structures, enabling efficient learning from mixed-modality data. We illustrate the framework by tuning an autonomous vehicle’s trajectory planner, showing that combining numerical and preference data significantly reduces the need for experiments involving the human decision maker while effectively adapting driving style to individual preferences. 
+
+> ©2026 IEEE. Personal use of this material is permitted. Permission from IEEE must be obtained for all other uses, including reprinting/republishing this material for advertising or promotional purposes, collecting new collected works for resale or redistribution to servers or lists, or reuse of any copyrighted component of this work in other works.
+
+I. I NTRODUCTION 
+
+Control policies, derived from either traditional methods or optimization-based approaches such as model predictive control (MPC), often require tuning to meet higher-level objectives. This tuning process is often performed manually by experts, which can be time-consuming, costly, and error-prone. More recently, there has been a growing interest in methods that automate the learning of controller parameters to optimize closed-loop performance [1], [2], [3], [4], [5], [6], [7]. While various approaches have been proposed to address this challenge, Bayesian optimization (BO) [8] has gained particular attention, especially in settings where data collection is expensive or limited. BO offers a data-efficient, black-box optimization framework that operates on a user-defined higher-level objective function and employs data-driven surrogate models, typically Gaussian processes (GPs) [9], to guide the search for optimal controller parameters. In doing so, it can significantly reduce the number of costly closed-loop experiments required while effectively improving control performance. In some applications, however, defining a suitable objec-tive function for the higher-level goal is not straightforward. This challenge arises particularly in systems that directly interact with humans, where the user’s subjective percep-tion becomes the decisive performance criterion. Examples             
+
+> 1Control and Cyber-Physical Systems Laboratory, Technical Univer-sity of Darmstadt, Darmstadt, Germany, {rolf.findeisen, lukas.theiner, maik.pfefferkorn, sebastian.hirt }@iat.tu-darmstadt.de
+> 2Volkswagen AG, Wolfsburg, Germany, yongpeng.zhao@volkswagen.de This work was supported by Volkswagen AG.
+
+include assistive devices such as exoskeletons and rehabil-itation robots [10], collaborative robotic systems [11], and automated driving applications [12], [13]. For such cases, preferential Bayesian optimization (PBO) [14] provides a promising alternative. PBO extends classical Bayesian op-timization by constructing its surrogate model not from quantitative evaluations of an objective function, but from qualitative user feedback in the form of pairwise prefer-ence comparisons [15], [16]. This allows optimization to be guided by subjective assessments of performance, making it particularly suitable for scenarios involving humans. However, learning controller parameters solely from pref-erence data can be inefficient in practice, since each prefer-ence query conveys much less information than a numerical evaluation. Consequently, a large number of closed-loop experiments with a human decision maker may be required, especially in high-dimensional parameter spaces. Motivated by these challenges, we generalize and extend previous approaches by proposing a systematic framework for using multiple information sources, including those that provide preferential feedback. Classical Bayesian optimization methods, which rely ex-clusively on numerical evaluations of the objective function, have been extensively studied in the context of multiple in-formation sources [17], [18], [19], [20]. A common category of these methods is multi-fidelity approaches, in which one or more lower-fidelity sources are available alongside the main objective function. Such sources are typically cheaper to evaluate but provide only an approximate assessment of the objective. These settings arise frequently, for example, when a costly real-world experiment can be supplemented by a cheaper simulation that does not perfectly match real-world conditions. For instance, a hierarchical GP surrogate model structure was employed in [21], [22] to combine simulation and real-world data for vehicle controller tuning. Similarly, policy tuning for robotic systems using both simulation and experimental data has been investigated in [23], where, how-ever, the GP surrogate model does not impose a hierarchical relationship between the sources. Several other multi-fidelity Bayesian optimization methods have been adapted to address settings where auxiliary information sources exhibit varying or poor quality [24], [25], [26]. In this work, we build on established multi-fidelity ap-proaches by considering hierarchical and non-hierarchical surrogate model structures that incorporate multiple informa-tion sources. Our framework extends classical multi-fidelity optimization to scenarios where the available sources differ not only in fidelity but also in modality, including those 
+
+> arXiv:2603.24138v1 [cs.LG] 25 Mar 2026
+
+that provide preferential feedback rather than numerical evaluations. Specifically, we develop multi-modal GP models to integrate numerical and preferential data. These models are based on both hierarchical, autoregressive structures and non-hierarchical, coregionalization-based structures. We discuss computational aspects related to model training and inference and describe their application within BO to optimize higher-level objectives using both numerical and preferential data. Finally, we demonstrate our proposed approach in the context of tuning a trajectory planner for autonomous driving. In this setting, numerical data act as low-fidelity information, derived from a fixed-structure, approximate performance measure, while preferential data serve as high-fidelity infor-mation, obtained directly from human drivers or passengers. The remainder of this article is organized as follows. In Section II, we formalize the considered setting. Section III introduces Gaussian process models based on numerical or preferential data and provides an overview of classical multi-fidelity model structures, along with a brief introduc-tion to Bayesian optimization. In Section IV, we propose multi-fidelity GP models that integrate both numerical and preferential data for use in PBO. Section V presents an application of the proposed models to trajectory planning for autonomous driving within the PBO framework. Finally, we conclude in Section VI. II. P ROBLEM FORMULATION 
+
+We consider a controlled dynamical system 
+
+xt+1 = f  xt, u t), u t = πξ (xt) (1) with state xt ∈ X ⊂ Rnx , input ut ∈ U ⊂ Rnu , and time index t ∈ N. The system dynamics are described by a function f : X × U → X , and the system is controlled by a parameterized policy πξ : X → U , where 
+
+ξ ∈ I ⊂ Rnξ denotes the adjustable parameters. Applying the control policy πξ in the closed loop for T ∈ N steps from an initial state x0 generates a closed-loop trajectory 
+
+τ (ξ, x 0) = ( {xt}t∈[0 ,...,T ], {ut}t∈[0 ,...,T −1] ).The dynamical system interacts with a human decision maker, who evaluates the performance of the closed-loop trajectory τ (ξ, x 0) for a given parameter set ξ according to a latent, unknown objective function 
+
+G : Rnξ → R, ξ 7 → G(ξ). (2) The goal is to identify parameters ξ that optimize this latent objective function, which reflects the decision maker’s preferences. To this end, the decision maker can be queried to express pairwise preferences between two parameter con-figurations (ξa, ξ b) after observing the corresponding system behaviors. Since each query requires a physical experiment involving the human, the total number of queries is limited by the experimental budget, making data-efficient learning of the optimal parameters essential. To improve data efficiency, an additional information source 
+
+ˆG : Rnξ → R, ξ 7 → ˆG(ξ) (3) is assumed to be available. This may include, for example, a simulation model of the controlled dynamical system (1)           
+
+> f(xt, u t)
+> πξ(xt)
+> xtut
+> High-fidelity Experiment
+> f(xt, u t)
+> πξ(xt)
+> xtut
+> Low-fidelity Simulation
+> ˆG
+> τ(ξ, x 0)ˆτ(ξ, x 0)
+> Multi-Modal Multi-Fidelity Bayesian Optimization
+> ξa, ξ bξ
+> m l ˆG(ξ)
+> Fig. 1. Structure of the proposed multi-modal multi-fidelity BO framework. Due to the human decision maker, the high-fidelity experiment only returns preferential data. The additional information source provides low-fidelity numerical evaluations.
+
+and an approximation of the decision maker’s evaluation process (2). While system models are commonly available in control design, modeling the decision maker depends on the application context and may reflect characteristic human behavior or factors such as comfort, cognitive effort, or perceived safety, based on simulated or measured quantities. To improve data efficiency, the outputs of the additional information source (3) are assumed to be correlated with the original objective function (2). The approach presented herein generalizes naturally to multiple additional information sources; for simplicity of presentation, we restrict the analysis to one such source. The considered setting is visualized in Figure 1. III. G AUSSIAN PROCESSES & B AYESIAN OPTIMIZATION 
+
+To optimize the high-level objective, we employ Bayesian optimization, which utilizes a surrogate model of the objec-tive function — commonly a Gaussian process. This section therefore outlines the fundamentals of Gaussian process modeling, covering both the standard regression setting and the case where a latent function is inferred solely from preferential observations. In addition, we summarize two established approaches for constructing Gaussian process models that integrate multiple numerical information sources, and conclude with a brief overview of Bayesian optimization. 
+
+A. Basics of Gaussian Process Regression 
+
+Gaussian processes generalize the concept of Gaussian random vectors to infinite-dimensional function spaces and are commonly interpreted as Gaussian probability distribu-tions over functions. Formally, a GP is denoted by 
+
+g(ξ) ∼ GP (mθ (ξ), k θ (ξ, ξ ′)) , (4) and defines a collection of random variables {g(ξ) | ξ ∈ I ⊆ 
+
+Rnξ }, indexed by ξ, any finite number of which are jointly Gaussian distributed [9]. A Gaussian process model is fully defined by the prior mean function mθ : Rnξ → R, ξ 7 →
+
+E [g(ξ)] and the prior covariance function kθ : Rnξ × Rnξ →
+
+R, (ξ, ξ ′) 7 → Cov [ g(ξ), g (ξ′)] , which both depend on a set of hyperparameters θ.Given fixed hyperparameters θ, evaluating (4) at a finite set of inputs (ξ1, . . . , ξ d) yields a multivariate Gaussian distribution 
+
+(g(ξ1), . . . , g (ξd)) ∼ N (μ, Σ) with mean vector μ, with entries [μ]i = mθ (ξi), and covariance matrix Σ, with entries 
+
+[Σ] ij = kθ (ξi, ξ j ).In the context of Bayesian optimization, Gaussian pro-cesses are commonly used as surrogate models of the un-known objective function. More generally, Gaussian pro-cesses are used to probabilistically model an unknown function G(ξ) : Rnξ → R based on a finite set of prior observations. Specifically, we rely on a data set D = (Ξ , O),where Ξ ∈ RnΞ×nξ is the input matrix with rows [Ξ] i: = ξ⊤
+
+> i
+
+and O denotes corresponding observations related to the function. Notably, the nature of O depends on whether the Gaussian process model g of G is constructed from numer-ical or preferential data; this distinction will be elaborated upon shortly. The objective is to leverage the available data together with the prior model introduced in (4) to make informed predictions of the unobserved function values g∗ =[G(ξ∗,1), . . . , G (ξ∗,n ∗ )] ⊤ at test locations Ξ∗, [Ξ ∗]i: = ξ⊤∗,i ,which are jointly distributed with the latent function values 
+
+g = [ G(ξ1), . . . , G (ξnΞ )] ⊤ at training inputs Ξ.To this end, given a data set D of observations of the underlying function G, we aim to infer the data-informed posterior distribution p (g∗ | D , Ξ∗). To achieve this, we consider the conditional Gaussian distribution 
+
+g∗ | Ξ, g, Ξ∗, θ ∼ N (μg∗|g, Σg∗|g), where (5) 
+
+μg∗|g = mθ (Ξ ∗) + kθ (Ξ ∗, Ξ) kθ (Ξ , Ξ) −1(g − mθ (Ξ)) ,
+
+Σg∗|g = kθ (Ξ ∗, Ξ∗)−kθ (Ξ ∗, Ξ) kθ (Ξ , Ξ) −1kθ (Ξ , Ξ∗).
+
+Here, mθ (A) denotes the vector with entries [mθ ]i =
+
+mθ ([ A]i:), and kθ (A, B ) denotes the covariance matrix with entries [kθ (A, B )] ij = kθ ([ A]⊤ 
+
+> i:
+
+, [B]⊤ 
+
+> j:
+
+) for A, B ∈ { Ξ, Ξ∗}.We further consider the likelihood p (O | g, θ ), which quantifies the probability of observations O given the latent function values g under a Gaussian process model with hyperparameters θ. In general, the hyperparameters may also be treated as uncertain, with a prior distribution θ ∼ p (θ).Applying Bayes’ theorem, the posterior model is given by 
+
+p (g∗ | D , Ξ∗) ∝
+
+Z Z 
+
+p (g∗ | Ξ, g, Ξ∗, θ ) p (O | g, θ )
+
+p (g | Ξ, θ ) p (θ) d g dθ. (6) The mean of the posterior distribution (6) provides an esti-mate of the unknown function values G(ξ∗,1), . . . , G (ξ∗,n ∗ ),while its (co-)variance quantifies the associated prediction uncertainty. 
+
+1) Numerical observations: In many settings, Gaussian process models are trained on numerical data. In such cases, the observations O are the target vector y consisting of noisy evaluations of the underlying function, i.e., [y]i =
+
+G(ξi)+ εi, where the noise terms εi are typically assumed to be independent and identically distributed Gaussian random variables, εi ∼ N (0 , σ 2n), with zero mean and variance σ2n.This assumption implies a Gaussian likelihood p (O | g, θ ).Moreover, in most applications, a point estimate θ∗, ob-tained, e.g., via evidence maximization or cross-validation, is typically used [9]. Combined with the Gaussian likelihood assumption, this leads to a posterior p (g∗ | D , Ξ∗, θ ∗) that is itself Gaussian and can be expressed in closed-form 
+
+g∗ | D , Ξ∗, θ ∗ ∼ N (m+ 
+
+> θ∗
+
+(Ξ ∗), k + 
+
+> θ∗
+
+(Ξ ∗, Ξ∗)) , where 
+
+m+ 
+
+> θ∗
+
+(Ξ ∗) = mθ∗ (Ξ ∗) + kθ∗ (Ξ ∗, Ξ)Σ −1 
+
+> y
+
+(y − mθ∗ (Ξ)) ,k+ 
+
+> θ∗
+
+(Ξ ∗, Ξ∗) = kθ∗ (Ξ ∗, Ξ∗)−kθ∗ (Ξ ∗, Ξ)Σ −1 
+
+> y
+
+kθ∗ (Ξ , Ξ∗),
+
+with Σy = kθ∗ (Ξ , Ξ) + σ2nI denoting the covariance matrix of the observations y.In settings with non-Gaussian noise or uncertain hyperpa-rameters θ ∼ p (θ), approximations are typically required to obtain a closed-form posterior [9], or alternatively, the pos-terior can be estimated directly using Markov-chain Monte-Carlo (MCMC) methods to evaluate either the fully Bayesian posterior p (g∗ | D , Ξ∗) in (6) or the conditional posterior 
+
+p (g∗ | D , Ξ∗, θ ∗), depending on whether a fixed or marginal treatment of hyperparameters is adopted. 
+
+2) Preference observations: In preference learning with Gaussian processes [15], the latent function is modeled based on preference observations in the form of pairwise comparisons. Instead of noisy evaluations of the underlying function, the observations O are in the form of a set of 
+
+nC comparisons C = {(ik, j k) | k ∈ { 1, . . . , n C }} , where 
+
+ik, j k ∈ {1, . . . , n Ξ} and ik̸ = jk. Within the set C,each tuple (ik, j k) represents one comparative judgment by the decision maker. In particular, the kth tuple (ik, j k)
+
+means that the decision maker preferred ξik over ξjk . A common modeling assumption is that comparisons are based on the value of a latent objective function, contaminated with Gaussian noise. This implies the so-called probit likelihood function 
+
+p (( i, j ) | g(ξi), g (ξj )) = 
+
+Z Z 
+
+1{g(ξi)+ εi≥g(ξj )+ εj }(εi, ε j )
+
+p(εi) p(εj ) d εi dεj ,
+
+where 1A denotes the indicator function for the set A
+
+and εi, ε j are independent and identically distributed ran-dom variables εi, ε j ∼ N (0 , σ 2n). Hence, the distribution 
+
+p (( i, j ) | g(ξi), g (ξj )) admits the closed-form expression 
+
+p (( i, j ) | g(ξi), g (ξj )) = Φ g(ξi) − g(ξj )
+
+p2σ2n
+
+!
+
+, (7) where Φ is the cumulative distribution function of the standard normal distribution. Notably, unlike with numerical observations, the posterior distribution for preferential data is not Gaussian, even if the hyperparameters are known. It can either be approximated as Gaussian using the Laplace approximation [15], [9] or estimated via sampling-based approaches, such as MCMC methods. To obtain a sampling-based approximation of the posterior (6), we first generate S posterior samples of the latent function values at training locations and hyperparameters, 
+
+(g(s), θ (s)) ∼ p(g, θ | D ), for s = 1 , . . . , S .Next, for each sample, we compute the conditional distri-bution of the test point, g∗ | Ξ, g(s), ξ ∗, θ (s), as defined in (5). Finally, resampling from these conditional distributions yields posterior predictive samples of g∗.
+
+B. Multi-Fidelity Gaussian Processes 
+
+Traditional Gaussian process regression, as discussed ear-lier, is designed to model data from a single, typically high-fidelity, source and assumes that all observations are of consistent quality. However, in many practical applications, acquiring high-fidelity data, such as through physical exper-iments or real-world testing, can be costly, time-intensive, or constrained by logistical limitations. To mitigate the reliance on expensive data, low-fidelity simulations are often employed as a complementary, less resource-intensive alternative. This introduces the challenge of integrating heterogeneous data sources with differing lev-els of fidelity, which has led to the development of extended GP regression frameworks for multi-fidelity settings [27]. In the following, we provide a concise summary of two established strategies to model multiple data sources 
+
+Gh(ξ), h ∈ {1, . . . , H } through a collection of GPs 
+
+gh(ξ), h ∈ { 1, . . . , H }. Importantly, these methods impose a correlation between the GP models, allowing for information transfer between them. 
+
+1) Intrinsic Coregionalization Model (ICM): A common approach to constructing surrogate models that integrate multiple information sources is the use of coregionalization 
+
+[28], [20], as also employed in multi-output Gaussian process regression [29]. In this framework, each information source is modeled as a separate but correlated Gaussian process gh,where dependencies are induced through a shared set of H
+
+latent Gaussian processes, 
+
+ui(ξ) ∼ GP  m(ξ), k (ξ, ξ ′), i ∈ { 1, . . . , H },
+
+that all share a common kernel function k but are mutually independent. Each model gh is a linear combination of the latent processes, 
+
+gh(ξ) = 
+
+> H
+
+X
+
+> i=1
+
+ah,i ui(ξ), h ∈ { 1, . . . , H },
+
+with coefficients ah,i ∈ R that determine how strongly output h depends on latent process i. Using the mutual independence of the latent GPs, the prior cross-covariance between gh and gh′ can be derived as 
+
+Cov [ gh(ξ), g h′ (ξ′)] = 
+
+> H
+
+X
+
+> i=1
+
+ah,i ah′,i k(ξ, ξ ′)= [ B]hh ′ k(ξ, ξ ′),
+
+where the coregionalization matrix B = AA ⊤ has entries 
+
+[A]hi = ah,i . This symmetric positive semi-definite matrix captures the inter-output correlations induced by the latent mixing structure, and its entries are inferred jointly with the kernel hyperparameters [20]. The ICM can equivalently be viewed as a standard Gaus-sian process defined over an augmented input space ˜I =
+
+I × { 1, . . . , H }, with the corresponding augmented kernel 
+
+˜k (ξ, h ), (ξ′, h ′) = [ B]hh ′ k(ξ, ξ ′). (8) Inference in this formulation proceeds analogously to the single-output GP described in Section III-A.1. 
+
+2) Autoregressive Model (AR1): Secondly, we also utilize the autoregressive (AR1) model introduced in [17], which establishes a Gaussian process prior for each fidelity level and models their interdependencies through a recursive, linear structure. Let Gh(ξ), h = 1 , . . . , H represent a sequence of models of G with increasing fidelity. Each model’s output is captured by a separate GP gh, defined analogously to (4). Specifically, at the base fidelity level h = 1 (lowest fidelity), we define a standard Gaussian process model 
+
+g1(ξ) ∼ GP  m1(ξ), k 1(ξ, ξ ′).
+
+For subsequent fidelity levels h = 2 , . . . , H , the model is recursively defined via 
+
+ gh(ξ) = ρh−1gh−1(ξ) + δh(ξ),gh−1(ξ) ⊥ δh(ξ), (9) where the correction term δh is itself modeled as an indepen-dent ( ⊥) Gaussian process δh(ξ) ∼ GP  mδh (ξ), k δh (ξ, ξ ′).In this formulation, the parameters ρh−1 govern the linear dependence between successive fidelity levels. Due to the closure of Gaussian processes under linear transformations, the additive form in (9) ensures that all higher fidelity models 
+
+gh, h = 2 , . . . , H , are themselves Gaussian processes. As in the single-fidelity case (Section III-A.1), closed-form posteriors are possible under Gaussian noise and fixed hyperparameters, whereas non-Gaussian noise or uncertain hyperparameters necessitate approximation or MCMC-based Bayesian inference. 
+
+C. Bayesian Optimization 
+
+We apply Bayesian optimization to address the optimiza-tion problem 
+
+ξ∗ = arg min  
+
+> ξ∈I
+
+G(ξ),
+
+where G : Rnξ → R, ξ 7 → G(ξ) is a black-box function and ξ∗ denotes its global minimizer within the feasible set I. Unlike classical optimization methods that require dense evaluations of the objective, BO seeks to minimize the number of function evaluations by sequentially selecting the most informative sampling points. This is particularly advan-tageous when the true objective G is unknown and expensive to evaluate. To this end, BO relies on surrogate models of the objective G — most commonly Gaussian processes — which are updated iteratively as new observations are gathered. Specifically, in each iteration n ∈ N, BO proceeds in two main steps: 1) Select a query point ξn and evaluate the objective function — which in the controller tuning case involves running a closed-loop experiment — to obtain a new data tuple (ξn, G (ξn)) , and 2) update the GP surrogate, including hyperparameters, using the augmented data set Dn+1 = (Ξ n+1 , yn+1 ),where Ξn+1 ← [Ξ ⊤ 
+
+> n
+
+, ξ n]⊤ and yn+1 ← [y⊤ 
+
+> n
+
+, G (ξn)] ⊤.For Preferential Bayesian optimization (PBO), with observa-tions in the form of pairwise comparisons, the steps are: 1) Select a pair of query points (ξin , ξ jn ) and query the decision maker — by running two closed-loop exper-iments — to obtain a new data tuple (ξin , ξ jn , c n),where cn = ( in, j n) if ξin is preferred over ξjn and 
+
+cn = ( jn, i n) otherwise, and 2) update the GP surrogate, including hyperparameters, using the augmented data set Dn+1 = (Ξ n+1 , Cn+1 ),where Ξn+1 ← [Ξ ⊤ 
+
+> n
+
+, ξ in , ξ jn ]⊤ and Cn+1 ← C n ∪{ cn}.To steer the selection of the query points ξn toward the global minimizer ξ∗, BO relies on an acquisition function 
+
+αBO . This function uses the current GP surrogate for G to quantify the utility of evaluating a candidate point, effectively balancing exploration of uncertain regions with exploitation of promising areas. At each iteration n, the next point to evaluate is selected by maximizing this acquisition function: 
+
+ξn = arg max  
+
+> ξ∈I
+
+αBO (ξ; Dn),
+
+where αBO : Rnξ → R, ξ 7 → αBO (ξ; Dn). For an overview of commonly used acquisition functions in the standard setting with numerical observations, we refer the reader to [8]. In preferential Bayesian optimization, a pair of points for the next comparison is selected instead: 
+
+(ξin , ξ jn ) = arg max  
+
+> (ξ,ξ ′)∈I 2
+
+αPBO (ξ, ξ ′; Dn),
+
+where αPBO : Rnξ × Rnξ → R, (ξ, ξ ′) 7 → αPBO (ξ, ξ ′; Dn).A widely used pairwise acquisition function is the expected utility of the best option (EUBO) [30], [31]. For a summary of alternative acquisition functions in the preferential setting, see [31] and the references therein. 
+
+D. Multi-Fidelity Bayesian Optimization 
+
+In multi-fidelity Bayesian optimization, a surrogate model incorporating data from all information sources is used to improve data efficiency with respect to the main, high-fidelity source. Depending on the application context, two distinct strategies can be employed. The first strategy employs cost-aware acquisition functions to dynamically select the most informative and cost-effective fidelity at each iteration [18], [20], [24]. The second strategy organizes the optimization into distinct phases, starting with exploration on low-fidelity data and transitioning to high-fidelity evaluations in later stages [21], [22]. In this phased approach, exploration-oriented acquisition functions — such as the integral pre-dictive variance (IPV) [32] — should be used during the low-fidelity phase, as demonstrated by [21]. IV. M ULTI -M ODAL MULTI -F IDELITY SURROGATES 
+
+COMBINING PREFERENTIAL AND NUMERICAL DATA 
+
+Multi-fidelity methods for Bayesian optimization aim to reduce the reliance on expensive data by utilizing addi-tional lower-fidelity data sources. Prior work was limited to combining data sources providing numerical evaluations of the objective function. In this section, we extend these approaches by integrating both numerical and preferential observations of different fidelities into a unified multi-modal, multi-fidelity surrogate model. For clarity of exposition, the following discussion considers two fidelity levels ( H =2), without loss of generality. Specifically, the high-fidelity level ( h = 2 ) corresponds to pairwise comparisons of (2) and is denoted by superscript hf . The low-fidelity level (h = 1 ) corresponds to numerical observations of (3) and is denoted by superscript lf . As discussed earlier, this setting captures scenarios in which controller or system parameters are learned according to human preferences, while an avail-able system model and approximate, numerically tractable decision criterion are leveraged to minimize the need for human-involved experiments. 
+
+A. Multi-Modal ICM Surrogates 
+
+We begin by discussing the implications of incorporating multi-modal data for the application of the ICM (cf. Section III-B.1) as a multi-fidelity surrogate. For clarity of expo-sition, we treat the ICM as a standard GP ˜g defined over an augmented input space and equipped with an augmented kernel ˜k, as in (8). The problem thus reduces to conditioning a GP simultaneously on numerical and preference observa-tions. We denote the augmented high-fidelity and low-fidelity in-puts by ˜ξhf  
+
+> i
+
+= ( ξhf  
+
+> i
+
+, 1) and ˜ξlf  
+
+> i
+
+= ( ξlf  
+
+> i
+
+, 2) , respectively. Assum-ing conditional independence of all observations given the latent function values ˜g = [( ˜ghf )⊤, (˜glf )⊤]⊤, where ˜ghf =[˜ g( ˜ξhf 1 ), . . . , ˜g( ˜ξhf  
+
+> nΞ,hf
+
+)] ⊤ and ˜glf = [˜ g( ˜ξlf 1 ), . . . , ˜g( ˜ξlf  
+
+> nΞ,lf
+
+)] ⊤,the joint likelihood factorizes as 
+
+p(D | g) = Y
+
+> (i,j )∈C hf
+
+Φ ˜g( ˜ξhf  
+
+> i
+
+) − ˜g( ˜ξhf  
+
+> j
+
+)
+
+p2σ2n
+
+!
+
+· Y  
+
+> (ξlf
+> i,y lf
+> i)∈D lf
+
+N
+
+
+
+ylf  
+
+> i
+
+; ˜ g( ˜ξlf  
+
+> i
+
+), σ 2n
+
+
+
+,
+
+where preference observations are incorporated through the probit likelihood (7) and numerical observations through a Gaussian likelihood. As the joint likelihood is non-Gaussian, the posterior must be approximated, as in the single-fidelity preference GP case (Section III-A.2). Specifically, we em-ploy MCMC-based approximations. For the two-fidelity problem, we adopt the coregionaliza-tion matrix 
+
+B =
+
+ σ2hf ρ σ hf σlf 
+
+ρ σ hf σlf σ2lf 
+
+
+
+,
+
+where ρ ∈ [0 , 1) and σhf , σ lf ∈ R+ are hyperparameters. This ensures that B is positive definite. We place a Beta( α, β ) prior on ρ with α > β , biasing the distribution toward values near 1 to promote information transfer from low to high fidelity when only low-fidelity data have been collected. 
+
+B. Multi-Modal AR1 GP Surrogates 
+
+In contrast to the intrinsic coregionalization approach, the AR1 scheme (cf. Section III-B.2) incorporates data of different modalities hierarchically through a two-step pro-cess. We first condition a standard GP (4) on the numerical low-fidelity observations in the dataset Dlf to obtain the low-fidelity model glf (ξ). Next, we use the low-fidelity GP model to predict the mean and variance at the inputs Ξhf ,where high-fidelity comparative evaluations were performed. For sampling-based inference via MCMC methods, these predicted statistics are computed empirically. The high-fidelity model, which integrates both numerical and preferential data, is then expressed as 
+
+ghf (ξ) = glf (ξ) + δ(ξ),
+
+where δ is a preference-based GP, and, in contrast to (9), we omit the scaling parameter ρ. This omission is justified because the scale of ghf is negligible when conditioned only on comparative data, making ρ redundant with the scaling parameter of the δ-GP kernel. It remains to infer the hyperparameters of the δ-GP, as well as the vector of latent values δ, where [δ]i = δ(ξhf  
+
+> i
+
+), i =1, . . . , n hf Ξ using MCMC sampling from the joint posterior 
+
+p(δ, θ | D hf ) ∝ p(Dhf | δ, θ ) p(δ | θ) p(θ),
+
+where p(θ) is the prior over hyperparameters, p(δ | θ) is the zero-mean GP prior, and p(Dhf | δ, θ ) is the likelihood of the observed preference relations in Dhf . The likelihood for each comparison c = ( i, j ) ∈ Chf is computed as 
+
+p(c | δ(ξhf  
+
+> i
+
+), δ (ξhf  
+
+> j
+
+)) = 
+
+Z Z Z 
+
+1{glf (ξhf       
+
+> i)+ δ(ξhf
+> i)+ εi≥glf (ξhf
+> j)+ δ(ξhf
+> j)+ εj}
+
+(εi, ε j , glf )
+
+p glf (ξhf  
+
+> i
+
+), g lf (ξhf  
+
+> j
+
+) p(εi) p(εj ) d εi dεj dglf , (11) where εi, ε j ∼ N (0 , σ 2n) represent independent additive noise accounting for inconsistencies in human decisions, and σn is a hyperparameter of the model. By introducing 
+
+η = glf (ξhf  
+
+> j
+
+) − glf (ξhf  
+
+> i
+
+) + εj − εi with η ∼ N (E glf (ξhf  
+
+> j
+
+) −
+
+E glf (ξhf  
+
+> i
+
+) , Cov glf (ξhf  
+
+> j
+
+) − glf (ξhf  
+
+> i
+
+) + 2 σ2n), (11) simpli-fies to 
+
+p(c | δ(ξhf  
+
+> i
+
+), δ (ξhf  
+
+> j
+
+)) = 
+
+Z
+
+1{δ(ξhf   
+
+> i)−δ(ξhf
+> j)≥η}
+
+(η)p(η) d η
+
+= Φ 
+
+ δ(ξhf  
+
+> i
+
+) + E glf (ξhf  
+
+> i
+
+) − δ(ξhf  
+
+> j
+
+) − E glf (ξhf  
+
+> j
+
+)q
+
+Cov glf (ξhf  
+
+> j
+
+) − glf (ξhf  
+
+> i
+
+) + 2 σ2n)
+
+ ,
+
+where Φ, as previously, denotes the cumulative distribution function of the standard normal distribution. Finally, we compute the posterior distribution under the multi-modal AR1 model using MCMC methods, as described in Section III-A.2. 0 1000 2000 Path progress (m)      
+
+> 40
+> 60
+> 80
+> 100 Velocity (  km h )
+> −250 0250 East (m) 0200 400 600 800 1000 North (m)
+> Fig. 2. Left: Black and green areas show the 2σcredible intervals of the heteroscedastic Gaussian processes modeling observed human driver trajectories. The black model, trained on a range of drivers, serves as a low-fidelity model, while the green model, trained on one driver, is utilized to simulate high-fidelity preferences of a passenger for method evaluation. In each comparison, the simulated passenger prefers the trajectory that better aligns with the green model. Right: Overview of the track layout.
+
+V. E XAMPLE : P ERSONALIZED AUTOMATED DRIVING 
+
+While automated driving systems can be designed mainly based on clearly defined, numerically tractable objectives — such as minimizing travel time, reducing energy con-sumption, or maintaining desired safe distances from other vehicles — they often must also account for more subjective goals, including passenger comfort [33], perceived safety, or driving style. In this work, we focus on the task of tuning an au-tomated driving system according to individual passenger preferences, building on our previous study [13]. The system employs an optimization-based trajectory planner followed by a trajectory tracking controller. At each planning stage k,the planned trajectory ˆτ ∗ 
+
+> k
+
+is obtained as the solution of an optimal control problem. For details regarding the vehicle model and the formulation of the optimal control problem, we refer the reader to [13]. To adapt the driving style to individual preferences, we learn parameters of the trajectory planner — specifically, the weights of the cost function of the underlying optimal control problem — using multi-modal multi-fidelity BO, as illustrated in Figure 1. In particular, we optimize the weights associated with positive and negative longitudinal accelera-tion, lateral acceleration, longitudinal jerk, and lateral jerk, resulting in nξ = 5 parameters. To facilitate sample-efficient learning, we construct alow-fidelity model of the human decision-making process from observed trajectories of human drivers. Specifically, we proceed as in our previous work [13], and model the range of observed velocity profiles using a heteroscedastic GP [34], see the black shaded area in Figure 2. The resulting low-fidelity model of the human decision-making process is then expressed as the likelihood of a simulated trajectory under this probabilistic model. This low-fidelity model provides a numerical approximation of human preferences, which can be combined with high-fidelity preferential feedback in the proposed multi-modal multi-fidelity BO framework. 0 50 Low-fidelity episodes           
+
+> 10 3
+> 10 4
+> 10 5
+> Regret
+> 010 20 30 40 50 High-fidelity episodes
+> PBO MM-MFBO (ICM) MM-MFBO (AR1) Fig. 3. Regret of the recommended parameters ξ∗
+> n— obtained by maximizing the posterior mean of the surrogate model — after each episode of the BO procedure. Shaded areas show the total range observed over five trials. Regret is computed using the true objective function G(ξ)underlying the preferences of the simulated passenger.
+
+In the following, we evaluate our method using a simulated passenger, where the true objective function underlying their preferences is known. This is necessary for a quantitative evaluation using regret as a performance measure. Regret plots cannot be generated in realistic settings, where the true objective guiding the preferences is unknown. High-fidelity preferential feedback is modeled using a heteroscedastic GP trained on a distinct set of trajectories from a single driver, as indicated by the green shaded area in Figure 2. To evaluate our proposed multi-modal multi-fidelity sur-rogates, we compare (i) standard preferential BO using a preferential GP surrogate model (cf. Section III-A.2), (ii) multi-modal multi-fidelity BO based on the proposed multi-modal ICM surrogate (cf. Section IV-A), and (iii) multi-modal multi-fidelity BO based on the proposed multi-modal AR1 surrogate (cf. Section IV-B). For the multi-modal methods, the optimization is split into a low-fidelity phase, where numerical observations of the low-fidelity objective are collected, and a high-fidelity phase, where the high-fidelity objective is optimized based on preferential feedback. All three procedures use the expected utility of the best option (EUBO) acquisition function [31] to propose new comparison candidates during the high-fidelity phase. The multi-fidelity methods additionally employ the integral pre-dictive variance (IPV) acquisition function [32] during the first 80 episodes of the low-fidelity phase, followed by 20 episodes using expected improvement (EI) [8]. This choice is consistent with the strategy outlined in Section III-D, which involves mainly using exploration-intensive acquisition func-tions during the low-fidelity phase. For all methods, posterior samples are drawn using the Pyro [35] implementation of the NUTS algorithm [36], an extension of the Hamiltonian Monte Carlo (HMC) MCMC algorithm. Figure 3 shows the regret of the three procedures over the course of the optimization runs. Regret is computed as the difference in performance between the trajectory induced by the best parameter recommendation after each episode — obtained by maximizing the posterior mean of the surrogate 0 2000 20 40 60 80 100 120 Velocity (  km h )   
+
+> PBO 02000 Path progress (m)
+> MM-MFBO (ICM) 02000
+> MM-MFBO (AR1)
+> Fig. 4. Trajectories sampled during the high-fidelity phases of each method, aggregated across all five experimental trials.
+
+— and the best possible trajectory under the known objective. Both proposed multi-fidelity methods clearly outperform the single-fidelity preferential Bayesian optimization, benefiting from successful information transfer from the preceding low-fidelity evaluations. In fact, the single-fidelity baseline requires approximately 10 to 15 high-fidelity episodes to reach regret scores that the proposed multi-modal multi-fidelity models achieve solely with low-fidelity data, before observing a single high-fidelity preference. Since each high-fidelity episode corresponds to a pair of closed-loop experiments, this corresponds to 20 to 30 closed-loop experiments. In our evaluation, the autoregressive (AR1) structure achieves more consistent results and outperforms the ICM. We conjecture that this is due to the simpler and hierarchical correlation structure of the AR1 model, which naturally aligns with our setting. In contrast, the correlation between fidelities in the ICM is more sensitive to variability in hyperparameter inference, which may lead to inconsistent performance across episodes. This arises from the fact that the ICM does not a priori assume a hierarchical relation between the data sources, but treats them on equal footing. The correlation structure must therefore be inferred from the data via hyperparameter estimation of the coregionalization matrix. While this provides greater flexibility in modeling complex correlations compared to the AR1 model, accurately identifying the correlation structure from limited data can be challenging. Finally, a similar trend can be observed when comparing the parameters queried by each method in every episode, rather than just the regret of the best recommendation over the episodes. We emphasize that, in human-involved con-troller tuning, performance across all sampled comparisons is important: the human decision maker may experience dis-comfort when evaluating inferior parameterizations. Conse-quently, following our previous work [13], we also examine the trajectories resulting from the parameters sampled across all high-fidelity episodes. As shown in Figure 4, the results indicate that the multi-fidelity structure significantly focuses the preference queries and reduces frequent sampling of inferior parameters. VI. C ONCLUSION 
+
+Efficiently tuning controllers based on human preferences requires integrating additional information sources to mini-mize costly human feedback. This work presents a frame-work for multi-modal, multi-fidelity Bayesian optimization that integrates numerical and preferential data to enable efficient learning of controller parameters. Extending clas-sical multi-fidelity Gaussian process formulations, we pro-pose two surrogate model structures — a coregionalization-based model and a hierarchical autoregressive AR1 model — capable of jointly representing numerical evaluations and pairwise preference feedback. Both surrogate structures facilitate information transfer across fidelities and modalities, thereby substantially improving data efficiency in settings where high-fidelity human feedback is limited. The framework is demonstrated on a personalized auto-mated driving task, where controller parameters are adapted to individual passenger preferences. The results indicate that both multi-modal, multi-fidelity surrogate models outperform standard preference-only Bayesian optimization by achieving faster and more consistent adaptation of the driving style. Among the two approaches, the AR1 structure exhibits particularly robust performance, suggesting that hierarchical formulations offer advantages when combining heteroge-neous data modalities. Finally, although demonstrated in automated driving, the proposed framework is general in nature and directly appli-cable to a wide range of controller tuning tasks involving hu-man preferences, including exoskeletons, assistive robotics, autonomous driving, and other human-centered applications. REFERENCES [1] A. Marco, P. Hennig, J. Bohg, S. Schaal, and S. Trimpe, “Automatic LQR tuning based on Gaussian process global optimization,” in IEEE Int. Conf. Robot. and Autom. , 2016, pp. 270–277. [2] F. Berkenkamp, A. P. Schoellig, and A. Krause, “Safe controller optimization for quadrotors with Gaussian processes,” in IEEE Int. Conf. Robot. and Autom. , 2016, pp. 491–496. [3] D. Piga, M. Forgione, S. Formentin, and A. Bemporad, “Performance-oriented model learning for data-driven MPC design,” IEEE Control Syst. Lett. , vol. 3, no. 3, pp. 577–582, 2019. [4] S. Hirt, M. Pfefferkorn, A. Mesbah, and R. Findeisen, “Stability-informed Bayesian optimization for MPC cost function learning,” 
+
+IFAC-PapersOnLine , vol. 58, no. 18, pp. 208–213, 2024. [5] S. Hirt, M. Pfefferkorn, and R. Findeisen, “Safe and stable closed-loop learning for neural-network-supported model predictive control,” in IEEE Conf. Decis. Control , 2024, pp. 4764–4770. [6] P. Holzmann, M. Pfefferkorn, J. Peters, and R. Findeisen, “Learning energy-efficient trajectory planning for robotic manipulators using Bayesian optimization,” in Eur. Control Conf. , 2024, pp. 1374–1379. [7] S. Hirt, L. Theiner, M. Pfefferkorn, and R. Findeisen, “A hierarchical surrogate model for efficient multi-task parameter learning in closed-loop control,” in IEEE Conf. Decis. Control , 2025, pp. 4578–4585. [8] R. Garnett, Bayesian Optimization . Cambridge Univers. Press, 2023. [9] C. E. Rasmussen and C. K. I. Williams, Gaussian Processes for Machine Learning . MIT Press, 2006. [10] K. A. Ingraham, M. Tucker, A. D. Ames, E. J. Rouse, and M. K. Shepherd, “Leveraging user preference in the design and evaluation of lower-limb exoskeletons and prostheses,” Curr. Opin. Biomed. Eng. ,vol. 28, p. 100487, 2023. [11] L. Roveda, L. Mantovani, M. Maccarini, F. Braghin, and D. Piga, “Optimal physical human–robot collaborative controller with user-centric tuning,” Control Eng. Pract. , vol. 139, p. 105621, 2023. [12] M. Zhu, A. Bemporad, and D. Piga, “Preference-based MPC calibra-tion,” in Eur. Control Conf. , 2021, pp. 638–645. [13] L. Theiner, S. Hirt, A. Steinke, and R. Findeisen, “Exploiting prior knowledge in preferential learning of individualized autonomous ve-hicle driving styles,” in Eur. Control Conf. , 2025, pp. 2217–2222. [14] J. Gonz´ alez, Z. Dai, A. Damianou, and N. D. Lawrence, “Preferential Bayesian optimization,” in Int. Conf. Mach. Learn. , 2017, pp. 1282– 1291. [15] W. Chu and Z. Ghahramani, “Preference learning with Gaussian processes,” in Int. Conf. Mach. Learn. , 2005, pp. 137–144. [16] E. Brochu, N. d. Freitas, and A. Ghosh, “Active preference learning with discrete choice data,” in Adv. Neural Inf. Process. Syst. , vol. 20, 2007, pp. 409–416. [17] M. C. Kennedy and A. O’Hagan, “Predicting the output from a complex computer code when fast approximations are available,” 
+
+Biometrika , vol. 87, no. 1, pp. 1–13, 2000. [18] M. Poloczek, J. Wang, and P. Frazier, “Multi-information source optimization,” in Adv. Neural Inf. Process. Syst. , vol. 30, 2017. [19] A. I. J. Forrester, A. S´ obester, and A. J. Keane, “Multi-fidelity optimization via surrogate modelling,” Proc. R. Soc. A , vol. 463, pp. 3251–3269, 2007. [20] K. Swersky, J. Snoek, and R. P. Adams, “Multi-Task Bayesian opti-mization,” in Adv. Neural Inf. Process. Syst. , vol. 26, 2013. [21] Y. Zhao, M. Pfefferkorn, M. Templer, and R. Findeisen, “Efficient learning of vehicle controller parameters via multi-fidelity Bayesian optimization: From simulation to experiment,” in IEEE Intell. Veh. Symp. , 2025, pp. 1697–1704. [22] Y. Zhao, M. Pfefferkorn, M. Templer, D. T¨ opfer, and R. Findeisen, “Cautious learning of vehicle controller parameters via constrained multi-fidelity Bayesian optimization,” in Eur. Control Conf. , 2026. [23] S. He, A. von Rohr, D. Baumann, J. Xiang, and S. Trimpe, “Simulation-aided policy tuning for black-box robot learning,” IEEE Trans. Robot. , vol. 41, pp. 2533–2548, 2025. [24] M. Nobar, J. Keller, A. Forino, J. Lygeros, and A. Rupenyan, “Guided multi-fidelity Bayesian optimization for data-driven controller tuning with digital twins,” IEEE Robot. Autom. Lett. , 2026, to be published. [25] M. Fan, B. Yoon, E. Dougherty, N. Urban, F. Alexander, R. Arr´ oyave, and X. Qian, “Multi-fidelity Bayesian optimization with multiple information sources of input-dependent fidelity,” in Conf. Uncert. Artif. Intell. , 2024, pp. 1271–1293. [26] P. Mikkola, J. Martinelli, L. Filstroff, and S. Kaski, “Multi-fidelity Bayesian optimization with unreliable information sources,” in Int. Conf. Artif. Intell. Stat. , 2023, pp. 7425–7454. [27] L. Brevault, M. Balesdent, and A. Hebbal, “Overview of Gaussian pro-cess based multi-fidelity techniques with variable relationship between fidelities, application to aerospace systems,” Aerosp. Sci. Technol. , vol. 107, p. 106339, 2020. [28] E. Bonilla, K. Chai, and C. Williams, “Multi-task Gaussian process prediction,” in Adv. Neural Inf. Process. Syst. , vol. 20, 2007, pp. 153– 160. [29] M. A. ´ Alvarez, L. Rosasco, and N. D. Lawrence, “Kernels for vector-valued functions: A review,” Found. Trends Mach. Learn. , vol. 4, no. 3, 2012. [30] Z. J. Lin, R. Astudillo, P. Frazier, and E. Bakshy, “Preference explo-ration for efficient Bayesian optimization with multiple outcomes,” in 
+
+Int. Conf. Artif. Intell. Stat. , 2022, pp. 4235–4258. [31] R. Astudillo, Z. J. Lin, E. Bakshy, and P. Frazier, “qEUBO: A decision-theoretic acquisition function for preferential Bayesian optimization,” in Int. Conf. Artif. Intell. Stat. , 2023, pp. 1093–1114. [32] S. Seo, M. Wallat, T. Graepel, and K. Obermayer, “Gaussian process regression: active data selection and test point rejection,” in IEEE-INNS-ENNS Int. Joint Conf. Neural Networks , vol. 3, 2000, pp. 241– 246. [33] A. Steinke, “Optimizing motion comfort in automated driving: Motion sickness reduction and augmented trajectory planning,” Ph.D. disser-tation, Technische Universit¨ at Darmstadt, Darmstadt, 2025. [34] K. Kersting, C. Plagemann, P. Pfaff, and W. Burgard, “Most likely heteroscedastic Gaussian process regression,” in Int. Conf. Mach. Learn. , 2007, pp. 393–400. [35] E. Bingham, J. P. Chen, M. Jankowiak, F. Obermeyer, N. Pradhan, T. Karaletsos, R. Singh, P. Szerlip, P. Horsfall, and N. D. Goodman, “Pyro: Deep universal probabilistic programming,” J. Mach. Learn. Res. , vol. 20, no. 28, pp. 1–6, 2019. [36] M. D. Homan and A. Gelman, “The No-U-turn sampler: adaptively setting path lengths in Hamiltonian Monte Carlo,” J. Mach. Learn. Res. , vol. 15, no. 1, pp. 1593–1623, 2014.

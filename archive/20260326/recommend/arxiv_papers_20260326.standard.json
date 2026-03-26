@@ -1,0 +1,860 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-26T20:17:08.851935+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 15,
+    "deep_cap": 6,
+    "deep_selected": 12,
+    "quick_candidates": 9,
+    "quick_skim_target": 11,
+    "quick_selected": 9
+  },
+  "deep_dive": [
+    {
+      "id": "2603.19219v1",
+      "title": "DriveTok: 3D Driving Scene Tokenization for Unified Multi-View Reconstruction and Understanding",
+      "abstract": "With the growing adoption of vision-language-action models and world models in autonomous driving systems, scalable image tokenization becomes crucial as the interface for the visual modality. However, most existing tokenizers are designed for monocular and 2D scenes, leading to inefficiency and inter-view inconsistency when applied to high-resolution multi-view driving scenes. To address this, we propose DriveTok, an efficient 3D driving scene tokenizer for unified multi-view reconstruction and understanding. DriveTok first obtains semantically rich visual features from vision foundation models and then transforms them into the scene tokens with 3D deformable cross-attention. For decoding, we employ a multi-view transformer to reconstruct multi-view features from the scene tokens and use multiple heads to obtain RGB, depth, and semantic reconstructions. We also add a 3D head directly on the scene tokens for 3D semantic occupancy prediction for better spatial awareness. With the multiple training objectives, DriveTok learns unified scene tokens that integrate semantic, geometric, and textural information for efficient multi-view tokenization. Extensive experiments on the widely used nuScenes dataset demonstrate that the scene tokens from DriveTok perform well on image reconstruction, semantic segmentation, depth prediction, and 3D occupancy prediction tasks.",
+      "authors": [
+        "Dong Zhuo",
+        "Wenzhao Zheng",
+        "Sicheng Zuo",
+        "Siming Yan",
+        "Lu Hou",
+        "Jie Zhou",
+        "Jiwen Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.LG"
+      ],
+      "published": "2026-03-19T17:58:22+00:00",
+      "link": "https://arxiv.org/pdf/2603.19219v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "3D driving scene tokenization for world models",
+      "llm_evidence_cn": "用于世界模型的3D驾驶场景标记化",
+      "llm_evidence": "用于世界模型的3D驾驶场景标记化",
+      "canonical_evidence": "用于世界模型的3D驾驶场景标记化",
+      "llm_tldr_en": "Introduces DriveTok, a 3D tokenizer for multi-view driving scenes to support VLA and world models.",
+      "llm_tldr_cn": "引入DriveTok，一种用于多视图驾驶场景的3D标记器，支持VLA和世界模型。",
+      "llm_tldr": "引入DriveTok，一种用于多视图驾驶场景的3D标记器，支持VLA和世界模型。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "World models in autonomous driving and robotics",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.23376v1",
+      "title": "ABot-PhysWorld: Interactive World Foundation Model for Robotic Manipulation with Physics Alignment",
+      "abstract": "Video-based world models offer a powerful paradigm for embodied simulation and planning, yet state-of-the-art models often generate physically implausible manipulations - such as object penetration and anti-gravity motion - due to training on generic visual data and likelihood-based objectives that ignore physical laws. We present ABot-PhysWorld, a 14B Diffusion Transformer model that generates visually realistic, physically plausible, and action-controllable videos. Built on a curated dataset of three million manipulation clips with physics-aware annotation, it uses a novel DPO-based post-training framework with decoupled discriminators to suppress unphysical behaviors while preserving visual quality. A parallel context block enables precise spatial action injection for cross-embodiment control. To better evaluate generalization, we introduce EZSbench, the first training-independent embodied zero-shot benchmark combining real and synthetic unseen robot-task-scene combinations. It employs a decoupled protocol to separately assess physical realism and action alignment. ABot-PhysWorld achieves new state-of-the-art performance on PBench and EZSbench, surpassing Veo 3.1 and Sora v2 Pro in physical plausibility and trajectory consistency. We will release EZSbench to promote standardized evaluation in embodied video generation.",
+      "authors": [
+        "Yuzhi Chen",
+        "Ronghan Chen",
+        "Dongjie Huo",
+        "Yandan Yang",
+        "Dekang Qi",
+        "Haoyun Liu",
+        "Tong Lin",
+        "Shuang Zeng",
+        "Junjin Xiao",
+        "Xinyuan Chang",
+        "Feng Xiong",
+        "Xing Wei",
+        "Zhiheng Ma",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-24T16:07:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.23376v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Interactive world foundation model for robotic manipulation with physics alignment",
+      "llm_evidence_cn": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "llm_evidence": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "canonical_evidence": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "llm_tldr_en": "Presents ABot-PhysWorld, a 14B world model that generates physically plausible videos for robotic planning.",
+      "llm_tldr_cn": "推出ABot-PhysWorld，一个140亿参数的物理对齐世界模型，用于机器人仿真与规划。",
+      "llm_tldr": "推出ABot-PhysWorld，一个140亿参数的物理对齐世界模型，用于机器人仿真与规划。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Latest research on world models and VLA in embodied AI",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24060v1",
+      "title": "SOMA: Strategic Orchestration and Memory-Augmented System for Vision-Language-Action Model Robustness via In-Context Adaptation",
+      "abstract": "Despite the promise of Vision-Language-Action (VLA) models as generalist robotic controllers, their robustness against perceptual noise and environmental variations in out-of-distribution (OOD) tasks remains fundamentally limited by the absence of long-term memory, causal failure attribution, and dynamic intervention capability. To address this, we propose SOMA, a Strategic Orchestration and Memory-Augmented System that upgrades frozen VLA policies for robust in-context adaptation without parameter fine-tuning. Specifically, SOMA operates through an online pipeline of contrastive Dual-Memory Retrieval-Augmented Generation (RAG), an Attribution-Driven Large-Language-Model (LLM) Orchestrator, and extensible Model Context Protocol (MCP) interventions, while an offline Memory Consolidation module continuously distills the execution traces into reliable priors. Experimental evaluations across three backbone models (pi0, pi0.5, and SmolVLA) on LIBERO-PRO and our proposed LIBERO-SOMA benchmarks demonstrate that SOMA achieves an average absolute success rate gain of 56.6%. This includes a significant absolute improvement of 89.1% in long-horizon task chaining. Project page and source code are available at: https://github.com/LZY-1021/SOMA.",
+      "authors": [
+        "Zhuoran Li",
+        "Zhiyang Li",
+        "Kaijun Zhou",
+        "Jinyu Gu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-25T08:07:57+00:00",
+      "link": "https://arxiv.org/pdf/2603.24060v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Memory-augmented system for VLA model robustness and adaptation",
+      "llm_evidence_cn": "用于VLA模型鲁棒性与自适应的记忆增强系统",
+      "llm_evidence": "用于VLA模型鲁棒性与自适应的记忆增强系统",
+      "canonical_evidence": "用于VLA模型鲁棒性与自适应的记忆增强系统",
+      "llm_tldr_en": "SOMA enhances VLA model robustness through memory-augmented in-context adaptation without fine-tuning.",
+      "llm_tldr_cn": "SOMA通过记忆增强的上下文自适应，在无需微调的情况下提升了VLA模型的鲁棒性。",
+      "llm_tldr": "SOMA通过记忆增强的上下文自适应，在无需微调的情况下提升了VLA模型的鲁棒性。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24393v1",
+      "title": "3D-Mix for VLA: A Plug-and-Play Module for Integrating VGGT-based 3D Information into Vision-Language-Action Models",
+      "abstract": "Vision-Language-Action (VLA) models leverage Multimodal Large Language Models (MLLMs) for robotic control, but recent studies reveal that MLLMs exhibit limited spatial intelligence due to training predominantly on 2D data, resulting in inadequate 3D perception for manipulation tasks. While recent approaches incorporate specialized 3D vision models such as VGGT to enhance spatial understanding, they employ diverse integration mechanisms without systematic investigation, leaving the optimal fusion strategy unclear. We conduct a comprehensive pilot study comparing nine VGGT integration schemes on standardized benchmarks and find that semantic-conditioned gated fusion, which adaptively balances 2D semantic and 3D geometric features based on task context, achieved the strongest performance among all nine evaluated fusion schemes in our pilot study. We present 3D-Mix, a plug-and-play module that integrates into diverse VLA architectures (GR00T-style and $π$-style) without modifying existing MLLM or action expert components. Experiments across six MLLM series (nine model variants, 2B--8B parameters) on SIMPLER and LIBERO show that 3D-Mix delivers consistent performance gains, averaging +7.0% on the out-of-domain (OOD) SIMPLER benchmark across all nine GR00T-style variants, establishing a principled approach for enhancing spatial intelligence in VLA systems.",
+      "authors": [
+        "Bin Yu",
+        "Shijie Lian",
+        "Xiaopeng Lin",
+        "Zhaolong Shen",
+        "Yuliang Wei",
+        "Haishan Liu",
+        "Changti Wu",
+        "Hang Yuan",
+        "Bailing Wang",
+        "Cong Huang",
+        "Kai Chen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-25T15:10:53+00:00",
+      "link": "https://arxiv.org/pdf/2603.24393v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Integrating 3D information into VLA models",
+      "llm_evidence_cn": "将3D信息集成到VLA模型中",
+      "llm_evidence": "将3D信息集成到VLA模型中",
+      "canonical_evidence": "将3D信息集成到VLA模型中",
+      "llm_tldr_en": "3D-Mix is a plug-and-play module that enhances VLA models' spatial intelligence by integrating 3D geometric information.",
+      "llm_tldr_cn": "3D-Mix是一个即插即用模块，通过集成3D几何信息增强了VLA模型在操控任务中的空间智能。",
+      "llm_tldr": "3D-Mix是一个即插即用模块，通过集成3D几何信息增强了VLA模型在操控任务中的空间智能。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Vision-Language-Action models for embodied AI",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24584v1",
+      "title": "TAG: Target-Agnostic Guidance for Stable Object-Centric Inference in Vision-Language-Action Models",
+      "abstract": "Vision--Language--Action (VLA) policies have shown strong progress in mapping language instructions and visual observations to robotic actions, yet their reliability degrades in cluttered scenes with distractors. By analyzing failure cases, we find that many errors do not arise from infeasible motions, but from instance-level grounding failures: the policy often produces a plausible grasp trajectory that lands slightly off-target or even on the wrong object instance. To address this issue, we propose TAG (Target-Agnostic Guidance), a simple inference-time guidance mechanism that explicitly reduces distractor- and appearance-induced bias in VLA policies. Inspired by classifier-free guidance (CFG), TAG contrasts policy predictions under the original observation and an object-erased observation, and uses their difference as a residual steering signal that strengthens the influence of object evidence in the decision process. TAG does not require modifying the policy architecture and can be integrated with existing VLA policies with minimal training and inference changes. We evaluate TAG on standard manipulation benchmarks, including LIBERO, LIBERO-Plus, and VLABench, where it consistently improves robustness under clutter and reduces near-miss and wrong-object executions.",
+      "authors": [
+        "Jiaying Zhou",
+        "Zhihao Zhan",
+        "Ruifeng Zhai",
+        "Qinhan Lyu",
+        "Hao Liu",
+        "Keze Wang",
+        "Liang Lin",
+        "Guangrun Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-25T17:56:32+00:00",
+      "link": "https://arxiv.org/pdf/2603.24584v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Inference-time guidance for VLA policies in robotic manipulation",
+      "llm_evidence_cn": "机器人操作中VLA策略的推理时引导机制",
+      "llm_evidence": "机器人操作中VLA策略的推理时引导机制",
+      "canonical_evidence": "机器人操作中VLA策略的推理时引导机制",
+      "llm_tldr_en": "Proposes TAG to reduce distractor bias in VLA models, improving grounding and reliability in cluttered scenes.",
+      "llm_tldr_cn": "提出TAG机制以减少VLA模型中的干扰偏差，提高杂乱场景下的定位可靠性。",
+      "llm_tldr": "提出TAG机制以减少VLA模型中的干扰偏差，提高杂乱场景下的定位可靠性。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20583v1",
+      "title": "GHOST: Ground-projected Hypotheses from Observed Structure-from-Motion Trajectories",
+      "abstract": "We present a scalable self-supervised approach for segmenting feasible vehicle trajectories from monocular images for autonomous driving in complex urban environments. Leveraging large-scale dashcam videos, we treat recorded ego-vehicle motion as implicit supervision and recover camera trajectories via monocular structure-from-motion, projecting them onto the ground plane to generate spatial masks of traversed regions without manual annotation. These automatically generated labels are used to train a deep segmentation network that predicts motion-conditioned path proposals from a single RGB image at run time, without explicit modeling of road or lane markings. Trained on diverse, unconstrained internet data, the model implicitly captures scene layout, lane topology, and intersection structure, and generalizes across varying camera configurations. We evaluate our approach on NuScenes, demonstrating reliable trajectory prediction, and further show transfer to an electric scooter platform through light fine-tuning. Our results indicate that large-scale ego-motion distillation yields structured and generalizable path proposals beyond the demonstrated trajectory, enabling trajectory hypothesis estimation via image segmentation.",
+      "authors": [
+        "Tomasz Frelek",
+        "Rohan Patil",
+        "Akshar Tumu",
+        "Henrik I. Christensen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-21T00:47:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.20583v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Self-supervised segmentation of vehicle trajectories for autonomous driving in urban environments",
+      "llm_evidence_cn": "城市环境下自动驾驶车辆轨迹的自监督分割方法",
+      "llm_evidence": "城市环境下自动驾驶车辆轨迹的自监督分割方法",
+      "canonical_evidence": "城市环境下自动驾驶车辆轨迹的自监督分割方法",
+      "llm_tldr_en": "Presents a self-supervised approach to predict feasible vehicle trajectories from monocular images.",
+      "llm_tldr_cn": "提出一种自监督方法，通过单目图像预测城市环境下的可行车辆行驶轨迹。",
+      "llm_tldr": "提出一种自监督方法，通过单目图像预测城市环境下的可行车辆行驶轨迹。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.20583v2",
+      "title": "GHOST: Ground-projected Hypotheses from Observed Structure-from-Motion Trajectories",
+      "abstract": "We present a scalable self-supervised approach for segmenting feasible vehicle trajectories from monocular images for autonomous driving in complex urban environments. Leveraging large-scale dashcam videos, we treat recorded ego-vehicle motion as implicit supervision and recover camera trajectories via monocular structure-from-motion, projecting them onto the ground plane to generate spatial masks of traversed regions without manual annotation. These automatically generated labels are used to train a deep segmentation network that predicts motion-conditioned path proposals from a single RGB image at run time, without explicit modeling of road or lane markings. Trained on diverse, unconstrained internet data, the model implicitly captures scene layout, lane topology, and intersection structure, and generalizes across varying camera configurations. We evaluate our approach on NuScenes, demonstrating reliable trajectory prediction, and further show transfer to an electric scooter platform through light fine-tuning. Our results indicate that large-scale ego-motion distillation yields structured and generalizable path proposals beyond the demonstrated trajectory, enabling trajectory hypothesis estimation via image segmentation.",
+      "authors": [
+        "Tomasz Frelek",
+        "Rohan Patil",
+        "Akshar Tumu",
+        "Henrik I. Christensen"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-21T00:47:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.20583v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "segmenting feasible vehicle trajectories for autonomous driving",
+      "llm_evidence_cn": "为自动驾驶分割可行的车辆轨迹",
+      "llm_evidence": "为自动驾驶分割可行的车辆轨迹",
+      "canonical_evidence": "为自动驾驶分割可行的车辆轨迹",
+      "llm_tldr_en": "A self-supervised approach for predicting vehicle path proposals from monocular images in urban settings.",
+      "llm_tldr_cn": "一种自监督方法，用于从单目图像中预测城市环境下的车辆路径建议。",
+      "llm_tldr": "一种自监督方法，用于从单目图像中预测城市环境下的车辆路径建议。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.21051v1",
+      "title": "Cortical Policy: A Dual-Stream View Transformer for Robotic Manipulation",
+      "abstract": "View transformers process multi-view observations to predict actions and have shown impressive performance in robotic manipulation. Existing methods typically extract static visual representations in a view-specific manner, leading to inadequate 3D spatial reasoning ability and a lack of dynamic adaptation. Taking inspiration from how the human brain integrates static and dynamic views to address these challenges, we propose Cortical Policy, a novel dual-stream view transformer for robotic manipulation that jointly reasons from static-view and dynamic-view streams. The static-view stream enhances spatial understanding by aligning features of geometrically consistent keypoints extracted from a pretrained 3D foundation model. The dynamic-view stream achieves adaptive adjustment through position-aware pretraining of an egocentric gaze estimation model, computationally replicating the human cortical dorsal pathway. Subsequently, the complementary view representations of both streams are integrated to determine the final actions, enabling the model to handle spatially-complex and dynamically-changing tasks under language conditions. Empirical evaluations on RLBench, the challenging COLOSSEUM benchmark, and real-world tasks demonstrate that Cortical Policy outperforms state-of-the-art baselines substantially, validating the superiority of dual-stream design for visuomotor control. Our cortex-inspired framework offers a fresh perspective for robotic manipulation and holds potential for broader application in vision-based robot control.",
+      "authors": [
+        "Xuening Zhang",
+        "Qi Lv",
+        "Xiang Deng",
+        "Miao Zhang",
+        "Xingbo Liu",
+        "Liqiang Nie"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-22T04:18:54+00:00",
+      "link": "https://arxiv.org/pdf/2603.21051v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Dual-stream view transformer for robotic manipulation using 3D foundation models",
+      "llm_evidence_cn": "利用3D基础模型的机器人操作双流视图Transformer",
+      "llm_evidence": "利用3D基础模型的机器人操作双流视图Transformer",
+      "canonical_evidence": "利用3D基础模型的机器人操作双流视图Transformer",
+      "llm_tldr_en": "Introduces Cortical Policy, a dual-stream transformer that improves spatial reasoning for robotic manipulation.",
+      "llm_tldr_cn": "引入Cortical Policy，一种通过双流Transformer提升机器人操作空间推理能力的策略。",
+      "llm_tldr": "引入Cortical Policy，一种通过双流Transformer提升机器人操作空间推理能力的策略。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22430v1",
+      "title": "Model Predictive Control with Differentiable World Models for Offline Reinforcement Learning",
+      "abstract": "Offline Reinforcement Learning (RL) aims to learn optimal policies from fixed offline datasets, without further interactions with the environment. Such methods train an offline policy (or value function), and apply it at inference time without further refinement. We introduce an inference time adaptation framework inspired by model predictive control (MPC) that utilizes a pretrained policy along with a learned world model of state transitions and rewards. While existing world model and diffusion-planning methods use learned dynamics to generate imagined trajectories during training, or to sample candidate plans at inference time, they do not use inference-time information to optimize the policy parameters on the fly. In contrast, our design is a Differentiable World Model (DWM) pipeline that enables endto-end gradient computation through imagined rollouts for policy optimization at inference time based on MPC. We evaluate our algorithm on D4RL continuous-control benchmarks (MuJoCo locomotion tasks and AntMaze), and show that exploiting inference-time information to optimize the policy parameters yields consistent gains over strong offline RL baselines.",
+      "authors": [
+        "Rohan Deb",
+        "Stephen J. Wright",
+        "Arindam Banerjee"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-23T18:05:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.22430v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Differentiable world models for offline reinforcement learning",
+      "llm_evidence_cn": "用于离线强化学习的可微世界模型",
+      "llm_evidence": "用于离线强化学习的可微世界模型",
+      "canonical_evidence": "用于离线强化学习的可微世界模型",
+      "llm_tldr_en": "This framework uses differentiable world models and MPC for inference-time policy optimization in offline RL.",
+      "llm_tldr_cn": "该框架利用可微世界模型和MPC在离线强化学习推理阶段进行策略优化。",
+      "llm_tldr": "该框架利用可微世界模型和MPC在离线强化学习推理阶段进行策略优化。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "World models in autonomous driving and robotics",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.22876v1",
+      "title": "Grounding Sim-to-Real Generalization in Dexterous Manipulation: An Empirical Study with Vision-Language-Action Models",
+      "abstract": "Learning a generalist control policy for dexterous manipulation typically relies on large-scale datasets. Given the high cost of real-world data collection, a practical alternative is to generate synthetic data through simulation. However, the resulting synthetic data often exhibits a significant gap from real-world distributions. While many prior studies have proposed algorithms to bridge the Sim-to-Real discrepancy, there remains a lack of principled research that grounds these methods in real-world manipulation tasks, particularly their performance on generalist policies such as Vision-Language-Action (VLA) models. In this study, we empirically examine the primary determinants of Sim-to-Real generalization across four dimensions: multi-level domain randomization, photorealistic rendering, physics-realistic modeling, and reinforcement learning updates. To support this study, we design a comprehensive evaluation protocol to quantify the real-world performance of manipulation tasks. The protocol accounts for key variations in background, lighting, distractors, object types, and spatial features. Through experiments involving over 10k real-world trials, we derive critical insights into Sim-to-Real transfer. To inform and advance future studies, we release both the robotic platforms and the evaluation protocol for public access to facilitate independent verification, thereby establishing a realistic and standardized benchmark for dexterous manipulation policies.",
+      "authors": [
+        "Ruixing Jin",
+        "Zicheng Zhu",
+        "Ruixiang Ouyang",
+        "Sheng Xu",
+        "Bo Yue",
+        "Zhizheng Wu",
+        "Guiliang Liu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-24T07:21:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.22876v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Sim-to-Real generalization in VLA models for manipulation",
+      "llm_evidence_cn": "操纵任务中VLA模型的虚实迁移泛化",
+      "llm_evidence": "操纵任务中VLA模型的虚实迁移泛化",
+      "canonical_evidence": "操纵任务中VLA模型的虚实迁移泛化",
+      "llm_tldr_en": "Empirically studies Sim-to-Real generalization for VLA models in dexterous robotic manipulation.",
+      "llm_tldr_cn": "实证研究了VLA模型在灵巧机器人操纵任务中的虚实迁移泛化能力。",
+      "llm_tldr": "实证研究了VLA模型在灵巧机器人操纵任务中的虚实迁移泛化能力。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24018v1",
+      "title": "ELITE: Experiential Learning and Intent-Aware Transfer for Self-improving Embodied Agents",
+      "abstract": "Vision-language models (VLMs) have shown remarkable general capabilities, yet embodied agents built on them fail at complex tasks, often skipping critical steps, proposing invalid actions, and repeating mistakes. These failures arise from a fundamental gap between the static training data of VLMs and the physical interaction for embodied tasks. VLMs can learn rich semantic knowledge from static data but lack the ability to interact with the world. To address this issue, we introduce ELITE, an embodied agent framework with {E}xperiential {L}earning and {I}ntent-aware {T}ransfer that enables agents to continuously learn from their own environment interaction experiences, and transfer acquired knowledge to procedurally similar tasks. ELITE operates through two synergistic mechanisms, \\textit{i.e.,} self-reflective knowledge construction and intent-aware retrieval. Specifically, self-reflective knowledge construction extracts reusable strategies from execution trajectories and maintains an evolving strategy pool through structured refinement operations. Then, intent-aware retrieval identifies relevant strategies from the pool and applies them to current tasks. Experiments on the EB-ALFRED and EB-Habitat benchmarks show that ELITE achieves 9\\% and 5\\% performance improvement over base VLMs in the online setting without any supervision. In the supervised setting, ELITE generalizes effectively to unseen task categories, achieving better performance compared to state-of-the-art training-based methods. These results demonstrate the effectiveness of ELITE for bridging the gap between semantic understanding and reliable action execution.",
+      "authors": [
+        "Bingqing Wei",
+        "Zhongyu Xia",
+        "Dingai Liu",
+        "Xiaoyu Zhou",
+        "Zhiwei Lin",
+        "Yongtao Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-03-25T07:25:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.24018v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "experiential learning for self-improving embodied agents",
+      "llm_evidence_cn": "具身智能体的经验学习与自我改进",
+      "llm_evidence": "具身智能体的经验学习与自我改进",
+      "canonical_evidence": "具身智能体的经验学习与自我改进",
+      "llm_tldr_en": "ELITE enables embodied agents to learn from interaction experiences and transfer knowledge to similar tasks.",
+      "llm_tldr_cn": "ELITE框架使具身智能体能够从环境交互经验中学习，并将知识迁移到类似任务中。",
+      "llm_tldr": "ELITE框架使具身智能体能够从环境交互经验中学习，并将知识迁移到类似任务中。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24083v1",
+      "title": "Knowledge-Guided Manipulation Using Multi-Task Reinforcement Learning",
+      "abstract": "This paper introduces Knowledge Graph based Massively Multi-task Model-based Policy Optimization (KG-M3PO), a framework for multi-task robotic manipulation in partially observable settings that unifies Perception, Knowledge, and Policy. The method augments egocentric vision with an online 3D scene graph that grounds open-vocabulary detections into a metric, relational representation. A dynamic-relation mechanism updates spatial, containment, and affordance edges at every step, and a graph neural encoder is trained end-to-end through the RL objective so that relational features are shaped directly by control performance. Multiple observation modalities (visual, proprioceptive, linguistic, and graph-based) are encoded into a shared latent space, upon which the RL agent operates to drive the control loop. The policy conditions on lightweight graph queries alongside visual and proprioceptive inputs, yielding a compact, semantically informed state for decision making.   Experiments on a suite of manipulation tasks with occlusions, distractors, and layout shifts demonstrate consistent gains over strong baselines: the knowledge-conditioned agent achieves higher success rates, improved sample efficiency, and stronger generalization to novel objects and unseen scene configurations. These results support the premise that structured, continuously maintained world knowledge is a powerful inductive bias for scalable, generalizable manipulation: when the knowledge module participates in the RL computation graph, relational representations align with control, enabling robust long-horizon behavior under partial observability.",
+      "authors": [
+        "Aditya Narendra",
+        "Mukhammadrizo Maribjonov",
+        "Dmitry Makarov",
+        "Dmitry Yudin",
+        "Aleksandr Panov"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-03-25T08:41:32+00:00",
+      "link": "https://arxiv.org/pdf/2603.24083v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Multi-task reinforcement learning for robotic manipulation with scene graphs",
+      "llm_evidence_cn": "基于场景图的机器人操作多任务强化学习",
+      "llm_evidence": "基于场景图的机器人操作多任务强化学习",
+      "canonical_evidence": "基于场景图的机器人操作多任务强化学习",
+      "llm_tldr_en": "Unifies perception and policy via KG-M3PO, using 3D scene graphs and RL for multi-task robotic manipulation.",
+      "llm_tldr_cn": "通过KG-M3PO统一感知与策略，利用3D场景图和强化学习实现多任务机器人操作。",
+      "llm_tldr": "通过KG-M3PO统一感知与策略，利用3D场景图和强化学习实现多任务机器人操作。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.17647v1",
+      "title": "Part-Aware Open-Vocabulary 3D Affordance Grounding via Prototypical Semantic and Geometric Alignment",
+      "abstract": "Grounding natural language questions to functionally relevant regions in 3D objects -- termed language-driven 3D affordance grounding -- is essential for embodied intelligence and human-AI interaction. Existing methods, while progressing from label-based to language-driven approaches, still face challenges in open-vocabulary generalization, fine-grained geometric alignment, and part-level semantic consistency. To address these issues, we propose a novel two-stage cross-modal framework that enhances both semantic and geometric representations for open-vocabulary 3D affordance grounding. In the first stage, large language models generate part-aware instructions to recover missing semantics, enabling the model to link semantically similar affordances. In the second stage, we introduce two key components: Affordance Prototype Aggregation (APA), which captures cross-object geometric consistency for each affordance, and Intra-Object Relational Modeling (IORM), which refines geometric differentiation within objects to support precise semantic alignment. We validate the effectiveness of our method through extensive experiments on a newly introduced benchmark, as well as two existing benchmarks, demonstrating superior performance in comparison with existing methods.",
+      "authors": [
+        "Dongqiang Gou",
+        "Xuming He"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-18T12:07:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.17647v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "3D affordance grounding for embodied intelligence",
+      "llm_evidence_cn": "具身智能中的3D功能性区域定位",
+      "llm_evidence": "具身智能中的3D功能性区域定位",
+      "canonical_evidence": "具身智能中的3D功能性区域定位",
+      "llm_tldr_en": "Proposes a framework for open-vocabulary 3D affordance grounding to help robots understand object interactions.",
+      "llm_tldr_cn": "提出一种开放词汇3D功能性定位框架，增强机器人对物体交互区域的理解。",
+      "llm_tldr": "提出一种开放词汇3D功能性定位框架，增强机器人对物体交互区域的理解。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.20544v1",
+      "title": "Multi-Robot Learning-Informed Task Planning Under Uncertainty",
+      "abstract": "We want a multi-robot team to complete complex tasks in minimum time where the locations of task-relevant objects are not known. Effective task completion requires reasoning over long horizons about the likely locations of task-relevant objects, how individual actions contribute to overall progress, and how to coordinate team efforts. Planning in this setting is extremely challenging: even when task-relevant information is partially known, coordinating which robot performs which action and when is difficult, and uncertainty introduces a multiplicity of possible outcomes for each action, which further complicates long-horizon decision-making and coordination. To address this, we propose a multi-robot planning abstraction that integrates learning to estimate uncertain aspects of the environment with model-based planning for long-horizon coordination. We demonstrate the efficient multi-stage task planning of our approach for 1, 2, and 3 robot teams over competitive baselines in large ProcTHOR household environments. Additionally, we demonstrate the effectiveness of our approach with a team of two LoCoBot mobile robots in real household settings.",
+      "authors": [
+        "Abhish Khanal",
+        "Abhishek Paudel",
+        "Hung Pham",
+        "Gregory J. Stein"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "published": "2026-03-20T22:26:10+00:00",
+      "link": "https://arxiv.org/pdf/2603.20544v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Multi-robot task planning and decision making under uncertainty",
+      "llm_evidence_cn": "不确定性下的多机器人任务规划与决策",
+      "llm_evidence": "不确定性下的多机器人任务规划与决策",
+      "canonical_evidence": "不确定性下的多机器人任务规划与决策",
+      "llm_tldr_en": "Introduces a multi-robot planning abstraction that integrates learning to estimate uncertainty for complex tasks.",
+      "llm_tldr_cn": "引入了一种集成学习的多机器人规划抽象，用于估计复杂任务中的不确定性。",
+      "llm_tldr": "引入了一种集成学习的多机器人规划抽象，用于估计复杂任务中的不确定性。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.23738v1",
+      "title": "BXRL: Behavior-Explainable Reinforcement Learning",
+      "abstract": "A major challenge of Reinforcement Learning is that agents often learn undesired behaviors that seem to defy the reward structure they were given. Explainable Reinforcement Learning (XRL) methods can answer queries such as \"explain this specific action\", \"explain this specific trajectory\", and \"explain the entire policy\". However, XRL lacks a formal definition for behavior as a pattern of actions across many episodes. We provide such a definition, and use it to enable a new query: \"Explain this behavior\".   We present Behavior-Explainable Reinforcement Learning (BXRL), a new problem formulation that treats behaviors as first-class objects. BXRL defines a behavior measure as any function $m : Π\\to \\mathbb{R}$, allowing users to precisely express the pattern of actions that they find interesting and measure how strongly the policy exhibits it. We define contrastive behaviors that reduce the question \"why does the agent prefer $a$ to $a'$?\" to \"why is $m(π)$ high?\" which can be explored with differentiation. We do not implement an explainability method; we instead analyze three existing methods and propose how they could be adapted to explain behavior. We present a port of the HighwayEnv driving environment to JAX, which provides an interface for defining, measuring, and differentiating behaviors with respect to the model parameters.",
+      "authors": [
+        "Ram Rachum",
+        "Yotam Amitai",
+        "Yonatan Nakar",
+        "Reuth Mirsky",
+        "Cameron Allen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-03-24T21:48:36+00:00",
+      "link": "https://arxiv.org/pdf/2603.23738v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Explainable Reinforcement Learning for behavior patterns",
+      "llm_evidence_cn": "针对行为模式的可解释强化学习",
+      "llm_evidence": "针对行为模式的可解释强化学习",
+      "canonical_evidence": "针对行为模式的可解释强化学习",
+      "llm_tldr_en": "Proposes BXRL to provide formal definitions and explanations for agent behaviors in reinforcement learning.",
+      "llm_tldr_cn": "提出BXRL，为强化学习中的智能体行为提供正式定义和解释方法。",
+      "llm_tldr": "提出BXRL，为强化学习中的智能体行为提供正式定义和解释方法。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.18988v1",
+      "title": "MERGE: Guided Vision-Language Models for Multi-Actor Event Reasoning and Grounding in Human-Robot Interaction",
+      "abstract": "We introduce MERGE, a system for situational grounding of actors, objects, and events in dynamic human-robot group interactions. Effective collaboration in such settings requires consistent situational awareness, built on persistent representations of people and objects and an episodic abstraction of events. MERGE achieves this by uniquely identifying physical instances of actors (humans or robots) and objects and structuring them into actor-action-object relations, ensuring temporal consistency across interactions. Central to MERGE is the integration of Vision-Language Models (VLMs) guided with a perception pipeline: a lightweight streaming module continuously processes visual input to detect changes and selectively invokes the VLM only when necessary. This decoupled design preserves the reasoning power and zero-shot generalization of VLMs while improving efficiency, avoiding both the high monetary cost and the latency of frame-by-frame captioning that leads to fragmented and delayed outputs. To address the absence of suitable benchmarks for multi-actor collaboration, we introduce the GROUND dataset, which offers fine-grained situational annotations of multi-person and human-robot interactions. On this dataset, our approach improves the average grounding score by a factor of 2 compared to the performance of VLM-only baselines - including GPT-4o, GPT-5 and Gemini 2.5 Flash - while also reducing run-time by a factor of 4. The code and data are available at www.github.com/HRI-EU/merge.",
+      "authors": [
+        "Joerg Deigmoeller",
+        "Nakul Agarwal",
+        "Stephan Hasler",
+        "Daniel Tanneberg",
+        "Anna Belardinelli",
+        "Reza Ghoddoosian",
+        "Chao Wang",
+        "Felix Ocker",
+        "Fan Zhang",
+        "Behzad Dariush",
+        "Michael Gienger"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-19T14:57:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.18988v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "VLM-guided situational grounding for human-robot interaction",
+      "llm_evidence_cn": "VLM引导的人机交互情境接地",
+      "llm_evidence": "VLM引导的人机交互情境接地",
+      "canonical_evidence": "VLM引导的人机交互情境接地",
+      "llm_tldr_en": "MERGE uses VLMs to ground actors and events in dynamic human-robot group interactions.",
+      "llm_tldr_cn": "MERGE利用VLM在动态人机交互中实现角色和事件的情境接地。",
+      "llm_tldr": "MERGE利用VLM在动态人机交互中实现角色和事件的情境接地。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.22193v1",
+      "title": "PAM: A Pose-Appearance-Motion Engine for Sim-to-Real HOI Video Generation",
+      "abstract": "Hand-object interaction (HOI) reconstruction and synthesis are becoming central to embodied AI and AR/VR. Yet, despite rapid progress, existing HOI generation research remains fragmented across three disjoint tracks: (1) pose-only synthesis that predicts MANO trajectories without producing pixels; (2) single-image HOI generation that hallucinates appearance from masks or 2D cues but lacks dynamics; and (3) video generation methods that require both the entire pose sequence and the ground-truth first frame as inputs, preventing true sim-to-real deployment. Inspired by the philosophy of Joo et al. (2018), we think that HOI generation requires a unified engine that brings together pose, appearance, and motion within one coherent framework. Thus we introduce PAM: a Pose-Appearance-Motion Engine for controllable HOI video generation. The performance of our engine is validated by: (1) On DexYCB, we obtain an FVD of 29.13 (vs. 38.83 for InterDyn), and MPJPE of 19.37 mm (vs. 30.05 mm for CosHand), while generating higher-resolution 480x720 videos compared to 256x256 and 256x384 baselines. (2) On OAKINK2, our full multi-condition model improves FVD from 68.76 to 46.31. (3) An ablation over input conditions on DexYCB shows that combining depth, segmentation, and keypoints consistently yields the best results. (4) For a downstream hand pose estimation task using SimpleHand, augmenting training with 3,400 synthetic videos (207k frames) allows a model trained on only 50% of the real data plus our synthetic data to match the 100% real baseline.",
+      "authors": [
+        "Mingju Gao",
+        "Kaisen Yang",
+        "Huan-ang Gao",
+        "Bohan Li",
+        "Ao Ding",
+        "Wenyi Li",
+        "Yangcheng Yu",
+        "Jinkun Liu",
+        "Shaocong Xu",
+        "Yike Niu",
+        "Haohan Chi",
+        "Hao Chen",
+        "Hao Tang",
+        "Li Yi",
+        "Hao Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-23T16:51:52+00:00",
+      "link": "https://arxiv.org/pdf/2603.22193v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "hand-object interaction synthesis for embodied AI",
+      "llm_evidence_cn": "具身智能中的手物交互合成",
+      "llm_evidence": "具身智能中的手物交互合成",
+      "canonical_evidence": "具身智能中的手物交互合成",
+      "llm_tldr_en": "A unified engine for generating hand-object interaction videos to support sim-to-real embodied AI.",
+      "llm_tldr_cn": "一个统一的引擎，用于生成手物交互视频，支持具身智能的虚实迁移。",
+      "llm_tldr": "一个统一的引擎，用于生成手物交互视频，支持具身智能的虚实迁移。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24138v1",
+      "title": "Efficient Controller Learning from Human Preferences and Numerical Data Via Multi-Modal Surrogate Models",
+      "abstract": "Tuning control policies manually to meet high-level objectives is often time-consuming. Bayesian optimization provides a data-efficient framework for automating this process using numerical evaluations of an objective function. However, many systems, particularly those involving humans, require optimization based on subjective criteria. Preferential Bayesian optimization addresses this by learning from pairwise comparisons instead of quantitative measurements, but relying solely on preference data can be inefficient. We propose a multi-fidelity, multi-modal Bayesian optimization framework that integrates low-fidelity numerical data with high-fidelity human preferences. Our approach employs Gaussian process surrogate models with both hierarchical, autoregressive and non-hierarchical, coregionalization-based structures, enabling efficient learning from mixed-modality data. We illustrate the framework by tuning an autonomous vehicle's trajectory planner, showing that combining numerical and preference data significantly reduces the need for experiments involving the human decision maker while effectively adapting driving style to individual preferences.",
+      "authors": [
+        "Lukas Theiner",
+        "Maik Pfefferkorn",
+        "Yongpeng Zhao",
+        "Sebastian Hirt",
+        "Rolf Findeisen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "eess.SY"
+      ],
+      "published": "2026-03-25T10:04:03+00:00",
+      "link": "https://arxiv.org/pdf/2603.24138v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Controller learning from human preferences and numerical data",
+      "llm_evidence_cn": "基于人类偏好和数值数据的控制器学习",
+      "llm_evidence": "基于人类偏好和数值数据的控制器学习",
+      "canonical_evidence": "基于人类偏好和数值数据的控制器学习",
+      "llm_tldr_en": "A Bayesian optimization framework that integrates human preferences with numerical data for efficient control.",
+      "llm_tldr_cn": "一种集成人类偏好与数值数据的贝叶斯优化框架，用于高效控制器学习。",
+      "llm_tldr": "一种集成人类偏好与数值数据的贝叶斯优化框架，用于高效控制器学习。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.21669v1",
+      "title": "PRM-as-a-Judge: A Dense Evaluation Paradigm for Fine-Grained Robotic Auditing",
+      "abstract": "Current robotic evaluation is still largely dominated by binary success rates, which collapse rich execution processes into a single outcome and obscure critical qualities such as progress, efficiency, and stability. To address this limitation, we propose PRM-as-a-Judge, a dense evaluation paradigm that leverages Process Reward Models (PRMs) to audit policy execution directly from trajectory videos by estimating task progress from observation sequences. Central to this paradigm is the OPD (Outcome-Process-Diagnosis) metric system, which explicitly formalizes execution quality via a task-aligned progress potential. We characterize dense robotic evaluation through two axiomatic properties: macro-consistency, which requires additive and path-consistent aggregation, and micro-resolution, which requires sensitivity to fine-grained physical evolution. Under this formulation, potential-based PRM judges provide a natural instantiation of dense evaluation, with macro-consistency following directly from the induced scalar potential. We empirically validate the micro-resolution property using RoboPulse, a diagnostic benchmark specifically designed for probing micro-scale progress discrimination, where several trajectory-trained PRM judges outperform discriminative similarity-based methods and general-purpose foundation-model judges. Finally, leveraging PRM-as-a-Judge and the OPD metric system, we conduct a structured audit of mainstream policy paradigms across long-horizon tasks, revealing behavioral signatures and failure modes that are invisible to outcome-only metrics.",
+      "authors": [
+        "Yuheng Ji",
+        "Yuyang Liu",
+        "Huajie Tan",
+        "Xuchuan Huang",
+        "Fanding Huang",
+        "Yijie Xu",
+        "Cheng Chi",
+        "Yuting Zhao",
+        "Huaihai Lyu",
+        "Peterson Co",
+        "Mingyu Cao",
+        "Qiongyu Zhang",
+        "Zhe Li",
+        "Enshen Zhou",
+        "Pengwei Wang",
+        "Zhongyuan Wang",
+        "Shanghang Zhang",
+        "Xiaolong Zheng"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-23T07:48:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.21669v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Dense evaluation for robotic policy auditing",
+      "llm_evidence_cn": "机器人策略审计的稠密评估范式",
+      "llm_evidence": "机器人策略审计的稠密评估范式",
+      "canonical_evidence": "机器人策略审计的稠密评估范式",
+      "llm_tldr_en": "PRM-as-a-Judge uses Process Reward Models to provide fine-grained, dense evaluation of robotic task execution.",
+      "llm_tldr_cn": "PRM-as-a-Judge利用过程奖励模型对机器人任务执行进行细粒度的稠密评估，超越了单一成功率指标。",
+      "llm_tldr": "PRM-as-a-Judge利用过程奖励模型对机器人任务执行进行细粒度的稠密评估，超越了单一成功率指标。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.23271v1",
+      "title": "A Multimodal Framework for Human-Multi-Agent Interaction",
+      "abstract": "Human-robot interaction is increasingly moving toward multi-robot, socially grounded environments. Existing systems struggle to integrate multimodal perception, embodied expression, and coordinated decision-making in a unified framework. This limits natural and scalable interaction in shared physical spaces. We address this gap by introducing a multimodal framework for human-multi-agent interaction in which each robot operates as an autonomous cognitive agent with integrated multimodal perception and Large Language Model (LLM)-driven planning grounded in embodiment. At the team level, a centralized coordination mechanism regulates turn-taking and agent participation to prevent overlapping speech and conflicting actions. Implemented on two humanoid robots, our framework enables coherent multi-agent interaction through interaction policies that combine speech, gesture, gaze, and locomotion. Representative interaction runs demonstrate coordinated multimodal reasoning across agents and grounded embodied responses. Future work will focus on larger-scale user studies and deeper exploration of socially grounded multi-agent interaction dynamics.",
+      "authors": [
+        "Shaid Hasan",
+        "Breenice Lee",
+        "Sujan Sarker",
+        "Tariq Iqbal"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-24T14:35:40+00:00",
+      "link": "https://arxiv.org/pdf/2603.23271v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "LLM-driven planning for embodied humanoid robots",
+      "llm_evidence_cn": "具身人形机器人的LLM驱动规划",
+      "llm_evidence": "具身人形机器人的LLM驱动规划",
+      "canonical_evidence": "具身人形机器人的LLM驱动规划",
+      "llm_tldr_en": "A multimodal framework for human-multi-agent interaction using LLM-driven planning on humanoid robots.",
+      "llm_tldr_cn": "一种用于人形机器人上人类与多智能体交互的多模态框架，采用LLM驱动的规划。",
+      "llm_tldr": "一种用于人形机器人上人类与多智能体交互的多模态框架，采用LLM驱动的规划。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.23386v1",
+      "title": "SIMART: Decomposing Monolithic Meshes into Sim-ready Articulated Assets via MLLM",
+      "abstract": "High-quality articulated 3D assets are indispensable for embodied AI and physical simulation, yet 3D generation still focuses on static meshes, leaving a gap in \"sim-ready\" interactive objects. Most recent articulated object creation methods rely on multi-stage pipelines that accumulate errors across decoupled modules. Alternatively, unified MLLMs offer a single-stage path to joint static asset understanding and sim-ready asset generation. However dense voxel-based 3D tokenization yields long 3D token sequences and high memory overhead, limiting scalability to complex articulated objects. To address this, we propose SIMART, a unified MLLM framework that jointly performs part-level decomposition and kinematic prediction. By introducing a Sparse 3D VQ-VAE, SIMART reduces token counts by 70% vs. dense voxel tokens, enabling high-fidelity multi-part assemblies. SIMART achieves state-of-the-art performance on PartNet-Mobility and in-the-wild AIGC datasets, and enables physics-based robotic simulation.",
+      "authors": [
+        "Chuanrui Zhang",
+        "Minghan Qin",
+        "Yuang Wang",
+        "Baifeng Xie",
+        "Hang Li",
+        "Ziwei Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-03-24T16:16:52+00:00",
+      "link": "https://arxiv.org/pdf/2603.23386v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "MLLM for generating sim-ready articulated assets for embodied AI",
+      "llm_evidence_cn": "用于生成具身智能仿真可用关节资产的MLLM",
+      "llm_evidence": "用于生成具身智能仿真可用关节资产的MLLM",
+      "canonical_evidence": "用于生成具身智能仿真可用关节资产的MLLM",
+      "llm_tldr_en": "SIMART uses MLLMs to decompose meshes into articulated assets for embodied AI and physical simulation.",
+      "llm_tldr_cn": "SIMART利用多模态大模型将网格分解为具身智能和物理仿真可用的关节资产。",
+      "llm_tldr": "SIMART利用多模态大模型将网格分解为具身智能和物理仿真可用的关节资产。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
