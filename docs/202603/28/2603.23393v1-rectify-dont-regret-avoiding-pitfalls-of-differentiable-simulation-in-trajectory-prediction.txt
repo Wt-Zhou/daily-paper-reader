@@ -1,0 +1,211 @@
+Title: Rectify, Don't Regret: Avoiding Pitfalls of Differentiable Simulation in Trajectory Prediction
+
+URL Source: https://arxiv.org/pdf/2603.23393v1
+
+Published Time: Wed, 25 Mar 2026 01:30:35 GMT
+
+Number of Pages: 7
+
+Markdown Content:
+# Rectify, Don’t Regret: Avoiding Pitfalls of Differentiable Simulation in Trajectory Prediction 
+
+Harsh Yadav, Christian Bohn, and Tobias Meisen 
+
+University of Wuppertal, harsh.yadav@uni-wuppertal.de 
+
+Abstract — Current open-loop trajectory models struggle in real-world autonomous driving because minor initial deviations often cascade into compounding errors, pushing the agent into out-of-distribution states. While fully differentiable closed-loop simulators attempt to address this, they suffer from shortcut learning: the loss gradients flow backward through induced state inputs, inadvertently leaking future ground truth information directly into the model’s own previous predictions. The model exploits these signals to artificially avoid drift, non-causally “regretting” past mistakes rather than learning genuinely reactive recovery. To address this, we introduce a detached receding horizon rollout. By explicitly severing the computation graph between simulation steps, the model learns genuine recovery behaviors from drifted states, forcing it to “rectify” mistakes rather than non-causally optimizing past pre-dictions. Extensive evaluations on the nuScenes and DeepSce-nario datasets show our approach yields more robust recovery strategies, reducing target collisions by up to 33.24% compared to fully differentiable closed-loop training at high replanning frequencies. Furthermore, compared to standard open-loop baselines, our non-differentiable framework decreases collisions by up to 27.74% in dense environments while simultaneously improving multi-modal prediction diversity and lane alignment. 
+
+I. I NTRODUCTION 
+
+Learning-based trajectory prediction models in au-tonomous driving [1], [2], [3], [4] have achieved remark-able success on open-loop datasets. [5], [6], [7]. However, this evaluation paradigm is fundamentally misaligned with the iterative, closed-loop replanning required for real-world autonomous vehicles, where the predictions are combined with a downstream planner to generate the driving actions. Since evaluation on strictly open-loop benchmarks isolates the model from this sequential reality, the agent is never exposed to its own compounding prediction errors. As a result, when transitioned to actual closed-loop deployment, minor initial deviations will eventually cascade to push the agent into an out-of-distribution (OOD) state. To bridge this open-to-closed-loop gap, recent works have transitioned to training directly within closed-loop simula-tors. A prominent strategy employs fully differentiable sim-ulators [8], [9], [10], which allow backward loss gradients to flow through induced state inputs, effectively leaking future ground-truth information straight into the prior predictions. Although backpropagation through time is fundamentally sound, applying it to target prediction with offline ground-truth supervision creates a critical flaw. This specific form 
+
+> This work has been submitted to the IEEE for possible publication. Copyright may be transferred without notice, after which this version may no longer be accessible.
+
+Fig. 1: Closed-Loop Sample Generation: Illustration of our sequential simulation rollout. At t = 0 (Top), the model generates an initial open-loop prediction for the full horizon (Hpred ). Instead of executing this entirely, the simulator advances the target vehicle by a shorter interval, Hstep , to a new physical state (Middle). The model is then queried again from this updated state to produce a new closed-loop prediction for the remaining horizon. This iterative process allows the replanned trajectory to actively realign with the ground truth rather than passively drifting with early forecasting errors (Bottom). of supervision enables the model to exploit the continuous gradient flow as a mathematical shortcut, allowing it to non-causally optimize its past predictions to minimize the loss. In essence, the optimization graph mathematically erases the mistake rather than forcing the model to learn how to genuinely recover from it. We posit that robust systems must instead address afundamentally different question: “I have made a mistake; how do I rectify it?” To enforce this, we propose a closed-loop training framework within a non-differentiable simu-lator. Severing the graph between steps prevents backward loss gradients through induced state inputs from leaking future ground-truth information directly into the previous predictions. This forces the model to experience states caused by the compounding error of its own prediction. where, to minimize subsequent loss, it must learn to predict a path back 
+
+> arXiv:2603.23393v1 [cs.RO] 24 Mar 2026
+
+to the ground truth. We validate these recovery behaviors by demonstrating sustained target prediction robustness even during high-frequency replanning. The main contributions of this paper are:  
+
+> •
+
+We empirically demonstrate that differentiable simula-tors encourage undesirable regret of the past via shortcut learning. This reliance on non-causal gradient leakage causes models to overfit to their training setup, leading to a performance collapse during high-frequency eval-uation that exposes a failure to learn genuine reactive recovery.  
+
+> •
+
+We introduce a non-differentiable, closed-loop training paradigm preventing backward loss gradients from leak-ing future ground-truth information into prior predic-tions. This causal barrier makes past mistakes perma-nent, forcing the model to experience a much wider range of drifted states induced by compounding errors that otherwise would remain unseen.  
+
+> •
+
+Extensive evaluation on the nuScenes and DeepScenario datasets shows that our approach yields highly robust target prediction policies. At high replanning frequen-cies, our non-differentiable method reduces collisions by up to 33.24% compared to differentiable closed-loop training, and up to 27.74% against standard open-loop baselines, while simultaneously enhancing multi-modal prediction diversity and lane alignment. II. R ELATED WORK 
+
+A. Open-Loop Trajectory Prediction 
+
+Research in trajectory prediction has been largely fo-cused on developing sophisticated methods for scene encod-ing and interaction modeling. Notable advancements began with the adoption of transformer-based approaches [1], [2], which were soon followed by studies improving compu-tational efficiency via efficient attention mechanisms [11] and query-centric encoding [3]. Alternatively, self-supervised approaches [12], [13], [4] have been shown to boost model performance even further. A highly successful approach [14], [15] is to import sequence modeling techniques from natural language processing to push state-of-the-art (SOTA) perfor-mance on open-loop benchmarks. Building on this, recent studies [16], [17] indicate that decoder-only transformer architectures are particularly effective for autoregressive tra-jectory prediction models, notably enhancing their temporal consistency. Despite these advances, the standard paradigm for eval-uating these methods remains an open-loop setup, where performance is measured by a model’s accuracy in predicting a fixed-duration future trajectory against a ground-truth tra-jectory from a static dataset. This exact issue is highlighted in recent works [18], [19], which demonstrate that higher open-loop accuracy does not guarantee better closed-loop driving performance. However, these prior works remain largely diagnostic, while solutions to this problem remain underexplored. 
+
+B. Closed-Loop Finetuning and Training 
+
+To address covariate shift, methods such as Cat-K [20] have proposed closed-loop fine-tuning, though their reliance on discrete token spaces limits applicability to continuous action pipelines [21], [22]. Approaches that accommodate continuous action spaces [8], [9], [10], generate closed-loop sample states by embedding the model within a fully differentiable simulator. However, full differentiability intro-duces the severe risk of shortcut learning. In this setup, the model effectively regrets its past; backward loss gradients flow through induced state inputs, leaking future ground-truth information directly into the previous predictions. It minimizes the training loss by exploiting this leakage to interpolate toward the ground truth, rather than learning a genuinely reactive policy. Our work addresses this by abandoning differentiable simulation in favor of a non-differentiable, detached rollout. Instead of allowing the model to mathematically regret and overwrite its past, our framework forces the model to face the consequences of compounding errors and learn how to rectify these mistakes. III. M ETHOD 
+
+The core objective of our work is to bridge the open-to-closed-loop domain gap by generating drifted states induced by compounding errors. These samples directly mirror exact state distributions the target agent will encounter during closed-loop deployment. Realizing this setup requires three key components: First, a non-differentiable simulator pre-venting backward loss gradients from leaking future ground-truth into prior predictions. Second, a training framework that treats these self-generated samples and static open-loop samples identically during backpropagation. Third, an autoregressive network architecture suitable for iterative se-quential prediction required by this paradigm. 
+
+A. Iterative Closed-Loop Rollout and State Propagation 
+
+Our simulation framework is explicitly designed to mirror the continuous feedback cycle of real-world driving. Rather than passively rolling out an entire trajectory in an open-loop manner, the model initially forecasts trajectories for the full prediction horizon, Hpred . The simulator then employs a delta-action model [9] to execute only a short, initial segment of this prediction, defined by the step horizon, Hstep .Following this partial execution, the global scene state is updated, creating a closed-loop sample. The target agent then generates a new prediction from this newly realized state. This iterative predict-and-update cycle is illustrated in Figure 1. 
+
+Mitigating Shortcut Learning via Gradient Detachment 
+
+A critical challenge in sequential closed-loop training is the risk of shortcut learning [10]. If the simulator is fully differentiable, gradients from the loss computation can flow backward in the inputs of the induced state and effectively into the prediction at previous state. As depicted by the red dashed lines in Figure 2, this allows the model to mathematically exploit the continuous computation graph, Fig. 2: Closed-Loop State Space Model with Differentiable vs. Non-Differentiable Simulators: A computational flow diagram illustrating the training dynamics. In a fully differentiable setup (red+black dashed lines), gradients backpropagate through the environment simulator, inadvertently allowing future trajectory information to leak into the previous prediction. Our proposed non-differentiable approach explicitly incorporates a gradient detachment step. This severs the gradient flow between the executed trajectory and the subsequent input state (black dashed lines), effectively preventing shortcut learning while preserving the benefits of closed-loop state space exploration. effectively leaking future ground-truth information into the previous prediction. To prevent this leakage, we detach the executed trajectories from the computational graph updating scene inputs. This explicitly truncates the backpropagation through time, forcing the model to optimize its behavioral policy based strictly on the generated samples rather than relying on mathematical shortcuts. 
+
+Scene Simulation: To isolate target agent prediction, we employ a log-replay mechanism for scene simulation [23], [9]. The target agent’s future states are dynamically simulated from its own predictions, while surrounding agents strictly follow their ground-truth trajectories instead of reacting to the target agent. We leave fully reactive multi-agent simula-tion to future work. 
+
+B. Closed-Loop Optimization 
+
+The goal is to treat both open- and closed-loop sam-ples identically during backpropagation. To achieve this, we modify the standard Negative Log Likelihood (NLL) formulation [2], [17], [3] to seamlessly incorporate closed-loop predictions alongside their open-loop counterparts: 
+
+J(ϕ, θ ) = 
+
+> S
+
+X
+
+> s=0
+
+λsMX
+
+> m=1
+
+πm(ϕ)
+
+> Hpred
+
+Y
+
+> t=sH step
+
+Lts,m (θ) (1) Following established conventions [2], [3], we decompose the optimization into classification and regression tasks. Here, ϕ and θ are the respective classification and regression parameters, πm represents the probability of the mth mode, and S denotes the total closed-loop samples ( s = 0 being the initial open-loop sample). The influence of each sample is scaled by a weight λs, and the total loss is the sum of both components. 
+
+C. Prediction Network Architecture 
+
+The third and final component required is a network architecture that is inherently suitable to iterative sequen-tial prediction. Recent research [16], [17] highlights the efficiency of decoder-only transformer networks for autore-gressive generation tasks. To align with these principles, we adapt LMFormer [4]—a highly competitive lane-based trajectory prediction model—into a pure decoder-only setup, LMFormer-D, by stripping its encoder layers. As shown in Table I, this modification yields a lightweight and highly computationally efficient baseline that significantly reduces computational overhead. This enables the high-frequency sequential prediction required for our training paradigm. IV. E XPERIMENTAL SETUP 
+
+Dataset Primary multi-modal trajectory prediction bench-marks typically rely on large-scale datasets such as nuScenes [5], Argoverse-2 [6], and the Waymo Open Dataset [7]. As previously discussed, our scene simulation module utilizes a log-replay mechanism, which requires access to ground-truth future trajectories for all agents across the training, validation, and test splits. Both the Waymo and Argoverse-2 datasets are incompatible with this evaluation protocol. Waymo does not release future trajectory logs for its test split, while Argoverse-2 exhibits severe data bias, providing future logs for only 7.53% of agents in test split compared to 77.5% in training. We therefore select nuScenes as our primary benchmark as it provides the complete future annotations required for our framework. Additionally, we incorporate the DeepScenario dataset to capture high-fidelity intersection scenarios that are often occluded by standard vehicle-mounted sensors. By leveraging DeepScenario, we construct custom test split (Busy Frankfurt) with guaranteed TABLE I: nuScenes: Comparison of LMFormer and LMFormer-D prediction metrics and model efficiency on the test split.                                  
+
+> Models Prediction Metrics Model Efficiency k=5 k=1 Parameters FLOPS minFDE ↓minADE ↓MR ↓minFDE ↓minADE ↓MR ↓OffRoad ↓(mil) (GFLOPS) LMFormer 12.145 1.155 0.500 7.114 3.136 0.832 0.010 2.234 3.365 LMFormer-D 12.141 1.141 0.492 7.069 3.152 0.829 0.011 1.207 (-45%) 1.249 (-62%)
+> 1Mean values across five training runs.
+
+future logs, effectively bypassing the hidden test set limita-tions common in standard forecasting benchmarks. 
+
+Evaluation vs Training Setup During training, we simulate only the best-matching mode, as the generated closed-loop samples are exclusively required to optimize the regression loss for the best mode. In contrast, all predicted modes are rolled out in sequence during evaluation. 
+
+Metrics Standard multi-modal metrics [5] such as minADE k,minFDE k, and MR k do not incorporate safety. Therefore, we additionally compute a Collision metric. Because real-world execution relies on a single chosen action, we restrict collision evaluation to best-mode ( k = 1 ). The Collision met-ric thus represents the percentage of best-mode predictions resulting in an Oriented Bounding Box (OBB) overlap with any surrounding agent across the 6.0s simulation. V. R ESULTS AND DISCUSSION 
+
+A. Decoder-Only Setup brings Efficiency 
+
+As shown in Table I, when both the baseline LMFormer and our decoder-only LMFormer-D are trained in a stan-dard open-loop setting, LMFormer-D significantly improves computational efficiency. It reduces parameter count by 45% and inference GFLOPs by 62% while improving several key prediction metrics. This efficiency is critical for high-frequency, autoregressive closed-loop rollouts. Furthermore, LMFormer-D remains highly competitive against the state-of-the-art (Table II), matching top-tier models in multi-modal prediction performance in open-loop setting. TABLE II: Comparison with state-of-the-art on nuScenes.                         
+
+> Method minADE 5↓MR 5↓minFDE 1↓OffRoad ↓
+> FRM [24] 1.18 0.48 6.59 0.02 CASPNet v2 [25] 1.16 0.50 6.18 0.01
+> CASPFormer [26] 1.15 0.48 6.70 0.01
+> SemanticFormerR [27] 1.14 0.50 6.27 0.03
+> LMFormer-D (ours) 1.14 0.49 7.07 0.01
+
+B. Robustness vs. Differentiable Shortcuts 
+
+A primary observation from our study is that target prediction policies trained using a differentiable simulator (CL+Diff) exhibit extreme fragility as evaluation replanning frequencies increase. Specifically, while models maintain stable collision rates when the evaluation Hstep matches the training Hstep , error rates spike drastically as soon as the evaluation Hstep is reduced below the training Hstep under higher replanning frequencies. We observe this consistent performance collapse across both the nuScenes (Table III) and DeepScenario datasets (Table IV). These results sug-gest that differentiable simulators allow models to exploit mathematical shortcuts in the computation graph rather than learning robust behaviors, as argued above. Theoretically, avoiding this degradation requires training at higher fre-quencies, which is computationally prohibitive for real-world deployment. In contrast, our non-differentiable simulation frame-work (CL+Non Diff) successfully avoids these frequency-dependent shortcuts. By forcing the model to optimize pre-dictions based on the induced state distributions rather than gradient-based shortcuts, the CL+Non Diff model achieves significantly higher safety as replanning frequency increases. When evaluated at an Hstep lower than the training Hstep , our approach reduces the collision rate in nuScenes (Table III) by up to 23.14% and in DeepScenario (Table IV) by up to 33.24% at the highest replanning frequency ( Hstep = 0 .5s). These findings indicate that non-differentiable closed-loop training, even with prediction for surrounding agents in log-replay, produces more robust target prediction that remain valid across a broad range of deployment frequencies. 
+
+C. Comparison Against Open-Loop Baselines 
+
+When compared to the standard open-loop baseline, our non-differentiable closed-loop model demonstrates superior safety that scales with higher replanning frequencies. As shown in Table V, the CL+Non Diff model reduces target collisions by 23.19% on nuScenes at the extreme replanning frequency ( Hstep = 0.5 s). This advantage is more pro-nounced in the dense DeepScenario intersection environment (Table VI), where at Hstep = 0.5 s, our model achieves a 27.74% collision reduction. These results confirm that training in a non-differentiable closed-loop framework yields more robust predictions compared to open-loop baselines. In conjunction with the best mode safety analysis, we also evaluate the model’s multi-modal prediction capabilities with five modes. The corresponding results on nuScenes are shown in Table VII. The results indicate that, compared to the open-loop baseline, the CL+Non Diff model has better mode diversity (as indicated by minADE 5, minFDE 5, and MR 5) and better lane alignment (as indicated by the OffRoad rate) at higher replanning frequencies ( Hstep ≤ 3s). A corresponding qualitative comparison is shown in Figure 3, which illustrates that the CL+Non Diff model does not only avoid collisions (refer to row 1) but also improves lane alignment and multi-modal prediction diversity (refer to row 2) compared to its open-loop counterpart under similar evaluation setups. TABLE III: nuScenes: Collisions (%) over 6.0 s closed-loop rollouts across varying Hstep . Values represent mean ( ±1σ)across five different runs (three seeds). 
+
+Train Hstep Model Eval Hstep 
+
+6.0(s) 3.0(s) 2.0(s) 1.5(s) 1.0(s) 0.5(s) 3.0(s) CL+Diff 3.17 (±.06 ) 2.72 (±.04 ) 2.79 (±.09 ) 2.77 (±.06 ) 2.74 (±.08 ) 3.33 (±.25 )
+
+CL+Non Diff 3.20 (±.09 ) 2.76 (±.04 ) 2.61 (±.08 ) 2.59 (±.04 ) 2.47 (±.06 ) 2.56 (±.09 )
+
+Col. Reduction -0.95% -1.47% 6.45 % 6.50 % 9.85% 23.12% 
+
+2.0(s) CL+Diff 3.09 (±.12 ) 2.74 (±.04 ) 2.42 (±.11 ) 3.48 (±.19 ) 2.78 (±.03 ) 3.21 (±.02 )
+
+CL+Non Diff 3.00 (±.14 ) 2.60 (±.10 ) 2.37 (±.05 ) 2.33 (±.11 ) 2.31 (±.17 ) 2.65 (±.33 )
+
+Col. Reduction 2.91% 5.11% 2.07% 33.05% 16.91% 17.45% 
+
+1.5(s) CL+Diff 2.98 (±.20 ) 2.72 (±.20 ) 2.61 (±.12 ) 2.20 (±.10 ) 3.73 (±.27 ) 3.76 (±.20 )
+
+CL+Non Diff 3.02 (±.06 ) 2.76 (±.09 ) 2.64 (±.12 ) 2.56 (±.10 ) 2.48 (±.06 ) 2.89 (±.08 )
+
+Col. Reduction -1.34% -1.47% -1.15% -16.36% 33.51% 23.14% 
+
+TABLE IV: DeepScenario (Busy Frankfurt): Collisions (%) over 6.0 s closed-loop rollouts across varying Hstep . Values represent mean ( ±1σ). 
+
+Train Hstep Model Eval Hstep 
+
+6.0(s) 3.0(s) 2.0(s) 1.5(s) 1.0(s) 0.5(s) 3.0(s) CL+Diff 5.85 (±.30 ) 5.65 (±.30 ) 7.45 (±.30 ) 8.10 (±.35 ) 11.40 (±.40 ) 15.75 (±.20 )
+
+CL+Non Diff 5.60 (±.30 ) 5.55 (±.30 ) 6.25 (±.40 ) 6.70 (±.20 ) 8.30 (±.50 ) 10.65 (±.50 )
+
+Col. Reduction 4.27% 1.77% 16.11 % 17.28 % 27.19 % 32.38 %2.0(s) CL+Diff 5.75 (±.15 ) 6.25 (±.10 ) 5.60 (±.15 ) 8.25 (±.10 ) 12.25 (±.15 ) 15.80 (±.10 )
+
+CL+Non Diff 6.10 (±.10 ) 6.05 (±.15 ) 6.45 (±.10 ) 6.50 (±.15 ) 7.45 (±.25 ) 11.20 (±.20 )
+
+Col. Reduction -6.09% 3.20% -15.18% 21.21 % 39.18 % 29.11 %1.5(s) CL+Diff 6.20 (±.50 ) 6.65 (±.60 ) 8.20 (±.70 ) 6.45 (±.60 ) 11.50 (±.60 ) 17.30 (±.10 )
+
+CL+Non Diff 5.85 (±.15 ) 5.85 (±.15 ) 6.20 (±.15 ) 6.40 (±.25 ) 7.55 (±.55 ) 11.55 (±1.60 )
+
+Col. Reduction 5.65% 12.03% 24.39% 0.78% 34.35 % 33.24 %
+
+TABLE V: nuScenes: Collisions (%) over 6.0 s closed-loop rollouts comparing open-loop baseline and best closed-loop trained model at Hstep = 2 s. Values represent mean ( ±1σ). 
+
+Model Eval Hstep 
+
+6.0(s) 3.0(s) 2.0(s) 1.5(s) 1.0(s) 0.5(s) OL 3.14 (±.11 ) 2.96 (±.09 ) 2.84 (±.08 ) 2.86 (±.10 ) 2.97 (±.12 ) 3.45 (±.15 )
+
+CL+Non Diff (H step = 2s) 3.00 (±.14 ) 2.60 (±.10 ) 2.37 (±.05 ) 2.33 (±.11 ) 2.31 (±.17 ) 2.65 (±.33 )
+
+Col. Reduction 4.45 % 12.16 % 16.55 % 18.53 % 22.22% 23.19% 
+
+TABLE VI: DeepScenario (Busy Frankfurt): Collisions (%) over 6.0 s closed-loop rollouts comparing open-loop baseline and optimal closed-loop trained model at Hstep = 2 s. Values represent mean ( ±1σ). 
+
+Model Eval Hstep 
+
+6.0(s) 3.0(s) 2.0(s) 1.5(s) 1.0(s) 0.5(s) OL 5.70 (±.15 ) 6.10 (±.15 ) 6.95 (±.20 ) 7.95 (±.15 ) 11.40 (±.25 ) 15.50 (±.30 )
+
+CL+Non Diff ( Hstep = 2 s) 6.10 (±.10 ) 6.05 (±.15 ) 6.45 (±.10 ) 6.50 (±.15 ) 7.45 (±.25 ) 11.20 (±.20 )
+
+Col. Reduction -7.02% 0.82 % 7.19 % 18.24 % 34.65% 27.74% 
+
+VI. C ONCLUSION 
+
+This paper shows that using fully differentiable simulators for closed-loop target prediction causes shortcut learning, where backward gradient leakage allows models to non-causally overwrite past errors. We resolve this with a non-differentiable training framework that severs the compu-tational graph, forcing the model to learn genuine reac-tive recovery. Evaluation on nuScenes and DeepScenario demonstrates our method’s superiority: While differentiable models fail at higher replanning frequencies, our approach yields up to a 33.24% reduction in collisions compared to differentiable baselines. It also reduces collisions by up to 27.74% compared to standard open-loop training, while improving multi-modal diversity and lane alignment. Ultimately, preventing non-causal gradient leakage produces highly robust target prediction models. In future work, we will explore replacing the surrounding agents’ log-replay mechanism with fully reactive scene simulation. VII. A CKNOWLEDGMENT 
+
+We utilized the Gemini 2.5 Pro large language model strictly as a copyediting tool; it did not generate any stan-dalone text, core ideas, or technical contributions, and the authors thoroughly reviewed all final content. (a) OL, Tsim = 6 s (b) OL, Tsim = 2 s (c) CL, Tsim = 2 s (b) OL, Tsim = 0 .5s (c) CL, Tsim = 0 .5s
+
+Fig. 3: Comparison of the open-loop (OL) vs. closed-loop (CL) trained models under various closed-loop evaluation setups with different replanning frequencies, fstep = 6 /H step .TABLE VII: nuScenes: Comparison of Multi-Modal predic-tions between open-loop baseline and closed-loop with Non Differentiable simulator setup across varying Hstep .
+
+Eval Model k=5 k=1 
+
+Hstep minFDE ↓ minADE ↓ MR ↓ OffRoad ↓
+
+6.0(s) OL 2.141 1.141 0.492 0.011 
+
+CL+Non Diff 2.147 1.147 0.495 0.012 3.0(s) OL 2.077 1.131 0.485 0.010 CL+Non Diff 2.037 1.122 0.469 0.009 
+
+2.0(s) OL 2.046 1.118 0.475 0.009 CL+Non Diff 1.985 1.100 0.453 0.008 
+
+1.5(s) OL 2.106 1.134 0.490 0.010 CL+Non Diff 2.016 1.108 0.462 0.008 
+
+1.0(s) OL 2.223 1.170 0.513 0.011 CL+Non Diff 2.145 1.147 0.491 0.009 
+
+0.5(s) OL 2.881 1.407 0.606 0.032 CL+Non Diff 2.670 1.349 0.560 0.016 
+
+REFERENCES [1] J. Ngiam, B. Caine, et al. , “Scene transformer: A unified archi-tecture for predicting multiple agent trajectories,” arXiv preprint arXiv:2106.08417 , 2021. [2] Z. Zhou, L. Ye, et al. , “Hivt: Hierarchical vector transformer for multi-agent motion prediction,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2022, pp. 8823–8833. [3] Z. Zhou, J. Wang, et al. , “Query-centric trajectory prediction,” in 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2023, pp. 17 863–17 873. [4] H. Yadav, M. Schaefer, et al. , “Lmformer: Lane based motion predic-tion transformer,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 2435–2444. [5] H. Caesar, V. Bankiti, et al. , “nuscenes: A multimodal dataset for autonomous driving,” in Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2020, pp. 11 621–11 631. [6] B. Wilson, W. Qi, et al. , “Argoverse 2: Next generation datasets for self-driving perception and forecasting,” arXiv preprint arXiv:2301.00493 , 2023. [7] S. Ettinger, S. Cheng, et al. , “Large scale interactive motion fore-casting for autonomous driving: The waymo open motion dataset,” in 
+
+Proceedings of the IEEE/CVF international conference on computer vision , 2021, pp. 9710–9719. [8] S. Suo, S. Regalado, et al. , “Trafficsim: Learning to simulate realistic multi-agent behaviors,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2021, pp. 10 400– 10 409. [9] C. Gulino, J. Fu, et al. , “Waymax: An accelerated, data-driven simula-tor for large-scale autonomous driving research,” Advances in Neural Information Processing Systems , vol. 36, pp. 7730–7742, 2023. [10] L. Lin, X. Lin, et al. , “Revisit mixture models for multi-agent simulation: Experimental study within a unified framework,” arXiv preprint arXiv:2501.17015 , 2025. [11] N. Nayakanti, R. Al-Rfou, et al. , “Wayformer: Motion forecast-ing via simple & efficient attention networks,” arXiv preprint arXiv:2207.05844 , 2022. [12] J. Cheng, X. Mei, and M. Liu, “Forecast-mae: Self-supervised pre-training for motion forecasting with masked autoencoders,” in Pro-ceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 8679–8689. [13] Z. Lan, Y. Jiang, et al. , “Sept: Towards efficient scene representation learning for motion prediction,” arXiv preprint arXiv:2309.15289 ,2023. [14] A. Seff, B. Cera, et al. , “Motionlm: Multi-agent motion forecasting as language modeling,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 8579–8590. [15] J. Philion, X. B. Peng, and S. Fidler, “Trajeglish: Traffic modeling as next-token prediction,” arXiv preprint arXiv:2312.04535 , 2023. [16] W. Wu, X. Feng, et al. , “Smart: Scalable multi-agent real-time motion generation via next-token prediction,” Advances in Neural Information Processing Systems , vol. 37, pp. 114 048–114 071, 2024. [17] M. Knoche, D. de Geus, and B. Leibe, “Donut: A decoder-only model for trajectory prediction,” arXiv preprint arXiv:2506.06854 , 2025. [18] D. Dauner, M. Hallgarten, et al. , “Parting with misconceptions about learning-based vehicle motion planning,” in Conference on Robot Learning . PMLR, 2023, pp. 1268–1281. [19] M.-K. Bouzidi, C. Schlauch, et al. , “Closing the loop: Motion prediction models beyond open-loop benchmarks,” arXiv preprint arXiv:2505.05638 , 2025. [20] Z. Zhang, P. Karkus, et al. , “Closed-loop supervised fine-tuning of tokenized traffic models,” in Proceedings of the Computer Vision and Pattern Recognition Conference , 2025, pp. 5422–5432. [21] Y. Hu, J. Yang, et al. , “Planning-oriented autonomous driving,” in 
+
+Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , 2023, pp. 17 853–17 862. [22] B. Jiang, S. Chen, et al. , “Vad: Vectorized scene representation for efficient autonomous driving,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 8340–8350. [23] K. T. e. a. H. Caesar, J. Kabzan, “Nuplan: A closed-loop ml-based planning benchmark for autonomous vehicles,” in CVPR ADP3 workshop , 2021. [24] D. Park, H. Ryu, et al. , “Leveraging future relationship reasoning for vehicle trajectory prediction,” in The Eleventh International Conference on Learning Representations , 2023. [Online]. Available: https://openreview.net/forum?id=CGBCTp2M6lA [25] M. Sch¨ afer, K. Zhao, and A. Kummert, “Caspnet++: Joint multi-agent motion prediction,” arXiv preprint arXiv:2308.07751 , 2023. [26] H. Yadav, M. Schaefer, et al. , “Caspformer: Trajectory prediction from bev images with deformable attention,” in International Conference on Pattern Recognition . Springer, 2025, pp. 420–434. [27] Z. Sun, Z. Wang, et al. , “Semanticformer: Holistic and semantic traffic scene representation for trajectory prediction using knowledge graphs,” 
+
+arXiv preprint arXiv:2404.19379 , 2024.

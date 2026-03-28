@@ -1,0 +1,654 @@
+Title: A Joint Reinforcement Learning Scheduling and Compression Framework for Teleoperated Driving
+
+URL Source: https://arxiv.org/pdf/2603.23387v1
+
+Published Time: Wed, 25 Mar 2026 01:39:42 GMT
+
+Number of Pages: 13
+
+Markdown Content:
+> 1
+
+# A Joint Reinforcement Learning Scheduling and Compression Framework for Teleoperated Driving 
+
+Giacomo Avanzi, Student Member, IEEE , Marco Giordani, Senior Member, IEEE 
+
+Michele Zorzi, Fellow, IEEE (Invited Paper) 
+
+Abstract —Teleoperated driving (TD) is envisioned as a key application of future sixth generation (6G) networks. In this paradigm, connected vehicles transmit sensor-perception data to a remote (software) driver, which returns driving control commands to enhance traffic efficiency and road safety. This scenario imposes to maintain reliable and low-latency communi-cation between the vehicle and the remote driver. To this aim, a promising solution is Predictive Quality of Service (PQoS), which provides mechanisms to estimate possible Quality of Service (QoS) degradation, and trigger timely network corrective actions accordingly. In particular, Reinforcement Learning (RL) agents can be trained to identify the optimal PQoS configuration. In this paper, we develop and implement two integrated RL agents that jointly determine (i) the optimal compression configuration for TD sensor data to balance the trade-off between transmission efficiency and data quality, and (ii) the optimal scheduling configuration to minimize the end-to-end latency by allocating radio resources according to different priority levels. We prove via full-stack ns-3 simulations that our integrated agents can deliver superior performance than any standalone model that only optimizes either compression or scheduling, especially in constrained or congested networks. While these agents can be deployed using either centralized or decentralized learning, we further propose a new meta-learning agent that dynamically selects the most appropriate strategy between the two based on current network conditions and application requirements. 
+
+Index Terms —Teleoperated driving (TD); Predictive Quality of Service (PQoS); Reinforcement Learning (RL); vehicular networks, ns-3; protocol design. 
+
+This paper is currently under review by IEEE Transactions on Communications. 
+
+I. I NTRODUCTION 
+
+Sixth generation (6G) networks are being designed to support an increasingly data-centric, data-dependent, and au-tomated society [2]. In particular, the research community identifies teleoperated driving (TD) as a key 6G application to enhance traffic efficiency and road safety. In a TD scenario, a connected vehicle continuously acquires and transmits mul-timodal sensor data, including videocamera, Light Detection and Ranging (LiDAR), and radar measurements, to a remote (typically software) driver via Vehicle-To-Everything (V2X) communication. The remote driver processes these data to extract critical perception information, such as detecting other vehicles, pedestrians, lane markings, and traffic signals on 
+
+The authors are with the Department of Information Engineering, Uni-versity of Padova. Padova, Italy. E-mail: {giacomo.avanzi, marco.giordani michele.zorzi }@dei.unipd.it. A preliminary version of this work was presented at the IEEE Vehicular Networking Conference 2025 [1]. 
+
+the road, and generates optimal driving control commands accordingly. To support this paradigm, the TD application must satisfy stringent communication requirements. Notably, connected cars generate large volumes of data [3], which can lead to network congestion. At the same time, unanticipated channel degradation, which are likely to occur in dynamic vehicular networks, may pose critical safety risks if control commands from the remote driver are delayed or lost. Ac-cording to the 3rd Generation Partnership Project (3GPP) specifications, to ensure that both perception data and control commands are transmitted accurately and in a timely manner, the end-to-end latency for TD must be lower than 50 ms in both uplink (UL) and downlink (DL), while reliability requirements range from 99% to 99.999% depending on the automation level [4]. For this reason, Predictive Quality of Service (PQoS) was introduced as a mechanism to forecast and communicate potential Quality of Service (QoS) degradation in the network, and undertake proper countermeasures to react accordingly [5]. Initially, network dynamics were predicted using filter-based approaches such as Kalman filtering or linear regression. However, these methods rely on prior knowledge of the underlying network and control processes [6], which is of-ten not available in TD applications. Moreover, they cannot efficiently handle large-scale input data, and do not capture non-linear dependencies between input and output features. Recently, artificial intelligence (AI) and machine learning (ML) techniques have emerged as powerful tools for intelligent network optimization [7], [8] in various domains, including PQoS. In particular, Neural Network (NN) models can be trained to predict the network behavior, and decide appropriate actions to preserve QoS based on network conditions, available resources, predicted mobility, and other observations [9]–[12]. However, NNs require large labeled datasets for training, which are often difficult or costly to obtain in vehicular networks [13]. Moreover, training is time-consuming, and may not be feasible with the (generally limited) hardware resources available onboard vehicles [14]. In addition, channel dynamics and mobility may require frequent model updates or retraining, which also introduce non-negligible delays. Another valid approach for PQoS is based on Reinforce-ment Learning (RL), where the system learns a predictive and adaptive policy through continuous feedback (reward). Unlike NNs, RL does not require a labeled dataset, and can iteratively adapt to time-varying network conditions with 
+
+> arXiv:2603.23387v1 [cs.NI] 24 Mar 2026 2
+
+minimal retraining. Specifically, RL methods have shown impressive results for PQoS in TD scenarios. For example, in our previous works [15]–[17], we proposed a simulation framework to predict the optimal compression level for LiDAR data to optimize the trade-off between the end-to-end (E2E) transmission latency and data quality in the event of network resource saturation or channel degradation. Specifically, we explored centralized and decentralized RL solutions [18], implemented at the Next Generation Node Base (gNB) or User Equipment (UE), respectively, as well as different RL methods [19], namely Multi-Armed Bandit (MAB) (state-less), State–Action–Reward–State–Action (SARSA) (stateful on-policy), Q-Learning (stateful off-policy), and Deep SARSA (DSARSA) and Double Deep Q-Learning (DDQL) (with NN approximation). However, compression may inevitably degrade the quality of sensor data, and possibly compromise critical TD tasks such as object detection and recognition. An alternative strategy is to implement PQoS at the Radio Access Network (RAN). Specifically, the RL agent can be de-signed to optimize radio parameters, such as the transmission power, the numerology, or the scheduler, based on the network conditions, while preserving data quality. For example, in [1] we proposed several Multi-Agent Reinforcement Learning (MARL) scheduling algorithms that allocate radio resources based on latency constraints and the available network capac-ity. However, the main drawback of this method is that it can only be executed at the gNB via centralized learning, so it is not directly applicable at the UE or edge level. Based on the above introduction and discussion, in this work we provide the following novel contributions:  
+
+> •
+
+Compared to our previous work, where we optimized either data compression or resource allocation/schedul-ing independently, we now propose an innovative RL framework that jointly optimizes both as a PQoS coun-termeasure. To do so, we design and implement two RL agents. The first, called Compression Agent (CA), selects the optimal LiDAR 1 compression level to minimize the E2E latency and, at the same time, maximize the quality of the received data, measured in terms of mean Average Precision (mAP). The second, called Scheduling Agent (SA), decides how to allocate radio resources for each UE based on a dynamic priority metric that accounts for both the E2E latency and the available network capacity. The agents are trained either independently or cooperatively.  
+
+> •
+
+We evaluate the proposed framework against standalone benchmarks that either select the compression and scheduling decisions statically, or optimize either of the two dimensions separately, as done in the prior literature. We consider key performance metrics such as the E2E latency, the mAP of the received data, and the probability of violating the latency requirements of TD applications. We also compare different RL model implementations, i.e., centralized or decentralized (federated) learning. All algorithms are evaluated via full-stack ns-3 simulations, 
+
+> 1In this paper we focus on LiDAR data, given that LiDAR sensors are widely used in TD applications given their ability to measure distance in different weather and lighting conditions. However, our simulation pipeline can be equivalently applied to different types of sensor-perception data.
+
+one of the most advanced software tools for wireless networks, which ensures that our results are both realistic and accurate. We find that federated learning is the most convenient approach in low-quality channels, that is when data collection at the RAN, as required in centralized learning, is impractical. Moreover, we prove that the cooperation between the CA and the SA outperforms any standalone approach that optimizes either compression or scheduling separately, especially in the most constrained or congested environments.  
+
+> •
+
+Based on the above results, we further propose a new meta-learning RL agent that is able to dynamically select the optimal learning model (centralized or federated) based on real-time network conditions and the applica-tion requirements. We compare different meta-learning agent implementations, including stateless, contextual, and stateful models. We prove via ns-3 simulations that the adaptability features of the meta-learning agent out-performs any static baseline where the learning config-uration is selected a priori, and does not depend on the underlying channel condition. The rest of the paper is organized as follows. In Sec. II we review the state of the art. In Sec. III we describe our system model. In Sec. IV we present our RL agents. In Sec. V we illustrate our main simulation results. In Sec. VI we conclude the paper with suggestions for future work. II. R ELATED WORK 
+
+AI is expected to be a fundamental component of 6G networks, especially to support autonomous network opti-mization and adaptive decision-making without manual inter-vention [20]. These capabilities are especially promising for V2X TD networks characterized by stringent Ultra-Reliable Low-Latency Communication (URLLC) requirements, to dy-namically optimize traffic congestion, vehicle navigation, and platooning [21]. A common feature of these applications is the need to process and/or transmit huge amounts of sensor-perception data, which may cause delay and packet loss. Along these lines, PQoS exploits AI to predict the network QoS at the RAN level, and optimize protocols accordingly. In [9]–[11], traditional AI/ML models (e.g., linear regression, Deep Neural Network (DNN), and Random Forest) were used to accurately predict several V2X metrics, such as the uplink throughput and the in-time packet reception probability, under diverse and representative traffic conditions. Similarly, Torres-Figueroa et al. [12] proposed to forecast the E2E latency by training a complex Recurrent Neural Network (RNN) with Long Short-Term Memory (LSTM), as well as other basic ML algorithms. The authors in [22] and [23] also proposed a latency and throughput prediction framework, respectively, for supporting delay-critical V2X applications based on LSTM. As discussed in Sec. I, PQoS can be optimized in the RAN, specifically at the scheduling level. In fact, current 5G schedulers, such as Round Robin (RR), Proportional Fair, and Earliest Deadline First, were not originally designed to support time-sensitive traffic. In contrast, (multi-agent) Deep Reinforcement Learning (DRL) methods can adapt resource 3
+
+scheduling to the network environment [24], based on, for example, target QoS requirements or per-UE priorities, as proposed in [25]. A similar strategy, also based on DRL, was proposed in [26] to support URLLC. Alternatively, PQoS can be optimized through efficient data compression at the application layer, immediately after data generation and before transmission. For example, [15] proposed an RL agent based on Deep Q-Learning (DQL) and Proximal Policy Optimization (PPO) that dynamically selects the optimal compression level for LiDAR perceptions (com-bining both semantic segmentation using RangeNet++ [27] and point-cloud compression using Draco [28]), to guarantee timely data transmission with minor degradation of the quality of the received compressed data. As far as the learning model is concerned, PQoS is generally implemented at the gNB via centralized learning, e.g., as in [15]. This approach permits to operate directly at the RAN, including at the scheduler level. However, centralized learning also introduces non-negligible delays to transmit and aggregate (receive) data (control signals and commands) to (from) the RAN, which may not be fully compatible with TD applications [29]–[32]. This observation motivates the adop-tion of decentralized learning (either distributed or federated), where decision-making is executed locally at the UEs or at the network edge, thereby reducing the latency and signaling overhead compared to centralized learning in the RAN [18]. For example, the authors in [33] developed a decentralized DRL algorithm for optimizing resource allocation in a rapidly changing network environment. Decentralized learning can promote privacy, as user-sensitive data, e.g., sensor measure-ments, are processed locally and are not directly shared over the network. Moreover, decentralized models can operate even with no or limited gNB connectivity or feedback, and tolerate network delays or partial disconnections. Even though the research on PQoS is quite mature, several research questions are still unanswered. First, the state of the art has primarily focused on optimizing data compression or resource scheduling for PQoS independently, rather than integrating them as correlated components. Moreover, the literature generally implements centralized or decentralized learning, while the design of an adaptive learning model able to dynamically switch between the two, e.g., based on the temporal evolution of the network conditions, has not yet been explored for TD applications. III. S YSTEM MODEL 
+
+In this section we describe our simulation scenario (Sec. III-A) and optimization framework (Sec. III-B). 
+
+A. Simulation Scenario 
+
+Our simulation scenario, based on [15], is mainly imple-mented in ns-3, one of the most popular and accurate discrete-event simulators for wireless networks. It consists of a gNB, a remote host (i.e., the teleoperator or driving software), N
+
+vehicles (i.e., the UEs), and the following modules. G B1 − pGB 
+
+pGB 
+
+1 − pBG 
+
+pBG     
+
+> Fig. 1: Two-state Markov Chain representing the wireless channel. The transition probabilities pGB and pBG are simulation parameters.
+
+a) Network: The remote host is connected to the gNB through a wired backhaul link. The gNB and the UEs exchange data via the 5G New Radio (NR) protocol stack [34], which is simulated in ns-3 via the open-source mmwave module [35]. 
+
+b) Channel and mobility: The mobility of the vehicles is simulated in Simulation of Urban MObility (SUMO) [36], in an urban area of the city of Bologna. The path loss state (Line of Sight (LOS) or Non Line of Sight (NLOS)) and the large- and small-scale fading components of the channel are evaluated via the GEMV 2 simulator [37], and then used in ns-3 to derive the received power. Notably, the wireless channel is modeled as a discrete-time two-state Markov Chain, as illustrated in Fig. 1, where the Good (G) and Bad (B) states represent high-quality and low-quality channel conditions, re-spectively. The transition probabilities pGB and pBG between these states capture the channel temporal correlation, and can be tuned in ns-3 to simulate different levels of link degradation. 
+
+c) Application: Each vehicle runs a User Datagram Protocol (UDP) application that transmits, without loss of generality, LiDAR point cloud data at a constant frame rate f .Before transmission, the data is compressed using Google Draco [28]. 2 The corresponding frame size is determined by the resulting compression configuration (q, c ), defined by the number of quantization bits q ∈ {1, . . . , 31 } and the compression level c ∈ { 0, . . . , 10 }.
+
+d) RAN-AI: The RAN-AI [17] acts as an intelligent centralized network controller for PQoS, deployed at the gNB. It collects measurements and performance metrics from the RAN, relative to all UEs. Specifically, the RAN-AI is trained to optimize both data compression and resource allocation based on a centralized single-agent or multi-agent RL frame-work, as described in Sec. IV. 
+
+e) UE-AI: The UE-AI [18] acts an intelligent distributed network controller for PQoS, deployed at each UE. It collects local measurements and performance metrics from each UE. Specifically, the UE-AI is trained to only optimize data com-pression based on a decentralized single-agent RL framework, as described in Sec. IV. 
+
+B. Optimization Framework 
+
+In our framework, we propose and implement two interact-ing RL agents for TD applications, namely the Compression Agent (CA) to manage point cloud compression, and the Scheduling Agent (SA) to manage radio resource scheduling. The CA (Sec. IV-A) is designed for selecting the optimal compression configuration, i.e., compression level and quanti-zation bits, of the LiDAR data. While this approach can reduce 
+
+> 2In [38], we showed that Draco is the best compression algorithm for delay-constrained networks, such as for TD applications, given its low compression (encoding) time. 4
+
+the size of the data to send, it may inevitably compromise data quality, and degrade the performance of the TD application. The SA (Sec. IV-B) only operates at the RAN, and governs how the gNB assigns radio transmission resources to the UEs in order to satisfy latency constraints. Notably, resource alloca-tion is driven by a priority parameter k ∈ { 1, . . . , K }, which is related to the network conditions of a given UE. Hence, lower-priority UEs ( k → 1) receive fewer resources, as latency requirements are easier to satisfy, whereas higher-priority UEs (k → K) require more resources. The number of priority levels 
+
+K determines the granularity of the agent decision. We explore four possible operating modes, depending on how the two agents are integrated:  
+
+> •
+
+Only Compression (C): In this mode, only the CA is active, while the SA is disabled. This approach is feasible in both centralized and decentralized learning, depending on whether the decision is taken at the RAN or at the UE, respectively, even though data quality may be sacrificed after compression. This mode is based on [16], [19].  
+
+> •
+
+Only Scheduling (S): In this mode, only the SA is active, while the CA is disabled. This approach is only feasible in centralized learning, since radio resources are assigned at the RAN level, i.e., at the gNB. This approach preserves the integrity and quality of the transmitted data. This mode is based on [1].  
+
+> •
+
+Independent Compression and Scheduling (ICS): In this mode, both agents are active but operate independently. Clearly, this is the simplest integration approach to com-bine the CA and the SA, as no coordination is required. On the other hand, the learning phase may be unstable because the two agents are not aware of each other’s deci-sions. For example, when a QoS constraint is violated, the agents cannot determine whether the issue derives from inappropriate compression (CA) or scheduling (SA).  
+
+> •
+
+Cooperative Compression and Scheduling (CCS): In this mode, both agents are active and cooperate to find the optimal equilibrium between the compression and scheduling configurations. Hence, a collaborative model must be designed to ensure stability and convergence, which may increase the training complexity. IV. P ROPOSED RL A GENTS 
+
+An RL framework is mathematically modeled as aMarkov Decision Process (MDP) [39], defined by the tuple 
+
+< S, A, P, R, γ >, where S represents the set of states, A
+
+represents the set of actions, P represents the state transi-tion probability matrix with elements Pass ′ = P [St+1 =
+
+s′|St = s, A t = a], R represents the reward function with 
+
+Ras = E[Rt+1 |St = s, A t = a], and γ ∈ (0 , 1) represents the discount factor. At each time step t, the agent observes state 
+
+St, chooses action At, receives a reward Rt+1 , and moves to state St+1 according to P.The agent’s goal is to find the optimal policy π∗ that maximizes the expected return Gt, defined as the sum of the discounted rewards from time t. Specifically, Gt is defined as 
+
+Gt =
+
+> +∞
+
+X 
+
+> τ=0
+
+γτ Rt+τ . (1) In certain cases, the agent is only able to perceive an observa-tion Ot of St, which does not provide complete information about the environment and the underlying state St. This prob-lem is formalized as a Partially Observable MDP (POMDP) [40]. Various algorithms have been developed to determine π∗,and can be classified as value-based or policy-based, and as single-agent or multi-agent. Value-based methods try to estimate the optimal action-value function and learn a policy based on that. Policy-based methods, instead, directly learn the optimal policy to maximize the expected return. This latter approach is particularly effective in high-dimensional and continuous action spaces, where the value function is difficult to estimate and generalize. In a single-agent setup, the size of the state-action space grows exponentially with the number of UEs. To address this challenge, the problem is decomposed into a smaller and more tractable multi-agent decision prob-lem. In this case, we consider a multi-agent extension of a POMDP, i.e., a Decentralized POMDP (Dec-POMDP) [41], defined by the tuple < N, S, {Ai}i∈N , {Oi}i∈N , P, R, γ > ,where N represents the set of agents, Ai represents the set of actions for agent i ∈ N, Oi represents the the set of observations for agent i ∈ N, Pas,s ′ : S × AN × S → [0 , 1] 
+
+represents the state transition probability function, and R :
+
+S × AN → R represents the reward function. In this setting, each agent interacts with the shared environment and learns a decentralized policy based on its own local observations, without any prior knowledge of the global state or the actions of the other agents. 
+
+Notation: In the considered multi-agent frameworks, all agents are implemented using the same model, architecture, parameters, and training configuration. Accordingly, for sim-plicity, the agent index i is omitted from the model notation throughout the remainder of this paper. 
+
+A. Compression Agent (CA) 
+
+The CA selects the optimal compression configuration for LiDAR data to minimize the E2E latency, subject to a con-straint on the resulting data quality for reliable TD operations (e.g., object detection). 
+
+1) State: The state of the environment depends on the CA implementation, i.e., centralized or decentralized.  
+
+> •
+
+Centralized state : The RAN-AI in the gNB collects the following measurements from all UEs in the RAN: the Signal to Interference plus Noise Ratio (SINR), the Modulation and Coding Scheme (MCS) index, the number of Orthogonal Frequency Division Multiplexing (OFDM) symbols required to transmit the data in the UL buffer, and the mean, standard deviation, minimum and maximum latency and Packet Receipt Rate (PRR) at the Physical (PHY), Radio Link Control (RLC), Packet Data Convergence Protocol (PDCP), and application layers. Data collection at the gNB may lead to overhead and channel congestion, and expose the network to security threats, since sensitive data must be shared with the RAN.  
+
+> •
+
+Decentralized state : Each UE-AI implements an inde-pendent and autonomous agent, which learns solely from 5
+
+local data and measurements. Compared to the centralized state, the RLC and PDCP measurements are not available at the UEs, and are replaced by the mean, standard deviation, minimum and maximum occupancy of the UL buffers at the Medium Access Control (MAC) layer. While this approach eliminates the need to send raw data and measurements to the gNB and promotes data privacy, convergence may be slower, since each agent has access to limited (and only local) training data. To accelerate convergence, we train the agent in a federated learning (FL) setup [42]. Accordingly, UEs periodically share learning updates with the gNB, which aggregates them into a global model. The resulting model is then redistributed to the federated agents, which further adapt it using their local data. 
+
+2) Action: The discrete action space ACA is defined as the set of possible compression configurations for LiDAR data. 
+
+3) Reward: The reward function R is designed to optimize both the E2E latency ℓ associated with the transmission process, and the mAP ma of the point cloud after compression (using compression configuration a ∈ ACA , i.e., the action). Therefore, the latter represents the quality of the received data. The reward is a piecewise function, whose definition de-pends on the operating mode of the framework (Sec. III-B).  
+
+> •
+
+In the C and ICS modes, the CA operates independently of the SA. So, the reward is defined as: 
+
+R{C,ICS } 
+
+> CA
+
+=
+
+(
+
+ma if ℓ ≤ τ, 
+
+−ℓ/ 100 otherwise . (2) Specifically, a positive reward equal to ma is returned if the E2E latency ℓ is lower than or equal to a predefined threshold τ , which depends on the requirements of the TD application. Otherwise, the reward is a penalization proportional to ℓ. 
+
+> •
+
+In the CCS mode, the CA cooperates with the SA. Now, the reward function should depend on both the compression configuration (for the CA) and the priority level k for resource allocation (for the SA). Specifically, when latency constraints are not satisfied, the reward is a penalization inversely proportional to k, so k acts as a discount factor on the latency. In this case, the agent should apply more aggressive compression (i.e., the action) when a UE is allocated fewer resources. So, the reward is defined as: 
+
+RCCS CA =
+
+(
+
+ma if ℓ ≤ τ, 
+
+−ℓ/ (100 · k) otherwise . (3) 
+
+4) Algorithm: The CA is implemented as a DDQL model. It is a value-based strategy that extends the classical DQL model by approximating the Q-function, i.e., the expected cumulative reward when taking an action in a given state, using two DNNs: the Q-Network with parameters θQ, that selects the best action for the next state based on the Q-values QθQ , and the Target-Network with parameters θT , that provides stable target Q-values QθT for learning. The Q-Network is trained using Adam by minimizing the Mean Squared Error (MSE) 
+
+L(θQ) between QθQ and a target Q-value yt computed using the Target-Network at time t, i.e., 
+
+L(θQ) = EB
+
+h yt − QθQ (St, A t)2i
+
+, (4) 
+
+yt = Rt + γ max  
+
+> A′
+
+QθT (St+1 , A ′). (5) The MSE in Eq. (4) is computed over a mini-batch B.Moreover, while the Q-Network is updated at every step, the parameters of the Target-Network used to compute yt are kept fixed for a predefined number of training iterations TDDQL , to improve the stability of the training process. Finally, to balance exploration vs. exploitation, we adopt an ϵ-greedy policy, where the exploration rate ϵ decreases linearly over time. 
+
+B. Scheduling Agent (SA) 
+
+The SA selects the optimal priority level for UEs, which determines the corresponding number of OFDM symbols per slot to use for transmission to minimize the E2E latency. 
+
+1) State: The RAN-AI in the gNB collects the following measurements from all UEs in the RAN: the mean SINR, the mean MCS index, the mean UL buffer size, the number of OFDM symbols required to transmit the data in the UL buffer given the MCS, the mean E2E latency, and the number of transmitted bytes at the application layer. 
+
+2) Action: The discrete action space ASA is defined as the set of possible priority levels K for resource allocation. Specifically, a UE is assigned a higher priority k ∈ { 1, . . . , K }
+
+if it necessitates more radio resources to satisfy its QoS requirements under the current network conditions. 
+
+3) Reward: The reward is a piecewise function that depends on the operating mode of the framework.  
+
+> •
+
+In the S and ICS modes, the SA operates independently of the CA. In this case, the reward is a penalization proportional to the violation of ℓ with respect to τ , i.e., 
+
+R{S,ICS } 
+
+> SA
+
+=
+
+(
+
+1 if ℓ ≤ τ, 
+
+−(ℓ − τ )/100 otherwise . (6)  
+
+> •
+
+In the CCS mode, the reward also depends on the quality of the compressed data, measured in terms of the mAP 
+
+ma. Specifically, when latency constraints are violated (i.e., ℓ > τ ), the penalty is directly proportional to ma.In this case, the network is encouraged to apply more aggressive compression, even at the cost of some data quality degradation, to reduce the data size and transmit faster. In parallel, the penalty is inversely proportional to the priority level k. In this case, the network is encour-aged to schedule higher-priority UEs, which are allocated more radio resources and are less likely to violate latency constraints. Therefore, the reward is defined as 
+
+RCCS SA =
+
+(
+
+1 if ℓ ≤ τ, 
+
+−(( ℓ − τ ) · ma)/(100 · k) otherwise . (7) 
+
+4) Algorithm: The SA is implemented as a PPO model, which is more effective than traditional methods such as Q-Learning to handle complex, non-stationary, large-scale, multi-agent networks [43], [44]. PPO is a model-free, policy-based approach derived from the Trust Region Policy Optimization 6
+
+(TRPO) algorithm [45], where a policy πθ is iteratively im-proved using Stochastic Gradient Descent (SGD) by interact-ing with the environment and optimizing (in multiple epochs) a clipped surrogate objective function L(θ, ϕ ), given by 
+
+L(θ, ϕ ) = LCL (θ) − c1LVF (ϕ) + c2S(πθ ). (8) In particular, LVF (ϕ) is the MSE between a state-value func-tion approximator Vϕ and the target return Gt, S(πθ ) is an entropy bonus to encourage the exploration of πθ , and c1 and 
+
+c2 are hyperparameters. Then, LCL (θ) can be written as 
+
+LCL (θ) = Et
+
+ min( rt(θ) ˆAt, clip (rt(θ), 1 − ε, 1 + ε) ˆAt). (9) where ε is a hyperparameter, rt(θ) measures the divergence between the updated policy πθ and the original policy πθo
+
+before the most recent parameters update based on observation 
+
+ot at time t, that is 
+
+rt(θ) = πθ (at|ot)
+
+πθo (at|ot) , (10) and ˆAt is an estimator of the advantage function at time 
+
+t, defined as the difference between the Q-function and the state-value function. Notably, ˆAt is approximated using the Generalized Advantage Estimation (GAE) [46] technique as 
+
+ˆAt =
+
+> TPPO −t
+
+X
+
+> l=0
+
+(γλ )lδt+l, (11) where δt is the temporal difference error at time t, and λ ∈
+
+(0 , 1] is a control parameter. The implementation of this model involves two NNs. The former NN (actor) is used to represent policy πθ . It receives as input the state of the SA, and returns as output a probability distribution over the action space. The second NN (critic) is used to represent the state-value function approximator 
+
+Vϕ and reduce the variance of the advantage function. Both NNs are trained using Adam with a learning rate α, from trajectories of TPPO steps, and over mini-batches of size M
+
+to improve stability. For the determination of the priority level k, we use Multi-Agent PPO (MAPPO) [44]. Notably, MAPPO is a centralized training with decentralized execution (CTDE) framework [47], where a single actor and a single critic are updated centrally using local data gathered from N decentralized agents. For the determination of the number of OFDM symbols per slot to use for transmission, we use a Greedy Allocation (GA) algorithm, which is greedy with respect to the priority level 
+
+k. Specifically, the available OFDM symbols per slot U are assigned to the UEs in decreasing order of priority. 
+
+C. Meta-Learning Agent 
+
+In the centralized approach, a controller collects global data from the network at the gNB, which enables more accurate and representative learning, at the cost of significant signaling overhead for data collection as the network size increases. In a federated approach, the learning model is distributed across multiple agents, which improves scalability and convergence speed, and can operate even with no or limited gNB connec-tivity. However, the agents may take suboptimal actions since only local data is available. In this paper, we propose and implement a new meta-learning agent that dynamically selects the optimal learning model (centralized or federated) based on the network con-ditions. Specifically, centralized learning (based on the ICS mode) is selected if SINR ≥ Γ, where Γ is a predefined chan-nel quality threshold, as sufficient channel capacity is available to support global data collection at the RAN. Otherwise, the meta-learning agent converges to federated learning (based on the C mode) to preserve radio resources and mitigate network congestion in case of channel degradation. The meta-learning agent is implemented as a single RL agent, so a single global threshold Γ is used. 
+
+1) State: The state of the environment is represented by a multidimensional vector that consists of the following mea-surements from all UEs in the RAN: the mean SINR, CA reward, E2E latency ℓ, and mAP ma. These measurements are collected every time a new point cloud is received, and averaged over a window of W receptions. 
+
+2) Action: The discrete action space AMLA is defined as the set of possible SINR thresholds Γ, which determines the corresponding learning model (centralized or federated). 
+
+3) Reward: The reward of the meta-learning agent RMLA 
+
+depends on the reward of the CA Rw
+
+> CA
+
+, with w ∈ { C, ICS },defined in Eq. (2) for the C and ICS modes. This choice depends on the fact that the CA, unlike the SA, can be implemented both as a centralized and as a federated agent. Specifically, RMLA is defined as the average CA reward of all 
+
+N UEs in the network, over a window of W receptions. 
+
+4) Algorithms: We propose and compare three different meta-learning agent implementations, i.e., stateless Multi-Armed Bandit (MAB), contextual MAB, and stateful DDQL. 
+
+a) Stateless: In this class of algorithms, the concept of state is not defined. Specifically, we formalize a MAB prob-lem [48] where actions are selected based only on immediate rewards from previous learning steps, and with no explicit knowledge of the underlying state. We evaluate two models. In Random (R) MAB, the meta-learning agent uniformly se-lects a random action, i.e., the threshold Γ, so π = U(AMLA ).In Epsilon Greedy (EG) MAB, the meta-learning agent approximates the action-value function Q(a), ∀a ∈ AMLA .At each learning step, the agent usually selects the action that maximizes Q(a) (exploitation) but, in some occasions, it explores by selecting (uniformly) a random action among all the available actions. Specifically, the policy is defined as 
+
+π =
+
+(
+
+U(AMLA ) w.p. ϵEG ,
+
+arg max a∈AMLA Q(a) w.p. 1 − ϵEG . (12) The hyperparameter ϵEG is selected to control the trade-off between exploration and exploitation. Since the environment is non-stationary, Q(a) is updated as 
+
+Qt+1 (a) = Qt(a) + α(Rt − Qt(a)) , (13) where α is the learning rate. 7
+
+b) Contextual: We formalize a Contextual Combinatorial Multi-Armed Bandit (CC-MAB) problem, where now the reward is modeled as a function of both the action and the context [32]. We evaluate two models. Linear Thompson Sampling (LTS) [49] assumes that the average reward behind each action a ∈ AMLA is a linear function of the context x and an unknown action parameter vector θa, i.e., xT θa + ϵt, where ϵt ∼ N(0 , v 2 
+
+> t
+
+) represents the noise at time t. The standard deviation of the noise is defined as vt = RM
+
+p9 |x| ln ( t/ρ ), where RM is an upper bound of the noise of the reward, and ρ is a confidence parameter [50]. In this case, estimating the most accurate vector θa turns out to be an online Bayesian linear regression problem. To solve this problem, LTS assumes that the rewards, given the action a and the context x, are modeled as a Gaussian random variable, i.e., N(xT θa, v 2 
+
+> t
+
+). Notably, the distribution of θa at time t can be modeled as N
+
+ˆθa(t), v 2 
+
+> t
+
+[Φ a(t)] −1
+
+
+
+, where 
+
+Φa(t) = Id +
+
+> t−1
+
+X 
+
+> τ=1
+
+xτ xTτ · 1at=a, (14) 
+
+ˆθa(t) = [Φ a(t)] −1
+
+> t−1
+
+X 
+
+> τ=1
+
+xτ RTτ · 1at=a, (15) where Rτ is the realization of the reward at time τ , Id is the identity matrix of size d, xt is the context realization at time t,and 1at=a is the indicator function and is equal to 1 if at = a
+
+or 0 otherwise. After the observation of context xt and the selection of action at, the agent receives a reward and updates the distribution of θa at time t + 1 as 
+
+N
+
+ˆθa(t + 1) , v 2
+
+> t+1
+
+[Φ a(t + 1)] −1
+
+. (16) In the algorithm, the agent samples a vector θa for each a ∈
+
+AMLA , selects at = arg max a∈AMLA (xTt θa), and updates the posterior distribution according to Eq. (16). LTS achieves a good trade-off between exploration and exploitation. LTS assumes a linear relation between the context and the reward, which does not describe real-world scenarios. To overcome this limitation, we also consider a Neural Linear Thompson Sampling (NLTS) algorithm [51] where the ex-pected reward is modeled as a linear function of the action parameter vector θa and a non-linear representation of the context ϕ(x), i.e., ϕ(x)T θa + ϵt. Specifically, NLTS involves an initial step where the context x is mapped into a non-linear representation ϕ(x) using a DNN, parameterized by weights 
+
+ω ∈ Ω. Then, NLTS uses LTS to select the optimal action a
+
+by applying Bayesian linear regression as per Eqs. (14)-(15), where the original context x is now replaced by ϕ(x). Notice that the LTS posteriors are updated based on Eq. (16) at each learning step, while the weights ω of the DNN are updated at fixed intervals of TNLTS steps. 
+
+c) Stateful: In this class of algorithms, the meta-learning agent exploits an explicit representation of the environment (i.e., the state) to estimate the action-value function, which captures the expected cumulative return resulting from both immediate rewards and the future state evolution of the envi-ronment. Specifically, we employ the DDQL algorithm, where a DNN is trained to approximate the action-value function 
+
+TABLE I: Simulation parameters.                           
+
+> Parameter Value Number of UEs/agents/vehicles ( N)5
+> Carrier frequency ( fc)28 GHz Bandwidth ( B)50 MHz Available OFDM symbols/slot ( U)12 LiDAR frame rate ( f)30 fps Latency threshold ( τ){30 ,50 }ms Number of priority levels ( K)3Discount factor ( γ)0.95 GAE control parameter ( λ)0.95 Learning rate ( α)10 −4
+> PPO hyperparameters ( {ε, c 1, c 2}){0.2, 0.5, 0.01 }
+> Mini-batch size ( M)64 steps Meta-learning agent window size ( W)1Update interval ( {TDDQL , T PPO , T NLTS }){8 000, 512, 128 }steps LTS noise parameters ( {RM, ρ }){1, 0.5 }
+
+Q(s, a ) for each state s and each action a, and a policy is derived by selecting the action that maximizes Q(s, a ).V. P ERFORMANCE EVALUATION 
+
+In this section we describe our simulation parameters (Sec. V-A) and numerical results relative to both the CA and the SA (Sec. V-B) and the meta-learning agent (Sec. V-C). 
+
+A. Simulation Parameters 
+
+Numerical results are obtained in ns-3. Specifically, we use the ns-3 PRATA framework, described in [16], which inte-grates the GEMV 2 and SUMO simulators for the simulation of the channel and mobility models, respectively, and the 
+
+ns3-mmwave module for the simulation of the 5G NR proto-col stack for data transmission, the automotive application, and the RAN-AI and UE-AI entities for training and testing the RL agents. Notably, we extended the baseline ns-3 PRATA framework to implement the novel RL algorithms proposed in this paper, namely the CA, SA and meta-learning agent. Simulation and learning parameters are reported in Tab. I, and described below. 
+
+1) Network: We consider a gNB and N = 5 UEs/vehicles that communicate via a 5G NR network at a carrier frequency 
+
+fc = 28 GHz and with a bandwidth B = 50 MHz, using numerology 3. Specifically, the symbol duration is 8.92 μs, and each slot consists of U = 12 useful OFDM symbols, given that the first 2 symbols are reserved for control in UL and DL. The gNB (UE) transmit power is set to 30 (23) dBm. The propagation delay and the (ideal) bit rate of the wired channel between the remote host and the gNB are 10 ms and 100 Gbps, respectively. As far as the two-state Markov channel described in Sec. III-A is concerned, the mean SINR in the Good (Bad) state is approximately 30 (5) dB, while the outage probability is equal to 0 (0.2). 
+
+2) Application: The application layer generates and trans-mits LiDAR point clouds at a frame rate f = 30 fps. Data is compressed using Google Draco [28], which intro-duces a non-negligible encoding delay. For simplicity, we consider only three representative compression configurations, 8
+
+i.e., (q, c ) ∈ { C1, C 2, C 3} = {(8 , 10) , (9 , 5) , (10 , 0) }. The resulting data rates are {21 .25 , 31 .35 , 41 .35 } Mbps, while the encoding delays are {8.21 , 6.97 , 5.50 } ms, respectively. Object detection on the received (compressed) data is based on PointPillars [52], and the resulting mAP, measured on the SELMA dataset [53], is {0.257 , 0.572 , 0.686 }, respectively. Finally, the E2E latency threshold τ of the TD application is set to 30 or 50 ms, depending on the TD application [4]. 
+
+3) Learning algorithms: For the CA, the Q/Target-Network involves 16 input neurons equal to the size of the centralized and decentralized/federated state, and 3 output neurons equal to the size of the action space, i.e., the number of (available) Draco compression configurations. The Q/Target-Network has two hidden layers of 64 and 32 neurons, respectively. For the SA, the actor/critic NN has 6 input neurons equal to the size of the observation space, and ASA = K output neurons equal to the size of the SA action space, i.e., the number of priority levels. We fixed K = 3 based on offline simulations, representing a good trade-off between learning complexity and stability. Both NNs have two hidden layers of 64 neurons each. Regarding the meta-learning agent, for contextual learning the context/state is a vector in R4|N|,meaning that the agent collects and uses 4 measurements for each UE, as described in Sec. IV-C. For the NLTS and DDQL models, the DNN involves 4|N| input neurons equal to the size of the context/state, and 3 output neurons equal to the size of AMLA , i.e., the number of SINR thresholds Γ. The DNN has two hidden layers of 64 and 32 neurons, respectively. Specifically, we set Γ ∈ { 10 , 20 , 30 } dB, which have been derived experimentally on simulated channel traces to consider different and representative channel quality regimes. The rest of the learning hyperparameters are reported in Tab. I. Our RL algorithms have been trained on 250 episodes, where each episode is an independent ns-3 simulation. Each agent performs 400 learning steps per episode, where a learn-ing step is performed every time a new point cloud is received. 
+
+4) Benchmarks: We compare the four operating modes described in Sec. III-B: ICS and CCS, where both the CA and the SA are active and operate independently or cooperatively, respectively; C and S, where only the CA or the SA is active, respectively. Notice that the S, ICS and CCS modes are only centralized models. In fact, they involve the SA, which is only feasible in centralized learning for collecting data from the RAN. Instead, the C mode is only based on the CA, so we compare centralized vs. federated learning. 
+
+5) Metrics: We consider the following evaluation metrics: (i) the average reward per episode; (ii) the average E2E latency 
+
+ℓ at the application layer per episode, measured from the time at which a LiDAR point cloud is generated at the transmitter to the time it is received, and including the encoding delay; and (iii) the average mAP ma measured on the received point cloud per episode. Simulation results are given as a function of the E2E latency threshold τ , the channel quality state (Good or Bad), and the compression configuration ( {C1, C 2, C 3}). 
+
+B. CA and SA Numerical Results 1) Convergence and complexity: In Fig. 2 we compare the learning performance of the operating modes in terms of           
+
+> −0.8
+> −0.6
+> −0.4
+> −0.2
+> RCCS CA
+> CCS ICS S
+> CCentralized Federated
+> −1.5
+> −1
+> −0.5
+> R{C,ICS }
+> CA
+> 050 100 150 200 250
+> −1.5
+> −1
+> −0.5C1
+> C2
+> C3
+> Episode
+> RSSA
+> Fig. 2: Average rewards during training in the Bad (B) channel state, vs. the optimization framework modes.
+
+reward in the Bad (B) channel state. This condition represents the most challenging environment, where adverse channel quality makes the learning task less obvious and more com-plex, accentuating the differences among the considered strate-gies. By design, we defined different reward functions based on the operating mode, as described in Sec. IV. Specifically, in Fig. 2 we plot the reward of CCS based on Eq. (3) (top), the rewards of C and ICS for both centralized and federated learning based on Eq. (2) (center), and the reward of S based on Eq. (6) (bottom), for different compression configurations. We observe that all agents successfully learn an optimal policy after approximately 180 episodes, while for the S agent the learning is much faster, meaning that scheduling is easier to optimize than compression. Notice that the rewards may oscillate due to poor channel conditions in the B state, causing agents to frequently select sub-optimal actions, and to take longer to learn a stable policy. From a computational complexity perspective, the C and S modes are the most lightweight, as only a single agent is active. Conversely, in the ICS and CCS modes both the CA and the SA operate simultaneously, increasing the overall com-putational cost. Specifically, the CA (SA) is implemented as a DDQL (PPO) model, and requires PDDQL = 32 |SCA | + 611 
+
+(PPPO = 9476 ) parameters, where |SCA | is the size of the 9                       
+
+> CCS ICS CSτ= 50 ms τ= 30 ms
+> Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> Reward
+> (a) Average reward. Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> C1C2C3
+> mAP
+> 0.67
+> 0.68
+> (b) Average mAP. Centralized Federated
+> 20
+> 40
+> 60
+> τ
+> C1C2C3
+> E2E delay [ms] Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> C1C2C3
+> P [ℓ ≤ τ ]
+> (c) E2E latency statistics, with τ= 50 ms. Centralized Federated
+> 20
+> 40
+> 60
+> τ
+> C1C2C3
+> E2E delay [ms] Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> C1C2C3
+> P [ℓ ≤ τ ]
+> (d) E2E latency statistics, with τ= 30 ms.
+
+Fig. 3: Average reward, average mAP, and E2E latency statistics in Good (G) channel conditions, vs. the optimization framework modes. 
+
+state space of the CA. At each learning step, DDQL updates based on a single mini-batch of size |B|, with complexity 
+
+O(|B|PDDQL ). In contrast, PPO updates based on trajectories of length TPPO and over mini-batches of size M , so the complexity is O(ET P PPO /M ), where E is the number of training epochs, set to 10 in our simulations. 
+
+2) Impact of the learning paradigm: In Fig. 3 we focus on the Good channel scenario (G), and plot the average mAP, the E2E latency statistics (in the form of boxplots), and the probability that the E2E latency requirement is satisfied (i.e., P [ℓ ≤ τ ]), considering different optimization framework modes and latency thresholds τ . We also plot the average reward of the ICS and C modes according to Eq. (2). 3
+
+When τ = 50 ms, all operating modes have similar performance, and both the median and the average E2E latency generally satisfy the latency constraints, i.e., P [ℓ ≤ τ ] ≃ 1.This is because, under good channel conditions, the network has sufficient capacity to handle data transmissions efficiently, regardless of the underlying optimization policy. 
+
+> 3In Figs. 3a and 4a, our intention is to compare centralized vs. federated learning, so we plot the reward of C since it is the only mode that can be implemented via both learning models. For comparison, we also plot the reward of ICS, since ICS and C have the same reward function as per Eq. (2). Conversely, the other modes are defined according to different reward functions, as described in Sec. IV, which would make the comparison unfair.
+
+Focusing on the C mode, which is the only feasible approach in federated learning, we observe that federated learning slightly outperforms centralized learning (as it appears from the average reward in Fig. 3a), given that the former does not require resource-consuming metric collection at the RAN, thereby reducing the control overhead. In general, S achieves superior performance compared to C in terms of E2E latency (Fig. 3c), indicating that, in the G state, latency can be optimized at the scheduling level more effectively than via compression. In terms of mAP, the perfor-mance of S strongly depends on the underlying compression configuration ( C1, C2 or C3), which is fixed a priori: C1
+
+applies very aggressive compression, and the resulting mAP is below 0.3, compared to around 0.7 for C3 (Fig. 3b). Finally, ICS and CCS optimize both data compression and scheduling simultaneously, and achieve a similar performance as S using C3. Actually, CCS slightly outperforms ICS in terms of mAP, given that both the CA and the SA are active and cooperate together (rather than working independently). In particular, the compression configuration is selected based on the underlying scheduling priority, and the agent is incen-tivized to reduce the level of compression when the UE is assigned more network resources, despite some violations of τ .
+
+3) Impact of the latency threshold: From Fig. 3a, we observe that the reward decreases as τ decreases since the 10                      
+
+> CCS ICS CSτ= 50 ms τ= 30 ms
+> Centralized Federated
+> −1
+> −0.5
+> 0
+> Reward
+> (a) Average reward. Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> C1C2C3
+> mAP (b) Average mAP. Centralized Federated
+> 100
+> 200
+> 300
+> 400
+> τ
+> C1C2C3
+> E2E latency [ms] Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> C1C2C3
+> P [ℓ ≤ τ ]
+> (c) Average E2E latency, with τ= 50 ms. Centralized Federated
+> 100
+> 200
+> 300
+> 400
+> τ
+> C1C2C3
+> E2E latency [ms] Centralized Federated
+> 0
+> 0.2
+> 0.4
+> 0.6
+> 0.8
+> 1
+> C1C2C3
+> P [ℓ ≤ τ ]
+> (d) Average E2E latency, with τ= 30 ms.
+
+Fig. 4: Average reward, mAP, and E2E latency in Bad (B) channel conditions, vs. the optimization framework modes. 
+
+network is more constrained, and compression alone (C) is insufficient. For example, when τ = 30 ms, P [ℓ ≤ τ ] = 0 .78 
+
+for ICS/CCS vs. 0.53 for C, and the average E2E latency decreases by more than 6 ms in ICS/CCS (Fig. 3d), with no degradation in terms of mAP. These results demonstrate that combining compression and scheduling, either independently (ICS) or cooperatively (CCS), is more effective for network optimization than any standalone approach. In this scenario, centralized learning enables better network coordination by collecting global data at the RAN, and is gen-erally more convenient than federated learning. Specifically, for τ = 30 ms, the average reward improves by more than 40% using C. 
+
+4) Impact of the channel state: In Fig. 4 we focus on the Bad channel scenario (B), which is characterized by poor network conditions and lower available capacity compared to the G scenario (Fig. 3). Now, the agents are forced to adopt more aggressive compression to reduce the data rate and consume fewer radio resources, which has negative effects in terms of mAP. For this reason, the average reward drops from up to 0.6 in the G state to approximately −1 in the B state. In this scenario, federated learning becomes a more attrac-tive option than centralized learning, increasing the average reward from −0.52 to −0.04 in the C mode, for τ = 50 
+
+ms (Fig. 4a). This is due to the fact that centralized learning requires an active and reliable connection with the RAN: in the B state, data collection and control signals at and from the RAN can be delayed or lost, respectively, which may increase the E2E latency. On the contrary, federated learning relies primarily on local data, and only requires model parameter updates to be shared with the network, making the system more robust to possible channel disconnections. Considering 
+
+τ = 50 ms, federated learning in the C mode outperforms even the more advanced centralized ICS mode: the reward improves from −0.4 to −0.04 (Fig. 4a), and the 75th percentile (upper quartile) of the E2E latency decreases from around 100 and 150 ms in ICS and CCS, respectively, to 65 ms in federated C (Fig. 4c), with very few outliers. This improvement comes at the cost of a tolerable degradation of the mAP (Fig. 4b). Compared to the G state, compression (C) is generally more effective than resource allocation (S), since the latter is mostly implemented at the RAN, which may be unavailable in case of network disconnections in the B state. Interestingly, C3 (low compression) is the best S configuration in the G state, while it is the worst in the B state. This is because C3 produces high data rates, that may exceed the available (limited) channel capacity under poor network conditions. Now, C1 (severe compression) becomes the only S configuration capable of reducing the median latency below τ = 50 ms (Fig. 4c). Finally, when τ = 30 ms in the B state, the network is always unable to satisfy the E2E latency requirement (Fig. 4d), indicating that additional countermeasures are required to improve network performance. Nevertheless, ICS and CCS stand out as the best learning modes, given that compres-11                       
+
+> 0.45
+> 0.5
+> 0.55
+> Reward
+> ICS C(F) REG LTS NLTS DDQL
+> 0
+> 0.1
+> 0.2
+> 0.3
+> Meta-learning agents Meta-learning
+> Reward
+> Fig. 5: Average reward of the meta-learning agents vs. static baselines (ICS and F), in a channel with TBDC = 1 /6(top) and 1/2(bottom).
+> 0.62
+> 0.64
+> 0.66
+> 0.68
+> mAP
+> ICS C(F) REG LTS NLTS DDQL
+> 0.45
+> 0.5
+> 0.55
+> 0.6
+> 0.65
+> mAP
+> Fig. 6: Average mAP of the meta-learning agents vs. static baselines (ICS and F), in a channel with TBDC = 1 /6(top) and 1/2 (bottom).
+
+sion and scheduling are optimized simultaneously, achieving 
+
+P [ℓ ≤ τ ] ≃ 0.22 and 0.26 , respectively, whereas all the competitors remain below 0.2. 
+
+C. Meta-Learning Agent Numerical Results 
+
+In this section we analyze the performance of the meta-learning agent, capable of dynamically selecting the optimal             
+
+> ICS
+> C(F)
+> R
+> EG
+> LTS
+> NLTS
+> DDQL
+> 10 2
+> E2E latency [ms]
+> ICS
+> C(F)
+> R
+> EG
+> LTS
+> NLTS
+> DDQL
+> Fig. 7: E2E latency of the meta-learning agents vs. static baselines (ICS and F), in a channel with TBDC = 1 /6(left) and 1/2(right).
+> R
+> EG
+> LTS
+> NLTS
+> DDQL
+> 10
+> 20
+> 30
+> Γ [dB]
+> R
+> EG
+> LTS
+> NLTS
+> DDQL
+> Fig. 8: SINR threshold distribution of the meta-learning agents, in a channel with TBDC = 1 /6(left) and 1/2(right).
+
+learning model (centralized or federated) based on the network conditions. We compare all the implementations described in Sec. IV-C, namely R and EG (stateless), LTS and NLTS (contextual), and DDQL (stateful). We also consider two base-lines, where the learning configuration is fixed: ICS (always centralized) and C(F) (always federated). In our analysis, we consider two channel regimes. In the first regime, we set a duty cycle T BDC = 1 /6 (i.e., the channel transition parameters are set to pGB = 0 .2 and pBG = 1 ), meaning that the channel is in the G state for most of the time, with short and sporadic transitions to the B state. In the second regime, the duty cycle is T BDC = 1 /2 (i.e., the channel transition parameters are set to 
+
+pGB = pBG = 1 ), representing a more dynamic and unstable channel (e.g., due to mobility, interference, or blockage) that frequently alternates between the G and B states. We observe that all meta-learning agents outperform the baselines since, unlike ICS and C(F), the meta-learning agents can dynamically adapt the learning model based on the net-work conditions. Notice that C(F) outperforms ICS, especially when T BDC = 1 /2, which is consistent with our previous results in Sec. V-C, i.e., federated learning is more convenient than centralized learning under poor channel conditions. Focusing on the case T BDC = 1 /6, the average reward of the meta-learning agents increases with respect to the C(F) baseline (Fig. 5), while the median E2E latency decreases by up to 17% 
+
+(Fig. 7). In this context, meta-learning DDQL achieves the highest reward (0.53) while minimizing the number of E2E la-tency outliers, at the expense of a small degradation in terms of mAP (Fig. 6). In fact, as illustrated in Fig. 8, DDQL produces a more concentrated distribution of the SINR thresholds Γ
+
+(i.e., the meta-learning agent actions) within the action space, suggesting that it learns a more stable and adaptive policy rather than oscillating between extreme values. In contrast, contextual models such as LTS and NLTS have a slightly lower reward than DDQL, since the agent makes decisions based solely on the current context, and ignores the impact of those decisions on future states. Still, NLTS outperforms LTS since the former leverages a non-linear representation of the context, which is able to capture the (inherently non-linear) evolution of the channel more accurately. Notice that, when 
+
+T BDC = 1 /6, the channel is predominantly stable in the G state; consequently, even a simple stateless approach such as EG achieves similar performance as DDQL, because the reward distribution is nearly stationary during exploration. 12 
+
+Next, we focus on the case T BDC = 1/2. In this more unstable channel regime, the average reward decreases by more than 60% compared to T BDC = 1 /6 (Fig. 5), while the variability of the E2E latency and the number of extreme outliers significantly increase (Fig. 7). Although most meta-learning agents continue to outperform the static baselines, the optimization becomes more challenging. This is because the channel changes frequently between the G and B states, giving the agents limited time to learn a stable policy before the environment changes again. In this regime, stateless algorithms (R and EG) are unable to learn effectively, since random exploration fails to capture the rapid and complex dynamics of the channel, and cannot anticipate state transitions. Interest-ingly, NLTS achieves the highest average reward (0.24) and the lowest median E2E latency (around 15 ms). Conversely, the DNN in DDQL implicitly relies on some degree of temporal regularity in the environment, which is not verified when the channel state changes rapidly. In this case, the learned action–value function may overfit to non-representative chan-nel patterns observed during training, thereby degrading the resulting reward. VI. C ONCLUSIONS AND FUTURE WORK 
+
+In this paper we investigated possible PQoS strategies for TD applications, and propose novel RL-based frameworks that jointly optimize data compression and radio resource schedul-ing. Specifically, we designed two interacting and cooperative agents capable of balancing the stringent E2E latency require-ments of TD applications with the quality of the transmitted sensory data. In addition, we introduced a meta-learning agent that dynamically selects between centralized and decentralized (federated) learning paradigms based on real-time network conditions. Extensive full-stack ns-3 simulations demonstrated that the proposed cooperative compression-and-scheduling strategy (ICS and CCS) consistently outperforms any other standalone solution, particularly in constrained scenarios char-acterized by strict latency requirements or poor channel capac-ity. Under favorable channel conditions, centralized learning enables effective coordination at the RAN, and improves the reward by roughly 3× compared to compression-only solu-tions, and by about 7% compared to the best scheduling-only configuration. In more unstable channels, federated learning proves more robust as it primarily relies on local data and requires minimum interactions with the RAN, and the average rewards improves by up to 75% compared to centralized ICS. These complementary behaviors motivate the adoption of the proposed meta-learning agent, which successfully adapts the learning strategy to the underlying channel conditions. Specifically, DDQL is the best meta-learning implementation in good and stable channels, while NLTS is more effective in highly dynamic channels. As part of our future work, we plan to evaluate the proposed meta-learning agent in different (non-TD) scenarios, such as in robotic or industrial control systems, and extend the framework to optimize conventional network metrics based on the performance of the underlying control application. REFERENCES [1] G. Avanzi, M. Giordani, and M. Zorzi, “Multi-Agent Reinforcement Learning Scheduling to Support Low Latency in Teleoperated Driving,” in IEEE Vehicular Networking Conference (VNC) , 2025. [2] M. Giordani, M. Polese, M. Mezzavilla, S. Rangan, and M. Zorzi, “Toward 6G Networks: Use Cases and Technologies,” IEEE Commu-nications Magazine , vol. 58, no. 3, pp. 55–61, Mar. 2020. [3] J. Choi, V. Va, N. Gonzalez-Prelcic, R. Daniels, C. R. Bhat, and R. W. Heath, “Millimeter-Wave Vehicular Communication to Support Massive Automotive Sensing,” IEEE Communications Magazine , vol. 54, no. 12, pp. 160–167, Dec. 2016. [4] 3GPP, “Service requirements for enhanced V2X scenarios (Release 15),” 
+
+TS 22.186 , 2018. [5] M. Boban, M. Giordani, and M. Zorzi, “Predictive Quality of Service (PQoS): The Next Frontier for Fully Autonomous Systems,” IEEE Network , vol. 35, no. 6, pp. 104–110, Nov/Dec 2021. [6] A. Carron, M. Todescato, R. Carli, L. Schenato, and G. Pillonetto, “Machine learning meets Kalman Filtering,” in IEEE 55th Conference on Decision and Control (CDC) , 2016. [7] F. Tang, B. Mao, Y. Kawamoto, and N. Kato, “Survey on Machine Learning for Intelligent End-to-End Communication Toward 6G: From Network Access, Routing to Traffic Control and Streaming Adaption,” 
+
+IEEE Communications Surveys & Tutorials , vol. 23, no. 3, pp. 1578– 1598, Thirdquarter 2021. [8] M. Wang, Y. Cui, X. Wang, S. Xiao, and J. Jiang, “Machine Learning for Networking: Workflow, Advances and Opportunities,” IEEE Network ,vol. 32, no. 2, pp. 92–99, Mar.-Apr. 2018. [9] M. Boban, C. Jiao, and M. Gharba, “Measurement-based evaluation of uplink throughput prediction,” in IEEE 95th Vehicular Technology Conference: (VTC2022-Spring) , 2022. [10] D. C. Moreira, I. M. Guerreiro, W. Sun, C. C. Cavalcante, and D. A. Sousa, “QoS Predictability in V2X Communication with Machine Learn-ing,” in IEEE 91st Vehicular Technology Conference (VTC2020-Spring) ,2020. [11] M. Skocaj, F. Conserva, N. S. Grande, A. Orsi, D. Micheli, G. Ghinamo, S. Bizzarri, and R. Verdone, “Data-driven Predictive Latency for 5G: A Theoretical and Experimental Analysis Using Network Measurements,” in IEEE 34th Annual International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC) , 2023. [12] L. Torres-Figueroa, H. F. Schepker, and J. Jiru, “QoS Evaluation and Prediction for C-V2X Communication in Commercially-Deployed LTE and Mobile Edge Networks,” in IEEE 91st Vehicular Technology Conference (VTC2020-Spring) , 2020. [13] Z. Song, Z. He, X. Li, Q. Ma, R. Ming, Z. Mao, H. Pei, L. Peng, J. Hu, D. Yao, and Y. Zhang, “Synthetic Datasets for Autonomous Driving: A Survey,” IEEE Transactions on Intelligent Vehicles , vol. 9, no. 1, pp. 1847–1864, Jan. 2024. [14] E. Li, L. Zeng, Z. Zhou, and X. Chen, “Edge AI: On-Demand Accel-erating Deep Neural Network Inference via Edge Computing,” IEEE Transactions on Wireless Communications , vol. 19, no. 1, pp. 447–457, Jan. 2020. [15] F. Mason, M. Drago, T. Zugno, M. Giordani, M. Boban, and M. Zorzi, “A Reinforcement Learning Framework for PQoS in a Teleoperated Driving Scenario,” in IEEE Wireless Communications and Networking Conference (WCNC) , 2022. [16] F. Mason, T. Zugno, M. Drago, M. Giordani, M. Boban, and M. Zorzi, “PRATA: A Framework to Enable Predictive QoS in Vehicular Networks via Artificial Intelligence,” IEEE Transactions on Communications ,vol. 73, no. 11, pp. 10 764–10 777, Nov. 2025. [17] M. Drago, T. Zugno, F. Mason, M. Giordani, M. Boban, and M. Zorzi, “Artificial Intelligence in Vehicular Wireless Networks: A Case Study Using ns-3,” in Proceedings of the 2022 ACM Workshop on Ns-3 , 2022. [18] F. Bragato, T. Lotta, G. Ventura, M. Drago, F. Mason, M. Giordani, and M. Zorzi, “Towards Decentralized Predictive Quality of Service in Next-Generation Vehicular Networks,” in IEEE Information Theory and Applications Workshop (ITA) , 2023. [19] F. Bragato, M. Giordani, and M. Zorzi, “Federated Reinforcement Learning to Optimize Teleoperated Driving Networks,” in IEEE Global Communications Conference (Globecom) , 2024. [20] X. Lin, L. Kundu, S. Cammerer, Y. Huang, C. Dick, C. Santhosam, R. Gadiyar, R. Wiesmayr, and C. Studer, “AI-Native 6G: Empowering Intelligent RAN With Accelerated Compute,” IEEE Wireless Communi-cations , vol. 32, no. 6, pp. 11–14, Dec. 2025. [21] S. A. Abdel Hakeem and H. Kim, “Advancing Intrusion Detection in V2X Networks: A Comprehensive Survey on Machine Learning, Federated Learning, and Edge AI for V2X Security,” IEEE Transactions 13 
+
+on Intelligent Transportation Systems , vol. 26, no. 8, pp. 11 137–11 205, 2025. [22] W. Zhang, M. Feng, M. Krunz, and H. Volos, “Latency Prediction for Delay-sensitive V2X Applications in Mobile Cloud/Edge Computing Systems,” in IEEE Global Communications Conference (Globecom) ,2020. [23] S. Barmpounakis, L. Magoula, N. Koursioumpas, R. Khalili, J. M. Perdomo, and R. P. Manjunath, “LSTM-based QoS prediction for 5G-enabled Connected and Automated Mobility applications,” in IEEE 4th 5G World Forum (5GWF) , 2021. [24] L. Liang, H. Ye, G. Yu, and G. Y. Li, “Deep-Learning-Based Wireless Resource Allocation With Application to Vehicular Networks,” Proceed-ings of the IEEE , vol. 108, no. 2, pp. 341–356, Feb. 2020. [25] Z. Gu, C. She, W. Hardjawana, S. Lumb, D. McKechnie, T. Essery, and B. Vucetic, “Knowledge-Assisted Deep Reinforcement Learning in 5G Scheduler Design: From Theoretical Framework to Implementation,” 
+
+IEEE Journal on Selected Areas in Communications , vol. 39, no. 7, pp. 2014–2028, Jul. 2021. [26] Q. Huang and M. Kadoch, “5G Resource Scheduling for Low-latency Communication: A Reinforcement Learning Approach,” in IEEE 92nd Vehicular Technology Conference (VTC2020-Fall) , 2020. [27] A. Milioto, I. Vizzo, J. Behley, and C. Stachniss, “RangeNet ++: Fast and Accurate LiDAR Semantic Segmentation,” in IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) , 2019. [28] Google. (2017) Draco 3D Data Compression. [Online]. Available: https://google.github.io/draco/ [29] N. Patriciello, S. Lagen, L. Giupponi, and B. Bojovic, “5G New Radio Numerologies and their Impact on the End-To-End Latency,” in IEEE 23rd International Workshop on Computer Aided Modeling and Design of Communication Links and Networks (CAMAD) , 2018. [30] P. Popovski, J. J. Nielsen, C. Stefanovic, E. d. Carvalho, E. Strom, K. F. Trillingsgaard, A.-S. Bana, D. M. Kim, R. Kotaba, J. Park, and R. B. Sorensen, “Wireless Access for Ultra-Reliable Low-Latency Communi-cation: Principles and Building Blocks,” IEEE Network , vol. 32, no. 2, pp. 16–23, Mar.-Apr. 2018. [31] F. Pase, M. Giordani, G. Cuozzo, S. Cavallero, J. Eichinger, R. Ver-done, and M. Zorzi, “Distributed Resource Allocation for URLLC in IIoT Scenarios: A Multi-Armed Bandit Approach,” in IEEE Globecom Workshops (GC Wkshps) , 2022, pp. 383–388. [32] F. Pase, M. Giordani, S. Cavallero, M. Schellmann, J. Eichinger, R. Verdone, and M. Zorzi, “A Distributed Neural Linear Thompson Sampling Framework to Achieve URLLC in Industrial IoT,” in IEEE Transactions on Wireless Communication , 2026. [Online]. Available: https://arxiv.org/abs/2401.06135 [33] I. Lee and D. K. Kim, “Decentralized Multi-Agent DQN-Based Re-source Allocation for Heterogeneous Traffic in V2X Communications,” 
+
+IEEE Access , vol. 12, pp. 3070–3084, Jan. 2024. [34] 3GPP, “NR; NR and NG-RAN Overall Description; Stage 2,” TS 38.300 ,2024. [35] M. Mezzavilla, M. Zhang, M. Polese, R. Ford, S. Dutta, S. Rangan, and M. Zorzi, “End-to-End Simulation of 5G mmWave Networks,” IEEE Communications Surveys & Tutorials , vol. 20, no. 3, pp. 2237–2263, Thirdquarter 2018. [36] D. Krajzewicz, J. Erdmann, M. Behrisch, and L. Bieker, “Recent Devel-opment and Applications of SUMO - Simulation of Urban MObility,” 
+
+International Journal On Advances in Systems and Measurements ,vol. 5, no. 3&4, pp. 128–138, Dec. 2012. [37] M. Boban, J. Barros, and O. K. Tonguz, “Geometry-Based Vehicle-to-Vehicle Channel Modeling for Large-Scale Simulation,” IEEE Trans-actions on Vehicular Technology , vol. 63, no. 9, pp. 4146–4164, Nov. 2014. [38] F. Bragato, M. Neri, P. Testolina, M. Giordani, and F. Battisti, “Teleoperated Driving: a New Challenge for 3D Object Detection in Compressed Point Clouds,” 2025. [Online]. Available: https: //arxiv.org/abs/2506.11804 [39] R. S. Sutton and A. G. Barto, Reinforcement Learning: An Introduction ,2nd ed. Cambridge, MA: MIT Press, 2018. [40] K. J. ˚ Astr¨ om, “Optimal Control of Markov Processes with Incomplete State Information,” Journal of Mathematical Analysis and Applications ,vol. 10, no. 1, pp. 174–205, 1965. [41] D. S. Bernstein, S. Zilberstein, and N. Immerman, “The complexity of decentralized control of Markov decision processes,” in Proceedings of the Sixteenth Conference on Uncertainty in Artificial Intelligence , 2000. [42] J. Qi, Q. Zhou, L. Lei, and K. Zheng, “Federated reinforcement learning: techniques, applications, and open challenges,” Intelligence & Robotics , vol. 1, no. 1, 2021. [Online]. Available: https: //www.oaepublish.com/articles/ir.2021.02 [43] J. Schulman, F. Wolski, P. Dhariwal, A. Radford, and O. Klimov, “Proximal policy optimization algorithms,” 2017. [Online]. Available: https://arxiv.org/abs/1707.06347 [44] C. Yu, A. Velu, E. Vinitsky, J. Gao, Y. Wang, A. Bayen, and Y. Wu, “The surprising effectiveness of PPO in cooperative multi-agent games,” in 
+
+Proceedings of the 36th International Conference on Neural Information Processing Systems , 2022. [45] J. Schulman, S. Levine, P. Abbeel, M. Jordan, and P. Moritz, “Trust region policy optimization,” in Proceedings of the 32nd International Conference on Machine Learning , 2015. [46] J. Schulman, P. Moritz, S. Levine, M. Jordan, and P. Abbeel, “High-dimensional continuous control using generalized advantage estimation,” in Proceedings of the International Conference on Learning Represen-tations (ICLR) , 2016. [47] C. Amato, “An Introduction to Centralized Training for Decentralized Execution in Cooperative Multi-Agent Reinforcement Learning,” 2024. [Online]. Available: https://arxiv.org/abs/2409.03052 [48] A. Slivkins, “Introduction to Multi-Armed Bandits,” Foundations and Trends® in Machine Learning , vol. 12, 2019. [Online]. Available: http://dx.doi.org/10.1561/2200000068 [49] D. J. Russo, B. V. Roy, A. Kazerouni, I. Osband, and Z. Wen, “A tutorial on Thompson Sampling,” Foundations and Trends in Machine Learning ,vol. 11, no. 1, 2018. [50] S. Agrawal and N. Goyal, “Thompson sampling for contextual bandits with linear payoffs,” in Proceedings of the 30th International Conference on Machine Learning , vol. 28, no. 3, Jun. 2013, pp. 127–135. [51] C. Riquelme, G. Tucker, and J. Snoek, “Deep Bayesian Bandits Show-down,” International Conference on Learning Representations (ICLR) ,2018. [52] A. H. Lang, S. Vora, H. Caesar, L. Zhou, J. Yang, and O. Beijbom, “PointPillars: Fast Encoders for Object Detection From Point Clouds,” in IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , 2019, pp. 12 689–12 697. [53] P. Testolina, F. Barbato, U. Michieli, M. Giordani, P. Zanuttigh, and M. Zorzi, “SELMA: SEmantic Large-Scale Multimodal Acquisitions in Variable Weather, Daytime and Viewpoints,” IEEE Transactions on Intelligent Transportation Systems , vol. 24, no. 7, pp. 7012–7024, Jul. 2023.
