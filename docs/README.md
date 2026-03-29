@@ -6,70 +6,43 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-03-28
-- 运行时间：2026-03-28 19:49:37 UTC
+- 最新运行日期：2026-03-29
+- 运行时间：2026-03-29 19:32:42 UTC
 - 运行状态：成功
-- 本次总论文数：16
-- 精读区：6
-- 速读区：10
+- 本次总论文数：7
+- 精读区：5
+- 速读区：2
 
 ### 今日简报（AI）
-今日深度解析 16 篇前沿论文，重点突破了物理一致性驾驶世界模型与 VLM 驱动的实时安全导航技术。
-满分研究成功解决了极端轨迹下的驾驶视频生成难题，并验证了视觉语言模型在复杂环境避障中的卓越实时调节能力。
-建议优先研读具身智能的安全性框架，并关注动作量化与数据飞轮在机器人学习中的最新应用。
-- 详情：[/202603/28/README](/202603/28/README)
+今日聚焦强化学习前沿，深度解析了人形机器人多偏好控制与 R1 风格的交通仿真大模型。
+重点关注 PCHC 框架如何实现人形机器人的个性化运动控制，以及 token 化交通模拟在复杂场景下的推理能力。
+建议优先研读两篇 9 分佳作，掌握多目标强化学习与生成式仿真在具身智能中的最新应用。
+- 详情：[/202603/29/README](/202603/29/README)
 
 ### 精读区论文标签
-1. [Toward Physically Consistent Driving Video World Models under Challenging Trajectories](/202603/28/2603.24506v1-toward-physically-consistent-driving-video-world-models-under-challenging-trajectories)  
-   标签：评分：10.0/10、query:ad-ei
-   evidence：物理一致的驾驶视频世界模型
-2. [Dynamic Control Barrier Function Regulation with Vision-Language Models for Safe, Adaptive, and Realtime Visual Navigation](/202603/28/2603.21142v1-dynamic-control-barrier-function-regulation-with-vision-language-models-for-safe-adaptive-and-realtime-visual-navigation)  
+1. [PCHC: Enabling Preference Conditioned Humanoid Control via Multi-Objective Reinforcement Learning](/202603/29/2603.24047v1-pchc-enabling-preference-conditioned-humanoid-control-via-multi-objective-reinforcement-learning)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：用于安全自适应视觉导航的视觉语言模型
-3. [CoMaTrack: Competitive Multi-Agent Game-Theoretic Tracking with Vision-Language-Action Models](/202603/28/2603.22846v1-comatrack-competitive-multi-agent-game-theoretic-tracking-with-vision-language-action-models)  
+   evidence：用于人形机器人控制的多目标强化学习
+2. [Learning Rollout from Sampling:An R1-Style Tokenized Traffic Simulation Model](/202603/29/2603.24989v1-learning-rollout-from-samplingan-r1-style-tokenized-traffic-simulation-model)  
    标签：评分：9.0/10、query:ad-ei
-   evidence：用于具身视觉追踪的视觉-语言-动作模型
-4. [COIN: Collaborative Interaction-Aware Multi-Agent Reinforcement Learning for Self-Driving Systems](/202603/28/2603.24931v1-coin-collaborative-interaction-aware-multi-agent-reinforcement-learning-for-self-driving-systems)  
-   标签：评分：9.0/10、query:ad-ei
-   evidence：用于自动驾驶系统的多智能体强化学习
-5. [Learning When to Act: Interval-Aware Reinforcement Learning with Predictive Temporal Structure](/202603/28/2603.22384v1-learning-when-to-act-interval-aware-reinforcement-learning-with-predictive-temporal-structure)  
+   evidence：基于强化学习的自动驾驶交通仿真
+3. [HyDRA: Hybrid Domain-Aware Robust Architecture for Heterogeneous Collaborative Perception](/202603/29/2603.23975v1-hydra-hybrid-domain-aware-robust-architecture-for-heterogeneous-collaborative-perception)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：自主智能体的间隔感知强化学习
-6. [A Joint Reinforcement Learning Scheduling and Compression Framework for Teleoperated Driving](/202603/28/2603.23387v1-a-joint-reinforcement-learning-scheduling-and-compression-framework-for-teleoperated-driving)  
+   evidence：自动驾驶中异构智能体的协同感知架构
+4. [TIGFlow-GRPO: Trajectory Forecasting via Interaction-Aware Flow Matching and Reward-Driven Optimization](/202603/29/2603.24936v1-tigflow-grpo-trajectory-forecasting-via-interaction-aware-flow-matching-and-reward-driven-optimization)  
    标签：评分：8.0/10、query:ad-ei
-   evidence：用于远程驾驶和网络优化的强化学习
+   evidence：利用奖励驱动优化进行自动驾驶轨迹预测
+5. [Challenges in Hyperspectral Imaging for Autonomous Driving: The HSI-Drive Case](/202603/29/2603.25510v1-challenges-in-hyperspectral-imaging-for-autonomous-driving-the-hsi-drive-case)  
+   标签：评分：8.0/10、query:ad-ei
+   evidence：自动驾驶中的高光谱成像挑战与视觉算法
 
 ### 速读区论文标签
-1. [Understanding Behavior Cloning with Action Quantization](/202603/28/2603.20538v1-understanding-behavior-cloning-with-action-quantization)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：VLA与机器人中动作量化的理论基础
-2. [Event-Driven Proactive Assistive Manipulation with Grounded Vision-Language Planning](/202603/28/2603.23950v1-event-driven-proactive-assistive-manipulation-with-grounded-vision-language-planning)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：用于机器人辅助操作的视觉语言规划
-3. [Towards Generalizable Robotic Data Flywheel: High-Dimensional Factorization and Composition](/202603/28/2603.25583v1-towards-generalizable-robotic-data-flywheel-high-dimensional-factorization-and-composition)  
-   标签：评分：8.0/10、query:ad-ei
-   evidence：促进通用机器人模型的结构化数据分解框架
-4. [Learning When to Act: Interval-Aware Reinforcement Learning with Predictive Temporal Structure](/202603/28/2603.22384v2-learning-when-to-act-interval-aware-reinforcement-learning-with-predictive-temporal-structure)  
+1. [Off-Policy Safe Reinforcement Learning with Constrained Optimistic Exploration](/202603/29/2603.23889v1-off-policy-safe-reinforcement-learning-with-constrained-optimistic-exploration)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：基于预测未来采样的自主智能体自适应时间控制
-5. [Rectify, Don't Regret: Avoiding Pitfalls of Differentiable Simulation in Trajectory Prediction](/202603/28/2603.23393v1-rectify-dont-regret-avoiding-pitfalls-of-differentiable-simulation-in-trajectory-prediction)  
+   evidence：具有成本约束探索的安全强化学习
+2. [From Pixels to Digital Agents: An Empirical Study on the Taxonomy and Technological Trends of Reinforcement Learning Environments](/202603/29/2603.23964v1-from-pixels-to-digital-agents-an-empirical-study-on-the-taxonomy-and-technological-trends-of-reinforcement-learning-environments)  
    标签：评分：7.0/10、query:ad-ei
-   evidence：自动驾驶仿真中的轨迹预测
-6. [KitchenTwin: Semantically and Geometrically Grounded 3D Kitchen Digital Twins](/202603/28/2603.24684v1-kitchentwin-semantically-and-geometrically-grounded-3d-kitchen-digital-twins)  
-   标签：评分：7.0/10、query:ad-ei
-   evidence：用于具身智能训练与评估的3D数字孪生
-7. [IntentReact: Guiding Reactive Object-Centric Navigation via Topological Intent](/202603/28/2603.25382v1-intentreact-guiding-reactive-object-centric-navigation-via-topological-intent)  
-   标签：评分：7.0/10、query:ad-ei
-   evidence：利用拓扑意图和反应式控制进行以物体为中心的机器人导航
-8. [Towards Embodied AI with MuscleMimic: Unlocking full-body musculoskeletal motor learning at scale](/202603/28/2603.25544v1-towards-embodied-ai-with-musclemimic-unlocking-full-body-musculoskeletal-motor-learning-at-scale)  
-   标签：评分：7.0/10、query:ad-ei
-   evidence：用于具身智能和机器人操作的肌肉骨骼运动学习
-9. [PA2D-MORL: Pareto Ascent Directional Decomposition based Multi-Objective Reinforcement Learning](/202603/28/2603.19579v1-pa2d-morl-pareto-ascent-directional-decomposition-based-multi-objective-reinforcement-learning)  
-   标签：评分：6.0/10、query:ad-ei
-   evidence：用于复杂决策任务的多目标强化学习
-10. [MSRL: Scaling Generative Multimodal Reward Modeling via Multi-Stage Reinforcement Learning](/202603/28/2603.25108v1-msrl-scaling-generative-multimodal-reward-modeling-via-multi-stage-reinforcement-learning)  
-   标签：评分：6.0/10、query:ad-ei
-   evidence：通过强化学习扩展多模态奖励建模
+   evidence：强化学习环境向语言驱动基础智能体演进的分类学
 
 
 <div class="dpr-home-promo-card">
