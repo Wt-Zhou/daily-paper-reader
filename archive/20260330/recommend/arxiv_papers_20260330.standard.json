@@ -1,0 +1,816 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-03-30T19:42:36.344819+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 11,
+    "deep_cap": 6,
+    "deep_selected": 10,
+    "quick_candidates": 10,
+    "quick_skim_target": 11,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2603.23376v2",
+      "title": "ABot-PhysWorld: Interactive World Foundation Model for Robotic Manipulation with Physics Alignment",
+      "abstract": "Video-based world models offer a powerful paradigm for embodied simulation and planning, yet state-of-the-art models often generate physically implausible manipulations - such as object penetration and anti-gravity motion - due to training on generic visual data and likelihood-based objectives that ignore physical laws. We present ABot-PhysWorld, a 14B Diffusion Transformer model that generates visually realistic, physically plausible, and action-controllable videos. Built on a curated dataset of three million manipulation clips with physics-aware annotation, it uses a novel DPO-based post-training framework with decoupled discriminators to suppress unphysical behaviors while preserving visual quality. A parallel context block enables precise spatial action injection for cross-embodiment control. To better evaluate generalization, we introduce EZSbench, the first training-independent embodied zero-shot benchmark combining real and synthetic unseen robot-task-scene combinations. It employs a decoupled protocol to separately assess physical realism and action alignment. ABot-PhysWorld achieves new state-of-the-art performance on PBench and EZSbench, surpassing Veo 3.1 and Sora v2 Pro in physical plausibility and trajectory consistency. We will release EZSbench to promote standardized evaluation in embodied video generation.",
+      "authors": [
+        "Yuzhi Chen",
+        "Ronghan Chen",
+        "Dongjie Huo",
+        "Yandan Yang",
+        "Dekang Qi",
+        "Haoyun Liu",
+        "Tong Lin",
+        "Shuang Zeng",
+        "Junjin Xiao",
+        "Xinyuan Chang",
+        "Feng Xiong",
+        "Xing Wei",
+        "Zhiheng Ma",
+        "Mu Xu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-03-24T16:07:09+00:00",
+      "link": "https://arxiv.org/pdf/2603.23376v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Interactive world foundation model for robotic manipulation with physics alignment",
+      "llm_evidence_cn": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "llm_evidence": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "canonical_evidence": "具有物理对齐功能的机器人操作交互式世界基础模型",
+      "llm_tldr_en": "ABot-PhysWorld is a 14B world model ensuring physical plausibility in robotic manipulation.",
+      "llm_tldr_cn": "ABot-PhysWorld是一个14B规模的世界模型，确保机器人操作中的物理合理性。",
+      "llm_tldr": "ABot-PhysWorld是一个14B规模的世界模型，确保机器人操作中的物理合理性。",
+      "llm_tags": [
+        "query:ad-ei:composite"
+      ],
+      "matched_query_tag": "query:ad-ei:composite",
+      "matched_query_text": "Papers central to 自动驾驶与具身智能中的世界模型、VLA及强化学习最新论文检索, especially work that connects or combines: World models in autonomous driving and robotics; Vision-Language-Action models for embodied AI; Reinforcement learning for autonomous vehicle control; Embodied intelligence and robotic manipulation; Deep learning architectures for autonomous driving; Foundation models for robotics and decision making; Latest research on world models and VLA in embodied AI; State of the art Vision Language Action models for robotics.",
+      "matched_requirement_id": "req-composite-ad-ei",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25406v2",
+      "title": "MMaDA-VLA: Large Diffusion Vision-Language-Action Model with Unified Multi-Modal Instruction and Generation",
+      "abstract": "Vision-Language-Action (VLA) models aim to control robots for manipulation from visual observations and natural-language instructions. However, existing hierarchical and autoregressive paradigms often introduce architectural overhead, suffer from temporal inconsistency and long-horizon error accumulation, and lack a mechanism to capture environment dynamics without extra modules. To this end, we present MMaDA-VLA, a fully native pre-trained large diffusion VLA model that unifies multi-modal understanding and generation in a single framework. Our key idea is a native discrete diffusion formulation that embeds language, images, and continuous robot controls into one discrete token space and trains a single backbone with masked token denoising to jointly generate a future goal observation and an action chunk in parallel. Iterative denoising enables global, order-free refinement, improving long-horizon consistency while grounding actions in predicted future visual outcomes without auxiliary world models. Experiments across simulation benchmarks and real-world tasks show state-of-the-art performance, achieving 98.0% average success on LIBERO and 4.78 average length on CALVIN.",
+      "authors": [
+        "Yang Liu",
+        "Pengxiang Ding",
+        "Tengyue Jiang",
+        "Xudong Wang",
+        "Wenxuan Song",
+        "Minghui Lin",
+        "Han Zhao",
+        "Hongyin Zhang",
+        "Zifeng Zhuang",
+        "Wei Zhao",
+        "Siteng Huang",
+        "Jinkui Shi",
+        "Donglin Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T12:55:51+00:00",
+      "link": "https://arxiv.org/pdf/2603.25406v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Native diffusion VLA model for robotic manipulation",
+      "llm_evidence_cn": "用于机器人操纵的原生扩散VLA模型",
+      "llm_evidence": "用于机器人操纵的原生扩散VLA模型",
+      "canonical_evidence": "用于机器人操纵的原生扩散VLA模型",
+      "llm_tldr_en": "Presents MMaDA-VLA, a unified diffusion-based VLA model for robot control and environment understanding.",
+      "llm_tldr_cn": "推出MMaDA-VLA，一种统一多模态理解与生成的原生扩散VLA模型，用于机器人控制。",
+      "llm_tldr": "推出MMaDA-VLA，一种统一多模态理解与生成的原生扩散VLA模型，用于机器人控制。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25766v1",
+      "title": "ETA-VLA: Efficient Token Adaptation via Temporal Fusion and Intra-LLM Sparsification for Vision-Language-Action Models",
+      "abstract": "The integration of Vision-Language-Action (VLA) models into autonomous driving systems offers a unified framework for interpreting complex scenes and executing control commands. However, the necessity to incorporate historical multi-view frames for accurate temporal reasoning imposes a severe computational burden, primarily driven by the quadratic complexity of self-attention mechanisms in Large Language Models (LLMs). To alleviate this bottleneck, we propose ETA-VLA, an Efficient Token Adaptation framework for VLA models. ETA-VLA processes the past $n$ frames of multi-view images and introduces a novel Intra-LLM Sparse Aggregator (ILSA). Drawing inspiration from human driver attention allocation, ILSA dynamically identifies and prunes redundant visual tokens guided by textual queries and temporal consistency. Specifically, we utilize a text-guided scoring mechanism alongside a diversity-preserving sparsification strategy to select a sparse subset of critical tokens, ensuring comprehensive awareness of the driving scene. Extensive experiments on the NAVSIM v2 demonstrate that ETA-VLA achieves driving performance comparable to state-of-the-art baselines while reducing computational FLOPs by approximately 32\\%. Notably, our method prunes 85% of visual tokens and reduces inference FLOPs by 61\\%, but still retaining 94% of the original accuracy on the NAVSIM v2 benchmark.",
+      "authors": [
+        "Yiru Wang",
+        "Anqing Jiang",
+        "Shuo Wang",
+        "Yuwen Heng",
+        "Zichong Gu",
+        "Hao Sun"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "published": "2026-03-26T06:53:42+00:00",
+      "link": "https://arxiv.org/pdf/2603.25766v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "VLA models for autonomous driving with temporal fusion",
+      "llm_evidence_cn": "用于自动驾驶的VLA模型及时间融合技术",
+      "llm_evidence": "用于自动驾驶的VLA模型及时间融合技术",
+      "canonical_evidence": "用于自动驾驶的VLA模型及时间融合技术",
+      "llm_tldr_en": "Proposes ETA-VLA to improve computational efficiency of Vision-Language-Action models in autonomous driving.",
+      "llm_tldr_cn": "提出ETA-VLA框架，通过时间融合和稀疏化提升自动驾驶VLA模型的计算效率。",
+      "llm_tldr": "提出ETA-VLA框架，通过时间融合和稀疏化提升自动驾驶VLA模型的计算效率。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Vision-Language-Action models for embodied AI",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25981v1",
+      "title": "Policy-Guided World Model Planning for Language-Conditioned Visual Navigation",
+      "abstract": "Navigating to a visually specified goal given natural language instructions remains a fundamental challenge in embodied AI. Existing approaches either rely on reactive policies that struggle with long-horizon planning, or employ world models that suffer from poor action initialization in high-dimensional spaces. We present PiJEPA, a two-stage framework that combines the strengths of learned navigation policies with latent world model planning for instruction-conditioned visual navigation. In the first stage, we finetune an Octo-based generalist policy, augmented with a frozen pretrained vision encoder (DINOv2 or V-JEPA-2), on the CAST navigation dataset to produce an informed action distribution conditioned on the current observation and language instruction. In the second stage, we use this policy-derived distribution to warm-start Model Predictive Path Integral (MPPI) planning over a separately trained JEPA world model, which predicts future latent states in the embedding space of the same frozen encoder. By initializing the MPPI sampling distribution from the policy prior rather than from an uninformed Gaussian, our planner converges faster to high-quality action sequences that reach the goal. We systematically study the effect of the vision encoder backbone, comparing DINOv2 and V-JEPA-2, across both the policy and world model components. Experiments on real-world navigation tasks demonstrate that PiJEPA significantly outperforms both standalone policy execution and uninformed world model planning, achieving improved goal-reaching accuracy and instruction-following fidelity.",
+      "authors": [
+        "Amirhosein Chahe",
+        "Lifeng Zhou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-03-26T23:47:49+00:00",
+      "link": "https://arxiv.org/pdf/2603.25981v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Latent world model planning for language-conditioned visual navigation",
+      "llm_evidence_cn": "用于语言条件视觉导航的潜空间世界模型规划",
+      "llm_evidence": "用于语言条件视觉导航的潜空间世界模型规划",
+      "canonical_evidence": "用于语言条件视觉导航的潜空间世界模型规划",
+      "llm_tldr_en": "PiJEPA combines navigation policies with world models for long-horizon embodied tasks.",
+      "llm_tldr_cn": "PiJEPA将导航策略与世界模型结合，用于长程具身任务。",
+      "llm_tldr": "PiJEPA将导航策略与世界模型结合，用于长程具身任务。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Latest research on world models and VLA in embodied AI",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24060v2",
+      "title": "SOMA: Strategic Orchestration and Memory-Augmented System for Vision-Language-Action Model Robustness via In-Context Adaptation",
+      "abstract": "Despite the promise of Vision-Language-Action (VLA) models as generalist robotic controllers, their robustness against perceptual noise and environmental variations in out-of-distribution (OOD) tasks remains fundamentally limited by the absence of long-term memory, causal failure attribution, and dynamic intervention capability. To address this, we propose SOMA, a Strategic Orchestration and Memory-Augmented System that upgrades frozen VLA policies for robust in-context adaptation without parameter fine-tuning. Specifically, SOMA operates through an online pipeline of contrastive Dual-Memory Retrieval-Augmented Generation (RAG), an Attribution-Driven Large-Language-Model (LLM) Orchestrator, and extensible Model Context Protocol (MCP) interventions, while an offline Memory Consolidation module continuously distills the execution traces into reliable priors. Experimental evaluations across three backbone models (pi0, pi0.5, and SmolVLA) on LIBERO-PRO and our proposed LIBERO-SOMA benchmarks demonstrate that SOMA achieves an average absolute success rate gain of 56.6%. This includes a significant absolute improvement of 89.1% in long-horizon task chaining. Project page and source code are available at: https://github.com/LZY-1021/SOMA.",
+      "authors": [
+        "Zhuoran Li",
+        "Zhiyang Li",
+        "Kaijun Zhou",
+        "Jinyu Gu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-25T08:07:57+00:00",
+      "link": "https://arxiv.org/pdf/2603.24060v2",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Memory-augmented system for VLA model robustness and in-context adaptation",
+      "llm_evidence_cn": "用于提升VLA模型鲁棒性和上下文自适应的记忆增强系统",
+      "llm_evidence": "用于提升VLA模型鲁棒性和上下文自适应的记忆增强系统",
+      "canonical_evidence": "用于提升VLA模型鲁棒性和上下文自适应的记忆增强系统",
+      "llm_tldr_en": "Upgrades frozen VLA policies with long-term memory and causal attribution for robust robot control.",
+      "llm_tldr_cn": "通过长期记忆和因果归因为冻结的VLA策略升级，实现鲁棒的机器人控制。",
+      "llm_tldr": "通过长期记忆和因果归因为冻结的VLA策略升级，实现鲁棒的机器人控制。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.24576v1",
+      "title": "Chameleon: Episodic Memory for Long-Horizon Robotic Manipulation",
+      "abstract": "Robotic manipulation often requires memory: occlusion and state changes can make decision-time observations perceptually aliased, making action selection non-Markovian at the observation level because the same observation may arise from different interaction histories. Most embodied agents implement memory via semantically compressed traces and similarity-based retrieval, which discards disambiguating fine-grained perceptual cues and can return perceptually similar but decision-irrelevant episodes. Inspired by human episodic memory, we propose Chameleon, which writes geometry-grounded multimodal tokens to preserve disambiguating context and produces goal-directed recall through a differentiable memory stack. We also introduce Camo-Dataset, a real-robot UR5e dataset spanning episodic recall, spatial tracking, and sequential manipulation under perceptual aliasing. Across tasks, Chameleon consistently improves decision reliability and long-horizon control over strong baselines in perceptually confusable settings.",
+      "authors": [
+        "Xinying Guo",
+        "Chenxi Jiang",
+        "Hyun Bin Kim",
+        "Ying Sun",
+        "Yang Xiao",
+        "Yuhang Han",
+        "Jianfei Yang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-03-25T17:52:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.24576v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "episodic memory for long-horizon robotic manipulation",
+      "llm_evidence_cn": "长程机器人操作的幕式记忆",
+      "llm_evidence": "长程机器人操作的幕式记忆",
+      "canonical_evidence": "长程机器人操作的幕式记忆",
+      "llm_tldr_en": "Proposes Chameleon, a geometry-grounded memory system to improve long-horizon robotic manipulation tasks.",
+      "llm_tldr_cn": "提出Chameleon，一种基于几何接地的记忆系统，旨在提升长程机器人操作任务的表现。",
+      "llm_tldr": "提出Chameleon，一种基于几何接地的记忆系统，旨在提升长程机器人操作任务的表现。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.25044v1",
+      "title": "ThermoAct:Thermal-Aware Vision-Language-Action Models for Robotic Perception and Decision-Making",
+      "abstract": "In recent human-robot collaboration environments, there is a growing focus on integrating diverse sensor data beyond visual information to enable safer and more intelligent task execution. Although thermal data can be crucial for enhancing robot safety and operational efficiency, its integration has been relatively overlooked in prior research. This paper proposes a novel Vision-Language-Action (VLA) framework that incorporates thermal information for robot task execution. The proposed system leverages a Vision-Language Model (VLM) as a high-level planner to interpret complex natural language commands and decompose them into simpler sub-tasks. This approach facilitates efficient data collection and robust reasoning for complex operations. Unlike conventional methods that rely solely on visual data, our approach integrates thermal information, enabling the robot to perceive physical properties and proactively ensure environmental safety. Experimental results from real-world task scenarios validate the feasibility of our proposed framework, suggesting its potential to enhance task success rates and safety compared to existing vision-based systems.",
+      "authors": [
+        "Young-Chae Son",
+        "Dae-Kwan Ko",
+        "Yoon-Ji Choi",
+        "Soo-Chul Lim"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T05:26:56+00:00",
+      "link": "https://arxiv.org/pdf/2603.25044v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Thermal-aware VLA framework for robotic perception and decision-making",
+      "llm_evidence_cn": "用于机器人感知和决策的热感知VLA框架",
+      "llm_evidence": "用于机器人感知和决策的热感知VLA框架",
+      "canonical_evidence": "用于机器人感知和决策的热感知VLA框架",
+      "llm_tldr_en": "ThermoAct integrates thermal data into VLA models to improve robotic safety and planning.",
+      "llm_tldr_cn": "ThermoAct将热数据集成到VLA模型中，以提高机器人的安全性和规划能力。",
+      "llm_tldr": "ThermoAct将热数据集成到VLA模型中，以提高机器人的安全性和规划能力。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.26320v1",
+      "title": "DFM-VLA: Iterative Action Refinement for Robot Manipulation via Discrete Flow Matching",
+      "abstract": "Vision--Language--Action (VLA) models that encode actions using a discrete tokenization scheme are increasingly adopted for robotic manipulation, but existing decoding paradigms remain fundamentally limited. Whether actions are decoded sequentially by autoregressive VLAs or in parallel by discrete diffusion VLAs, once a token is generated, it is typically fixed and cannot be revised in subsequent iterations, so early token errors cannot be effectively corrected later. We propose DFM-VLA, a discrete flow matching VLA for iterative refinement of action tokens. DFM-VLA~models a token-level probability velocity field that dynamically updates the full action sequence across refinement iterations. We investigate two ways to construct the velocity field: an auxiliary velocity-head formulation and an action-embedding-guided formulation. Our framework further adopts a two-stage decoding strategy with an iterative refinement stage followed by deterministic validation for stable convergence. Extensive experiments on CALVIN, LIBERO, and real-world manipulation tasks show that DFM-VLA consistently outperforms strong autoregressive, discrete diffusion, and continuous diffusion baselines in manipulation performance while retaining high inference efficiency. In particular, DFM-VLA achieves an average success length of 4.44 on CALVIN and an average success rate of 95.7\\% on LIBERO, highlighting the value of action refinement via discrete flow matching for robotic manipulation. Our project is available \\url{https://chris1220313648.github.io/DFM-VLA/}",
+      "authors": [
+        "Jiayi Chen",
+        "Wenxuan Song",
+        "Shuai Chen",
+        "Jingbo Wang",
+        "Zhijun Li",
+        "Haoang Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-03-27T11:38:43+00:00",
+      "link": "https://arxiv.org/pdf/2603.26320v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Discrete flow matching VLA for iterative action refinement in robot manipulation",
+      "llm_evidence_cn": "用于机器人操作中迭代动作优化的离散流匹配VLA模型",
+      "llm_evidence": "用于机器人操作中迭代动作优化的离散流匹配VLA模型",
+      "canonical_evidence": "用于机器人操作中迭代动作优化的离散流匹配VLA模型",
+      "llm_tldr_en": "DFM-VLA enables iterative refinement of action tokens to correct errors in robotic manipulation tasks.",
+      "llm_tldr_cn": "DFM-VLA通过离散流匹配实现动作Token的迭代优化，纠正了机器人操作中的早期生成错误。",
+      "llm_tldr": "DFM-VLA通过离散流匹配实现动作Token的迭代优化，纠正了机器人操作中的早期生成错误。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "State of the art Vision Language Action models for robotics",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.26322v1",
+      "title": "DiffusionAnything: End-to-End In-context Diffusion Learning for Unified Navigation and Pre-Grasp Motion",
+      "abstract": "Efficiently predicting motion plans directly from vision remains a fundamental challenge in robotics, where planning typically requires explicit goal specification and task-specific design. Recent vision-language-action (VLA) models infer actions directly from visual input but demand massive computational resources, extensive training data, and fail zero-shot in novel scenes. We present a unified image-space diffusion policy handling both meter-scale navigation and centimeter-scale manipulation via multi-scale feature modulation, with only 5 minutes of self-supervised data per task. Three key innovations drive the framework: (1) Multi-scale FiLM conditioning on task mode, depth scale, and spatial attention enables task-appropriate behavior in a single model; (2) trajectory-aligned depth prediction focuses metric 3D reasoning along generated waypoints; (3) self-supervised attention from AnyTraverse enables goal-directed inference without vision-language models and depth sensors. Operating purely from RGB input (2.0 GB memory, 10 Hz), the model achieves robust zero-shot generalization to novel scenes while remaining suitable for onboard deployment.",
+      "authors": [
+        "Iana Zhura",
+        "Yara Mahmoud",
+        "Jeffrin Sam",
+        "Hung Khang Nguyen",
+        "Didar Seyidov",
+        "Miguel Altamirano Cabrera",
+        "Dzmitry Tsetserukou"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-27T11:40:13+00:00",
+      "link": "https://arxiv.org/pdf/2603.26322v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Unified diffusion policy for navigation and manipulation using VLA concepts",
+      "llm_evidence_cn": "用于导航和操作的统一扩散策略，结合了VLA概念",
+      "llm_evidence": "用于导航和操作的统一扩散策略，结合了VLA概念",
+      "canonical_evidence": "用于导航和操作的统一扩散策略，结合了VLA概念",
+      "llm_tldr_en": "A unified diffusion policy for robot navigation and manipulation using multi-scale feature modulation.",
+      "llm_tldr_cn": "一种利用多尺度特征调制实现机器人导航与操作统一的扩散策略。",
+      "llm_tldr": "一种利用多尺度特征调制实现机器人导航与操作统一的扩散策略。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2603.26666v1",
+      "title": "VLA-OPD: Bridging Offline SFT and Online RL for Vision-Language-Action Models via On-Policy Distillation",
+      "abstract": "Although pre-trained Vision-Language-Action (VLA) models exhibit impressive generalization in robotic manipulation, post-training remains crucial to ensure reliable performance during deployment. However, standard offline Supervised Fine-Tuning (SFT) suffers from distribution shifts and catastrophic forgetting of pre-trained capabilities, while online Reinforcement Learning (RL) struggles with sparse rewards and poor sample efficiency. In this paper, we propose On-Policy VLA Distillation (VLA-OPD), a framework bridging the efficiency of SFT with the robustness of RL. Instead of relying on sparse environmental rewards, VLA-OPD leverages an expert teacher to provide dense, token-level supervision on the student's self-generated trajectories. This enables active error correction on policy-induced states while preserving pre-trained general capabilities through gentle alignment. Crucially, we formulate VLA-OPD via a Reverse-KL objective. Unlike standard Forward-KL that induces mode-covering entropy explosion, or Hard-CE that causes premature entropy collapse, our bounded mode-seeking objective ensures stable policy learning by filtering out the teacher's epistemic uncertainty while maintaining action diversity. Experiments on LIBERO and RoboTwin2.0 benchmarks demonstrate that VLA-OPD significantly improves sample efficiency over RL and robustness over SFT, while effectively mitigating catastrophic forgetting during post-training.",
+      "authors": [
+        "Zhide Zhong",
+        "Haodong Yan",
+        "Junfeng Li",
+        "Junjie He",
+        "Tianran Zhang",
+        "Haoang Li"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-27T17:59:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.26666v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Bridging SFT and RL for Vision-Language-Action models in robotic manipulation",
+      "llm_evidence_cn": "在机器人操作中连接VLA模型的监督微调与强化学习",
+      "llm_evidence": "在机器人操作中连接VLA模型的监督微调与强化学习",
+      "canonical_evidence": "在机器人操作中连接VLA模型的监督微调与强化学习",
+      "llm_tldr_en": "VLA-OPD uses on-policy distillation to bridge offline SFT and online RL for robust robotic manipulation.",
+      "llm_tldr_cn": "VLA-OPD通过在线策略蒸馏结合了SFT的效率与强化学习的鲁棒性，提升机器人操作性能。",
+      "llm_tldr": "VLA-OPD通过在线策略蒸馏结合了SFT的效率与强化学习的鲁棒性，提升机器人操作性能。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Vision-Language-Action models for embodied AI",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2603.26546v1",
+      "title": "AutoWeather4D: Autonomous Driving Video Weather Conversion via G-Buffer Dual-Pass Editing",
+      "abstract": "Generative video models have significantly advanced the photorealistic synthesis of adverse weather for autonomous driving; however, they consistently demand massive datasets to learn rare weather scenarios. While 3D-aware editing methods alleviate these data constraints by augmenting existing video footage, they are fundamentally bottlenecked by costly per-scene optimization and suffer from inherent geometric and illumination entanglement. In this work, we introduce AutoWeather4D, a feed-forward 3D-aware weather editing framework designed to explicitly decouple geometry and illumination. At the core of our approach is a G-buffer Dual-pass Editing mechanism. The Geometry Pass leverages explicit structural foundations to enable surface-anchored physical interactions, while the Light Pass analytically resolves light transport, accumulating the contributions of local illuminants into the global illumination to enable dynamic 3D local relighting. Extensive experiments demonstrate that AutoWeather4D achieves comparable photorealism and structural consistency to generative baselines while enabling fine-grained parametric physical control, serving as a practical data engine for autonomous driving.",
+      "authors": [
+        "Tianyu Liu",
+        "Weitao Xiong",
+        "Kunming Luo",
+        "Manyuan Zhang",
+        "Peng Liu",
+        "Yuan Liu",
+        "Ping Tan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-27T15:56:47+00:00",
+      "link": "https://arxiv.org/pdf/2603.26546v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "autonomous driving video weather conversion and synthesis",
+      "llm_evidence_cn": "自动驾驶视频天气转换与合成",
+      "llm_evidence": "自动驾驶视频天气转换与合成",
+      "canonical_evidence": "自动驾驶视频天气转换与合成",
+      "llm_tldr_en": "Introduces AutoWeather4D for 3D-aware weather editing in autonomous driving videos to augment training data.",
+      "llm_tldr_cn": "引入AutoWeather4D，用于自动驾驶视频的3D感知天气编辑，以增强训练数据。",
+      "llm_tldr": "引入AutoWeather4D，用于自动驾驶视频的3D感知天气编辑，以增强训练数据。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2603.21785v1",
+      "title": "Image-Conditioned Adaptive Parameter Tuning for Visual Odometry Frontends",
+      "abstract": "Resource-constrained autonomous robots rely on sparse direct and semi-direct visual-(inertial)-odometry (VO) pipelines, as they provide a favorable tradeoff between accuracy, robustness, and computational cost. However, the performance of most systems depends critically on hand-tuned hyperparameters governing feature detection, tracking, and outlier rejection. These parameters are typically fixed during deployment, even though their optimal values vary with scene characteristics such as texture density, illumination, motion blur, and sensor noise, leading to brittle performance in real-world environments. We propose the first image-conditioned reinforcement learning framework for online tuning of VO frontend parameters, effectively embedding the expert into the system. Our key idea is to formulate the frontend configuration as a sequential decision-making problem and learn a policy that directly maps visual input to feature detection and tracking parameters. The policy uses a lightweight texture-aware CNN encoder and a privileged critic during training. Unlike prior RL-based approaches that rely solely on internal VO statistics, our method observes the image content and proactively adapts parameters before tracking degrades. Experiments on TartanAirV2 and TUM RGB-D show 3x longer feature tracks and 3x lower computational cost, despite training entirely in simulation.",
+      "authors": [
+        "Simone Nascivera",
+        "Leonard Bauersfeld",
+        "Jeff Delaune",
+        "Davide Scaramuzza"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-23T10:26:25+00:00",
+      "link": "https://arxiv.org/pdf/2603.21785v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Reinforcement learning for autonomous robot visual odometry",
+      "llm_evidence_cn": "用于自主机器人视觉里程计的强化学习",
+      "llm_evidence": "用于自主机器人视觉里程计的强化学习",
+      "canonical_evidence": "用于自主机器人视觉里程计的强化学习",
+      "llm_tldr_en": "Applies reinforcement learning to adaptively tune visual odometry parameters for autonomous robots.",
+      "llm_tldr_cn": "提出一种图像条件的强化学习框架，用于在线调整自主机器人视觉里程计的前端参数。",
+      "llm_tldr": "提出一种图像条件的强化学习框架，用于在线调整自主机器人视觉里程计的前端参数。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Reinforcement learning for autonomous vehicle control",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.25121v1",
+      "title": "CTS-PLL: A Robust and Anytime Framework for Collaborative Task Sequencing and Multi-Agent Path Finding",
+      "abstract": "The Collaborative Task Sequencing and Multi-Agent Path Finding (CTS-MAPF) problem requires agents to accomplish sequences of tasks while avoiding collisions, posing significant challenges due to its combinatorial complexity. This work introduces CTS-PLL, a hierarchical framework that extends the configuration-based CTS-MAPF planning paradigm with two key enhancements: a lock agents detection and release mechanism leveraging a complete planning method for local re-planning, and an anytime refinement procedure based on Large Neighborhood Search (LNS). These additions ensure robustness in dense environments and enable continuous improvement of solution quality. Extensive evaluations across sparse and dense benchmarks demonstrate that CTS-PLL achieves higher success rates and solution quality compared with existing methods, while maintaining competitive runtime efficiency. Real-world robot experiments further demonstrate the feasibility of the approach in practice.",
+      "authors": [
+        "Junkai Jiang",
+        "Yitao Xu",
+        "Ruochen Li",
+        "Shaobing Xu",
+        "Jianqiang Wang"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-26T07:45:44+00:00",
+      "link": "https://arxiv.org/pdf/2603.25121v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Multi-agent path finding and task sequencing for robotics",
+      "llm_evidence_cn": "机器人的多智能体路径规划与任务排序",
+      "llm_evidence": "机器人的多智能体路径规划与任务排序",
+      "canonical_evidence": "机器人的多智能体路径规划与任务排序",
+      "llm_tldr_en": "CTS-PLL provides a robust framework for collaborative task sequencing and path finding.",
+      "llm_tldr_cn": "CTS-PLL为协作任务排序和路径规划提供了一个鲁棒的框架。",
+      "llm_tldr": "CTS-PLL为协作任务排序和路径规划提供了一个鲁棒的框架。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2603.22787v1",
+      "title": "DiSCo: Diffusion Sequence Copilots for Shared Autonomy",
+      "abstract": "Shared autonomy combines human user and AI copilot actions to control complex systems such as robotic arms. When a task is challenging, requires high dimensional control, or is subject to corruption, shared autonomy can significantly increase task performance by using a trained copilot to effectively correct user actions in a manner consistent with the user's goals. To significantly improve the performance of shared autonomy, we introduce Diffusion Sequence Copilots (DiSCo): a method of shared autonomy with diffusion policy that plans action sequences consistent with past user actions. DiSCo seeds and inpaints the diffusion process with user-provided actions with hyperparameters to balance conformity to expert actions, alignment with user intent, and perceived responsiveness. We demonstrate that DiSCo substantially improves task performance in simulated driving and robotic arm tasks. Project website: https://sites.google.com/view/disco-shared-autonomy/",
+      "authors": [
+        "Andy Wang",
+        "Xu Yan",
+        "Brandon McMahan",
+        "Michael Zhou",
+        "Yuyang Yuan",
+        "Johannes Y. Lee",
+        "Ali Shreif",
+        "Matthew Li",
+        "Zhenghao Peng",
+        "Bolei Zhou",
+        "Yuchen Cui",
+        "Jonathan C. Kao"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC",
+        "cs.RO"
+      ],
+      "published": "2026-03-24T04:22:20+00:00",
+      "link": "https://arxiv.org/pdf/2603.22787v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Shared autonomy and diffusion policy for robotic arm control",
+      "llm_evidence_cn": "用于机械臂控制的共享自主和扩散策略",
+      "llm_evidence": "用于机械臂控制的共享自主和扩散策略",
+      "canonical_evidence": "用于机械臂控制的共享自主和扩散策略",
+      "llm_tldr_en": "DiSCo uses diffusion policies to improve shared autonomy between humans and AI in complex robotic tasks.",
+      "llm_tldr_cn": "DiSCo利用扩散策略改进了复杂机器人任务中人类与AI之间的共享自主协作。",
+      "llm_tldr": "DiSCo利用扩散策略改进了复杂机器人任务中人类与AI之间的共享自主协作。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.22918v1",
+      "title": "EVA: Efficient Reinforcement Learning for End-to-End Video Agent",
+      "abstract": "Video understanding with multimodal large language models (MLLMs) remains challenging due to the long token sequences of videos, which contain extensive temporal dependencies and redundant frames. Existing approaches typically treat MLLMs as passive recognizers, processing entire videos or uniformly sampled frames without adaptive reasoning. Recent agent-based methods introduce external tools, yet still depend on manually designed workflows and perception-first strategies, resulting in inefficiency on long videos. We present EVA, an Efficient Reinforcement Learning framework for End-to-End Video Agent, which enables planning-before-perception through iterative summary-plan-action-reflection reasoning. EVA autonomously decides what to watch, when to watch, and how to watch, achieving query-driven and efficient video understanding. To train such agents, we design a simple yet effective three-stage learning pipeline - comprising supervised fine-tuning (SFT), Kahneman-Tversky Optimization (KTO), and Generalized Reward Policy Optimization (GRPO) - that bridges supervised imitation and reinforcement learning. We further construct high-quality datasets for each stage, supporting stable and reproducible training. We evaluate EVA on six video understanding benchmarks, demonstrating its comprehensive capabilities. Compared with existing baselines, EVA achieves a substantial improvement of 6-12% over general MLLM baselines and a further 1-3% gain over prior adaptive agent methods. Our code and model are available at https://github.com/wangruohui/EfficientVideoAgent.",
+      "authors": [
+        "Yaolun Zhang",
+        "Ruohui Wang",
+        "Jiahao Wang",
+        "Yepeng Tang",
+        "Xuanyu Zheng",
+        "Haonan Duan",
+        "Hao Lu",
+        "Hanming Deng",
+        "Lewei Lu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "published": "2026-03-24T08:06:29+00:00",
+      "link": "https://arxiv.org/pdf/2603.22918v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Reinforcement learning for end-to-end video agents",
+      "llm_evidence_cn": "用于端到端视频智能体的强化学习",
+      "llm_evidence": "用于端到端视频智能体的强化学习",
+      "canonical_evidence": "用于端到端视频智能体的强化学习",
+      "llm_tldr_en": "Introduces EVA, an RL framework for video agents to perform efficient planning and reasoning.",
+      "llm_tldr_cn": "提出EVA框架，利用强化学习使视频智能体实现高效的感知前规划与推理。",
+      "llm_tldr": "提出EVA框架，利用强化学习使视频智能体实现高效的感知前规划与推理。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.23034v1",
+      "title": "Traffic Sign Recognition in Autonomous Driving: Dataset, Benchmark, and Field Experiment",
+      "abstract": "Traffic Sign Recognition (TSR) is a core perception capability for autonomous driving, where robustness to cross-region variation, long-tailed categories, and semantic ambiguity is essential for reliable real-world deployment. Despite steady progress in recognition accuracy, existing traffic sign datasets and benchmarks offer limited diagnostic insight into how different modeling paradigms behave under these practical challenges. We present TS-1M, a large-scale and globally diverse traffic sign dataset comprising over one million real-world images across 454 standardized categories, together with a diagnostic benchmark designed to analyze model capability boundaries. Beyond standard train-test evaluation, we provide a suite of challenge-oriented settings, including cross-region recognition, rare-class identification, low-clarity robustness, and semantic text understanding, enabling systematic and fine-grained assessment of modern TSR models. Using TS-1M, we conduct a unified benchmark across three representative learning paradigms: classical supervised models, self-supervised pretrained models, and multimodal vision-language models (VLMs). Our analysis reveals consistent paradigm-dependent behaviors, showing that semantic alignment is a key factor for cross-region generalization and rare-category recognition, while purely visual models remain sensitive to appearance shift and data imbalance. Finally, we validate the practical relevance of TS-1M through real-scene autonomous driving experiments, where traffic sign recognition is integrated with semantic reasoning and spatial localization to support map-level decision constraints. Overall, TS-1M establishes a reference-level diagnostic benchmark for TSR and provides principled insights into robust and semantic-aware traffic sign perception. Project page: https://guoyangzhao.github.io/projects/ts1m.",
+      "authors": [
+        "Guoyang Zhao",
+        "Weiqing Qi",
+        "Kai Zhang",
+        "Chenguang Zhang",
+        "Zeying Gong",
+        "Zhihai Bi",
+        "Kai Chen",
+        "Benshan Ma",
+        "Ming Liu",
+        "Jun Ma"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-24T10:11:27+00:00",
+      "link": "https://arxiv.org/pdf/2603.23034v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Traffic sign recognition dataset for autonomous driving perception",
+      "llm_evidence_cn": "用于自动驾驶感知的交通标志识别数据集",
+      "llm_evidence": "用于自动驾驶感知的交通标志识别数据集",
+      "canonical_evidence": "用于自动驾驶感知的交通标志识别数据集",
+      "llm_tldr_en": "Introduces TS-1M, a large-scale dataset for benchmarking traffic sign recognition in autonomous driving.",
+      "llm_tldr_cn": "发布TS-1M大规模数据集，用于评估自动驾驶中交通标志识别模型的鲁棒性。",
+      "llm_tldr": "发布TS-1M大规模数据集，用于评估自动驾驶中交通标志识别模型的鲁棒性。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.23661v1",
+      "title": "PerturbationDrive: A Framework for Perturbation-Based Testing of ADAS",
+      "abstract": "Advanced driver assistance systems (ADAS) often rely on deep neural networks to interpret driving images and support vehicle control. Although reliable under nominal conditions, these systems remain vulnerable to input variations and out-of-distribution data, which can lead to unsafe behavior. To this aim, this tool paper presents the architecture and functioning of PerturbationDrive, a testing framework to perform robustness and generalization testing of ADAS. The framework features more than 30 image perturbations from the literature that mimic changes in weather, lighting, or sensor quality and extends them with dynamic and attention-based variants. PerturbationDrive supports both offline evaluation on static datasets and online closed-loop testing in different simulators. Additionally, the framework integrates with procedural road generation and search-based testing, enabling systematic exploration of diverse road topologies combined with image perturbations. Together, these features allow PerturbationDrive to evaluate robustness and generalization capabilities of ADAS across varying scenarios, making it a reproducible and extensible framework for systematic system-level testing.",
+      "authors": [
+        "Hannes Leonhard",
+        "Stefano Carlo Lambertenghi",
+        "Andrea Stocco"
+      ],
+      "primary_category": "cs.SE",
+      "categories": [
+        "cs.SE"
+      ],
+      "published": "2026-03-24T19:05:01+00:00",
+      "link": "https://arxiv.org/pdf/2603.23661v1",
+      "tags": [
+        "keyword:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Perturbation-based testing framework for deep learning architectures in ADAS",
+      "llm_evidence_cn": "针对高级驾驶辅助系统中深度学习架构的扰动测试框架",
+      "llm_evidence": "针对高级驾驶辅助系统中深度学习架构的扰动测试框架",
+      "canonical_evidence": "针对高级驾驶辅助系统中深度学习架构的扰动测试框架",
+      "llm_tldr_en": "PerturbationDrive is a framework for testing the robustness and generalization of ADAS deep learning models.",
+      "llm_tldr_cn": "PerturbationDrive是一个用于测试自动驾驶辅助系统深度学习模型鲁棒性与泛化性的框架。",
+      "llm_tldr": "PerturbationDrive是一个用于测试自动驾驶辅助系统深度学习模型鲁棒性与泛化性的框架。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Deep learning architectures for autonomous driving",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.24329v1",
+      "title": "GameplayQA: A Benchmarking Framework for Decision-Dense POV-Synced Multi-Video Understanding of 3D Virtual Agents",
+      "abstract": "Multimodal LLMs are increasingly deployed as perceptual backbones for autonomous agents in 3D environments, from robotics to virtual worlds. These applications require agents to perceive rapid state changes, attribute actions to the correct entities, and reason about concurrent multi-agent behaviors from a first-person perspective, capabilities that existing benchmarks do not adequately evaluate. We introduce GameplayQA, a framework for evaluating agentic-centric perception and reasoning through video understanding. Specifically, we densely annotate multiplayer 3D gameplay videos at 1.22 labels/second, with time-synced, concurrent captions of states, actions, and events structured around a triadic system of Self, Other Agents, and the World, a natural decomposition for multi-agent environments. From these annotations, we refined 2.4K diagnostic QA pairs organized into three levels of cognitive complexity, accompanied by a structured distractor taxonomy that enables fine-grained analysis of where models hallucinate. Evaluation of frontier MLLMs reveals a substantial gap from human performance, with common failures in temporal and cross-video grounding, agent-role attribution, and handling the decision density of the game. We hope GameplayQA stimulates future research at the intersection of embodied AI, agentic perception, and world modeling.",
+      "authors": [
+        "Yunzhe Wang",
+        "Runhui Xu",
+        "Kexin Zheng",
+        "Tianyi Zhang",
+        "Jayavibhav Niranjan Kogundi",
+        "Soham Hans",
+        "Volkan Ustun"
+      ],
+      "primary_category": "cs.CL",
+      "categories": [
+        "cs.CL",
+        "cs.AI",
+        "cs.CV"
+      ],
+      "published": "2026-03-25T14:10:45+00:00",
+      "link": "https://arxiv.org/pdf/2603.24329v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Benchmarking framework for multimodal LLMs as perceptual backbones for autonomous agents",
+      "llm_evidence_cn": "多模态大语言模型作为自主智能体感知主干的基准测试框架",
+      "llm_evidence": "多模态大语言模型作为自主智能体感知主干的基准测试框架",
+      "canonical_evidence": "多模态大语言模型作为自主智能体感知主干的基准测试框架",
+      "llm_tldr_en": "A framework for evaluating agent-centric perception and reasoning in 3D virtual environments.",
+      "llm_tldr_cn": "一个用于评估3D虚拟环境中以智能体为中心的感知与推理能力的框架。",
+      "llm_tldr": "一个用于评估3D虚拟环境中以智能体为中心的感知与推理能力的框架。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.26126v1",
+      "title": "Beyond Where to Look: Trajectory-Guided Reinforcement Learning for Multimodal RLVR",
+      "abstract": "Recent advances in Reinforcement Learning with Verifiable Rewards (RLVR) for multimodal large language models (MLLMs) have mainly focused on improving final answer correctness and strengthening visual grounding. However, a critical bottleneck remains: although models can attend to relevant visual regions, they often fail to effectively incorporate visual evidence into subsequent reasoning, leading to reasoning chains that are weakly grounded in visual facts. To address this issue, we propose Trajectory-Guided Reinforcement Learning (TGRL), which guides the policy model to integrate visual evidence into fine-grained reasoning processes using expert reasoning trajectories from stronger models. We further introduce token-level reweighting and trajectory filtering to ensure stable and effective policy optimization. Extensive experiments on multiple multimodal reasoning benchmarks demonstrate that TGRL consistently improves reasoning performance and effectively bridges the gap between visual perception and logical reasoning.",
+      "authors": [
+        "Jinda Lu",
+        "Junkang Wu",
+        "Jinghan Li",
+        "Kexin Huang",
+        "Shuo Yang",
+        "Mingzhu Chen",
+        "Jiancan Wu",
+        "Kuien Liu",
+        "Xiang Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-03-27T07:18:18+00:00",
+      "link": "https://arxiv.org/pdf/2603.26126v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "reinforcement learning for multimodal reasoning in foundation models",
+      "llm_evidence_cn": "基础模型中多模态推理的强化学习",
+      "llm_evidence": "基础模型中多模态推理的强化学习",
+      "canonical_evidence": "基础模型中多模态推理的强化学习",
+      "llm_tldr_en": "Introduces TGRL to improve visual grounding and reasoning in multimodal large language models via RL.",
+      "llm_tldr_cn": "引入TGRL，通过强化学习改进多模态大语言模型中的视觉接地和推理能力。",
+      "llm_tldr": "引入TGRL，通过强化学习改进多模态大语言模型中的视觉接地和推理能力。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Foundation models for robotics and decision making",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2603.26441v1",
+      "title": "120 Minutes and a Laptop: Minimalist Image-goal Navigation via Unsupervised Exploration and Offline RL",
+      "abstract": "The prevailing paradigm for image-goal visual navigation often assumes access to large-scale datasets, substantial pretraining, and significant computational resources. In this work, we challenge this assumption. We show that we can collect a dataset, train an in-domain policy, and deploy it to the real world (1) in less than 120 minutes, (2) on a consumer laptop, (3) without any human intervention. Our method, MINav, formulates image-goal navigation as an offline goal-conditioned reinforcement learning problem, combining unsupervised data collection with hindsight goal relabeling and offline policy learning. Experiments in simulation and the real world show that MINav improves exploration efficiency, outperforms zero-shot navigation baselines in target environments, and scales favorably with dataset size. These results suggest that effective real-world robotic learning can be achieved with high computational efficiency, lowering the barrier to rapid policy prototyping and deployment.",
+      "authors": [
+        "Xiaoming Liu",
+        "Borong Zhang",
+        "Qingbiao Li",
+        "Steven Morad"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-03-27T14:09:33+00:00",
+      "link": "https://arxiv.org/pdf/2603.26441v1",
+      "tags": [
+        "keyword:AD EI",
+        "query:AD EI"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Offline RL for image-goal navigation in embodied AI",
+      "llm_evidence_cn": "具身智能中用于图像目标导航的离线强化学习",
+      "llm_evidence": "具身智能中用于图像目标导航的离线强化学习",
+      "canonical_evidence": "具身智能中用于图像目标导航的离线强化学习",
+      "llm_tldr_en": "MINav enables efficient image-goal navigation using offline RL and unsupervised exploration.",
+      "llm_tldr_cn": "MINav通过离线强化学习和无监督探索实现高效的图像目标导航。",
+      "llm_tldr": "MINav通过离线强化学习和无监督探索实现高效的图像目标导航。",
+      "llm_tags": [
+        "query:ad-ei"
+      ],
+      "matched_query_tag": "query:ad-ei",
+      "matched_query_text": "Embodied intelligence and robotic manipulation",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
